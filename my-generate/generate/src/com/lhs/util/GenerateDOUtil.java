@@ -223,6 +223,15 @@ public class GenerateDOUtil {
 		return table_name;
 	}
 
+	/**
+	 * <pre>
+	 * 生成domain实体对象
+	 * </pre>
+	 *
+	 * @param domain
+	 * @param packgeDO
+	 * @return
+	 */
 	public static String generateDomainString(OneTableDomainDO domain, PackageDO packgeDO) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("package ");
@@ -231,7 +240,8 @@ public class GenerateDOUtil {
 		sb.append(RN);
 		sb.append(RN);
 		sb.append("import ");
-		sb.append(packgeDO.getDomainPackageName());
+//		sb.append(packgeDO.getDomainPackageName());
+		sb.append("ng.bayue.util");
 		sb.append(".BaseDO;");
 		sb.append(RN);
 		sb.append(RN);
@@ -802,7 +812,8 @@ public class GenerateDOUtil {
 					FreeMarkerUtil.generateFile(template_path, mybatis_sqlmap_config_template_name, mybatis_sql_map_config_file, root);
 				}
 
-				String base_do_html_file = domain_save_path + File.separator + "BaseDO.java";
+//				String base_do_html_file = domain_save_path + File.separator + "BaseDO.java";
+				String base_do_html_file = util_save_path + File.separator + "BaseDO.java";
 				String page_html_file = util_save_path + File.separator + "Page.java";
 
 				FreeMarkerUtil.generateFile(template_path, page_template_name, page_html_file, root);

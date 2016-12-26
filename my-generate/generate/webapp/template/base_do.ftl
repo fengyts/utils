@@ -1,4 +1,7 @@
+<#--
 package ${domain.packageName};
+-->
+package ng.bayue.util;
 
 import java.io.Serializable;
 

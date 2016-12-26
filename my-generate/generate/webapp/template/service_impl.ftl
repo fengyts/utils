@@ -18,7 +18,10 @@ import ${domain.packageName}.${domain.className};
 import ${packgeDO.servicePackageName}.${domain.className?substring(0,len)}Service;
 import ${packgeDO.exceptionPackageName}.DAOException;
 import ${packgeDO.exceptionPackageName}.ServiceException;
+<#--
 import ${packgeDO.utilPackageName}.Page;
+-->
+import ng.bayue.util.Page;
 
 <#if bean_is_auto_wire?string=="1">
 @Service(value="${domain.className?substring(0,len)?uncap_first}Service")

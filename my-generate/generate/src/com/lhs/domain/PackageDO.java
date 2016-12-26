@@ -104,83 +104,7 @@ public class PackageDO {
 		init(packageName, appName);
 
 	}
-
-	public String getDaoPackageName() {
-		return daoPackageName;
-	}
-
-	public String getDaoSavePath() {
-		return daoSavePath;
-	}
-
-	public String getDomainPackageName() {
-		return domainPackageName;
-	}
-
-	public String getDomainSavePath() {
-		return domainSavePath;
-	}
-
-	public String getExceptionPackageName() {
-		return exceptionPackageName;
-	}
-
-	public String getExceptionSavePath() {
-		return exceptionSavePath;
-	}
-
-	public String getIbatisPackageName() {
-		return ibatisPackageName;
-	}
-
-	public String getIbatisDaoImplSavePath() {
-		return ibatisDaoImplSavePath;
-	}
-
-	public String getIbatisSqlMapPackageName() {
-		return ibatisSqlMapPackageName;
-	}
-
-	public String getIbatisSqlMapSavePath() {
-		return ibatisSqlMapSavePath;
-	}
-
-	public String getMybatisPackageName() {
-		return mybatisPackageName;
-	}
-
-	public String getMybatisDaoImplSavePath() {
-		return mybatisDaoImplSavePath;
-	}
-
-	public String getMybatisSqlMapPackageName() {
-		return mybatisSqlMapPackageName;
-	}
-
-	public String getMybatisSqlMapSavePath() {
-		return mybatisSqlMapSavePath;
-	}
-
-	public String getServiceImplPackageName() {
-		return serviceImplPackageName;
-	}
-
-	public String getServiceImplSavePath() {
-		return serviceImplSavePath;
-	}
-
-	public String getServicePackageName() {
-		return servicePackageName;
-	}
-
-	public String getServiceSavePath() {
-		return serviceSavePath;
-	}
-
-	public String getTemplatePath() {
-		return templatePath;
-	}
-
+	
 	private void init(String generatePackageName, String appName) throws Exception {
 		if (generatePackageName.indexOf(".") == -1) {
 			throw new Exception();
@@ -271,7 +195,8 @@ public class PackageDO {
 		setExceptionSavePath(srcProjectAbsPath + exception_save_path);
 		set.add(srcProjectAbsPath + exception_save_path);
 
-		String util_package_name = pre_package_name + ".util";
+//		String util_package_name = pre_package_name + ".util";
+		String util_package_name = "ng.bayue.util";
 		System.out.println(util_package_name);
 		String util_save_path = util_package_name.replace(".", File.separator);
 		setUtilPackageName(util_package_name);
@@ -294,6 +219,82 @@ public class PackageDO {
 			}
 		}
 
+	}
+
+	public String getDaoPackageName() {
+		return daoPackageName;
+	}
+
+	public String getDaoSavePath() {
+		return daoSavePath;
+	}
+
+	public String getDomainPackageName() {
+		return domainPackageName;
+	}
+
+	public String getDomainSavePath() {
+		return domainSavePath;
+	}
+
+	public String getExceptionPackageName() {
+		return exceptionPackageName;
+	}
+
+	public String getExceptionSavePath() {
+		return exceptionSavePath;
+	}
+
+	public String getIbatisPackageName() {
+		return ibatisPackageName;
+	}
+
+	public String getIbatisDaoImplSavePath() {
+		return ibatisDaoImplSavePath;
+	}
+
+	public String getIbatisSqlMapPackageName() {
+		return ibatisSqlMapPackageName;
+	}
+
+	public String getIbatisSqlMapSavePath() {
+		return ibatisSqlMapSavePath;
+	}
+
+	public String getMybatisPackageName() {
+		return mybatisPackageName;
+	}
+
+	public String getMybatisDaoImplSavePath() {
+		return mybatisDaoImplSavePath;
+	}
+
+	public String getMybatisSqlMapPackageName() {
+		return mybatisSqlMapPackageName;
+	}
+
+	public String getMybatisSqlMapSavePath() {
+		return mybatisSqlMapSavePath;
+	}
+
+	public String getServiceImplPackageName() {
+		return serviceImplPackageName;
+	}
+
+	public String getServiceImplSavePath() {
+		return serviceImplSavePath;
+	}
+
+	public String getServicePackageName() {
+		return servicePackageName;
+	}
+
+	public String getServiceSavePath() {
+		return serviceSavePath;
+	}
+
+	public String getTemplatePath() {
+		return templatePath;
 	}
 
 	public void setDaoPackageName(String daoPackageName) {

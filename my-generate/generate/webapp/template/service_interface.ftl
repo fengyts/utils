@@ -1,7 +1,10 @@
 package ${packgeDO.servicePackageName};
 
 import java.util.List;
+<#--
 import ${packgeDO.utilPackageName}.Page;
+-->
+import ng.bayue.util.Page;
 import ${packgeDO.exceptionPackageName}.ServiceException;
 import ${domain.packageName}.${domain.className};
 <#assign len = domain.className?index_of("DO")>
