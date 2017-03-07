@@ -4,7 +4,7 @@ import java.util.List;
 <#--
 import ${packgeDO.utilPackageName}.Page;
 -->
-import ng.bayue.util.Page;
+import ng.bayue.common.Page;
 import ${packgeDO.exceptionPackageName}.ServiceException;
 import ${domain.packageName}.${domain.className};
 <#assign len = domain.className?index_of("DO")>

@@ -241,7 +241,7 @@ public class GenerateDOUtil {
 		sb.append(RN);
 		sb.append("import ");
 //		sb.append(packgeDO.getDomainPackageName());
-		sb.append("ng.bayue.util");
+		sb.append("ng.bayue.common");
 		sb.append(".BaseDO;");
 		sb.append(RN);
 		sb.append(RN);
