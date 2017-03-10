@@ -16,11 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ${packgeDO.daoPackageName}.${domain.className?substring(0,len)}DAO;
 import ${domain.packageName}.${domain.className};
 import ${packgeDO.servicePackageName}.${domain.className?substring(0,len)}Service;
-import ng.bayue.exception.DAOException;
-import ng.bayue.exception.ServiceException;
-<#--
 import ${packgeDO.exceptionPackageName}.DAOException;
 import ${packgeDO.exceptionPackageName}.ServiceException;
+<#--
 import ${packgeDO.utilPackageName}.Page;
 -->
 import ng.bayue.common.Page;
@@ -134,35 +132,29 @@ public class ${domain.className?substring(0,len)}ServiceImpl  implements ${domai
             throw new ServiceException(e);
 		}
 	}
-	
-	@Override
-	public Page<${domain.className}> queryPageListDynamic(${domain.className} ${param}) throws ServiceException{
+
+	public Page<${domain.className}> queryPageListBy${domain.className}(${domain.className} ${param}) {
 		if (${param} != null) {
 			Long totalCount = this.selectCountDynamic(${param});
+			List<${domain.className}> resultList = this.selectDynamicPageQuery(${param});
 
 			Page<${domain.className}> page = new Page<${domain.className}>();
 			page.setPageNo(${param}.getStartPage());
 			page.setPageSize(${param}.getPageSize());
 			page.setTotalCount(totalCount.intValue());
-			
-			if(null != totalCount && totalCount.longValue() > 0){
-				List<${domain.className}> resultList = this.selectDynamicPageQuery(${param});
-				page.setList(resultList);
-			}
+			page.setList(resultList);
 			return page;
 		}
 		return new Page<${domain.className}>();
 	}
-	
-	@Override
-	public Page<${domain.className}> queryPageListDynamicAndStartPageSize(${domain.className} ${param}, Integer startPage, Integer pageSize) throws ServiceException {
+
+	public Page<${domain.className}> queryPageListBy${domain.className}AndStartPageSize(${domain.className} ${param},int startPage,int pageSize){
 		if (${param} != null && startPage>0 && pageSize>0) {
 			${param}.setStartPage(startPage);
 			${param}.setPageSize(pageSize);
-			return this.queryPageListDynamic(${param});
+			return this.queryPageListBy${domain.className}(${param});
 		}
 		return new Page<${domain.className}>();
 	}
-	
-	
+
 }

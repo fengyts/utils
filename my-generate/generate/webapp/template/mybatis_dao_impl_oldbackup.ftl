@@ -8,20 +8,13 @@ package ${packgeDO.daoPackageName}.mybatis;
 <#assign param="${domain.className?uncap_first}">
 import java.util.List;
 
-<#--
 import org.mybatis.spring.support.SqlSessionDaoSupport;
-import ng.bayue.service.common.GeneralDAO;
--->
 <#if bean_is_auto_wire?string=="1">
 import org.springframework.stereotype.Component;
 </#if>
 import ${packgeDO.daoPackageName}.${domain.className?substring(0,len)}DAO;
 import ${domain.packageName}.${domain.className};
-import ng.bayue.exception.DAOException;
-<#--
-import ng.bayue.exception.DAOException;
 import ${packgeDO.exceptionPackageName}.DAOException;
--->
 
 <#if bean_is_auto_wire?string=="1">
 @Component(value="${domain.className?substring(0,len)?uncap_first}DAO")
