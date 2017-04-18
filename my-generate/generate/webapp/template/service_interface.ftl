@@ -15,7 +15,7 @@ import ${domain.packageName}.${domain.className};
 
  /**
  * ${data_object_comment} Service
- * @author haisheng.long ${create_time?if_exists?string("yyyy-MM-dd HH:mm:ss")}
+ * @author fengyts ${create_time?if_exists?string("yyyy-MM-dd HH:mm:ss")}
  */
 public interface ${entity?substring(0,len)}Service extends GeneralService<${entity}, ${entity}> {
 

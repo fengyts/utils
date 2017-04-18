@@ -31,8 +31,12 @@ public class Mybatis${domain.className?substring(0,len)}DAO extends MybatisBaseD
 	
 	private static final String NAMESPACE = "${ibatis_class_dao}_";
 	
+	private static String getStatement (String operation){
+		return NAMESPACE + operation;
+	}
+	
 	public Long insert(${domain.className} ${param}) throws DAOException {
-		int i = getSqlSession().insert(NAMESPACE + "insert", ${param});
+		int i = getSqlSession().insert(getStatement("insert"), ${param});
 		if (i > 0) {
 			return Long.valueOf(${param}.${getPrimaryMethod});
 		}
@@ -41,37 +45,37 @@ public class Mybatis${domain.className?substring(0,len)}DAO extends MybatisBaseD
 
 	@Override
 	public Integer update(${domain.className} ${param}) throws DAOException {
-		return getSqlSession().update(NAMESPACE + "updateById", ${param});
+		return getSqlSession().update(getStatement("updateById"), ${param});
 	}
 
 	@Override
 	public Integer deleteById(Long id) throws DAOException {
-		return getSqlSession().delete(NAMESPACE + "deleteById", id);
+		return getSqlSession().delete(getStatement("deleteById"), id);
 	}
 
 	@Override
 	public Integer updateDynamic(${domain.className} ${param}) throws DAOException {
-		return getSqlSession().update(NAMESPACE + "update_dynamic", ${param});
+		return getSqlSession().update(getStatement("update_dynamic"), ${param});
 	}
 
 	@Override
 	public ${domain.className} selectById(Long id) throws DAOException {
-		return getSqlSession().selectOne(NAMESPACE + "selectById", id);
+		return getSqlSession().selectOne(getStatement("selectById"), id);
 	}
 
 	@Override
 	public Long selectCountDynamic(${domain.className} ${param}) throws DAOException {
-		return getSqlSession().selectOne(NAMESPACE + "select_dynamic_count", ${param});
+		return getSqlSession().selectOne(getStatement("select_dynamic_count"), ${param});
 	}
 
 	@Override
 	public List<${domain.className}> selectDynamic(${domain.className} ${param}) throws DAOException {
-		return getSqlSession().selectList(NAMESPACE + "select_dynamic", ${param});
+		return getSqlSession().selectList(getStatement("select_dynamic"), ${param});
 	}
 
 	@Override
 	public List<${domain.className}> selectDynamicPageQuery(${domain.className} ${param}) throws DAOException {
-		return getSqlSession().selectList(NAMESPACE + "select_dynamic_page_query", ${param});
+		return getSqlSession().selectList(getStatement("select_dynamic_page_query"), ${param});
 	}
 
 }
