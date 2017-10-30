@@ -15,21 +15,21 @@
 	    <!-- 格式化XML代码 -->
 	    <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
 	    <!-- 添加注释 -->
-		<commentGenerator type="custom.MyCommentGenerator">
+		<!-- <commentGenerator type="custom.MyCommentGenerator">
 			<property name="suppressDate" value="true" />
-			<!-- 是否添加注释，false：添加,默认值，true：不添加 -->
+			是否添加注释，false：添加,默认值，true：不添加
 			<property name="suppressAllComments" value="false" />
 			<property name="defaultComments" value="true" />
-		</commentGenerator>
-		<!-- 
+		</commentGenerator> -->
+		
 		<commentGenerator type="org.mybatis.generator.internal.DefaultCommentGenerator">
 			<property name="suppressDate" value="true" />
 			<property name="suppressAllComments" value="false" />
 		</commentGenerator> 
-		-->
+		
 		
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://192.168.9.210:3306/db_lbl" userId="root" password="mysql">
+			connectionURL="jdbc:mysql://localhost:3306/db_lbl" userId="root" password="123456">
 		</jdbcConnection>
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
@@ -48,7 +48,7 @@
 		</sqlMapGenerator>
 		<!--生成dao-->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.chane.yfk.mybatis.dao" targetProject="mybatis-generator">
+			targetPackage="com.chane.yfk.mybatis.mapper" targetProject="mybatis-generator">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!-- <table tableName="area" domainObjectName="Area"
@@ -58,6 +58,8 @@
 			enableSelectByExample="true"
 			selectByExampleQueryId="true">
 		</table> -->
-		<table tableName="yfk_enterprise" domainObjectName="Enterprise"></table>
+		<table tableName="yfk_c_user_card_trade_record" domainObjectName="YfkCUserCardTradeRecord">
+			<generatedKey column="id" sqlStatement="Mysql" identity="true" />
+		</table>
 	</context>
 </generatorConfiguration>

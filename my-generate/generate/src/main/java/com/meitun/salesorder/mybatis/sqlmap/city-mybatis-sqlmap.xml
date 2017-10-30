@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meitun.salesorder.domain.CityMapper">
+
+	<resultMap type="com.meitun.salesorder.domain.CityDO" id="CityDOResultMap">
+		<id column="id" property="id" />
+        <result column="name" property="name"/>
+        <result column="spelling" property="spelling"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="add_date" property="addDate"/>
+        <result column="last_date" property="lastDate"/>
+        <result column="agency_id" property="agencyId"/>
+        <result column="frist_word" property="fristWord"/>
+        <result column="simple_spelling" property="simpleSpelling"/>
+        <result column="type" property="type"/>
+	</resultMap>
+
+	<sql id="MybatisCityDAO_all_column_fields">
+	      id,name,spelling,parent_id,is_delete,add_date,last_date,agency_id,frist_word,simple_spelling,type
+ 	</sql>
+
+	<sql id="MybatisCityDAO_dynamic_where_fields"><!-- xml转义字符需要 <![CDATA[   ]]> 标签-->
+		<where>
+			<if test="name != null  and name != '' "> AND name=#{name} </if>
+			<if test="spelling != null  and spelling != '' "> AND spelling=#{spelling} </if>
+			<if test="parentId != null  and parentId != '' "> AND parent_id=#{parentId} </if>
+			<if test="isDelete != null  and isDelete != '' "> AND is_delete=#{isDelete} </if>
+			<if test="agencyId != null  and agencyId != '' "> AND agency_id=#{agencyId} </if>
+			<if test="fristWord != null  and fristWord != '' "> AND frist_word=#{fristWord} </if>
+			<if test="simpleSpelling != null  and simpleSpelling != '' "> AND simple_spelling=#{simpleSpelling} </if>
+			<if test="type != null  and type != '' "> AND type=#{type} </if>
+		</where>
+ 	</sql>
+
+	<select id="MybatisCityDAO_selectById" parameterType="long" resultMap="CityDOResultMap">
+	SELECT
+		<include refid="MybatisCityDAO_all_column_fields" />
+	FROM
+		city
+	WHERE
+		 id = #{id}
+	</select>
+
+    <insert id="MybatisCityDAO_insert" parameterType="com.meitun.salesorder.domain.CityDO" useGeneratedKeys="true">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO city(
+				id,
+				name,
+				spelling,
+				parent_id,
+				is_delete,
+				add_date,
+				last_date,
+				agency_id,
+				frist_word,
+				simple_spelling,
+				type
+		)values(
+				#{id},
+				#{name},
+				#{spelling},
+				#{parentId},
+				#{isDelete},
+				#{addDate},
+				#{lastDate},
+				#{agencyId},
+				#{fristWord},
+				#{simpleSpelling},
+				#{type}
+		)
+    </insert>
+
+	<update id="MybatisCityDAO_updateById" parameterType="long">
+		UPDATE city
+		SET
+					name = #{name},
+					spelling = #{spelling},
+					parent_id = #{parentId},
+					is_delete = #{isDelete},
+					add_date = #{addDate},
+					last_date = #{lastDate},
+					agency_id = #{agencyId},
+					frist_word = #{fristWord},
+					simple_spelling = #{simpleSpelling},
+					type = #{type}
+		WHERE
+			id = #{id}
+	</update>
+
+	<delete id="MybatisCityDAO_deleteById" parameterType="long">
+		DELETE FROM city WHERE id = #{id}
+	</delete>
+
+	<update id="MybatisCityDAO_update_dynamic" parameterType="com.meitun.salesorder.domain.CityDO">
+		UPDATE city
+		<set>
+			<if test="name != null  and name != '' ">name=#{name},</if>
+			<if test="spelling != null  and spelling != '' ">spelling=#{spelling},</if>
+			<if test="parentId != null  and parentId != '' ">parent_id=#{parentId},</if>
+			<if test="isDelete != null  and isDelete != '' ">is_delete=#{isDelete},</if>
+			<if test="addDate != null  and addDate != '' ">add_date=#{addDate},</if>
+			<if test="lastDate != null  and lastDate != '' ">last_date=#{lastDate},</if>
+			<if test="agencyId != null  and agencyId != '' ">agency_id=#{agencyId},</if>
+			<if test="fristWord != null  and fristWord != '' ">frist_word=#{fristWord},</if>
+			<if test="simpleSpelling != null  and simpleSpelling != '' ">simple_spelling=#{simpleSpelling},</if>
+			<if test="type != null  and type != '' ">type=#{type},</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+ 	<select id="MybatisCityDAO_select_dynamic" resultMap="CityDOResultMap" parameterType="com.meitun.salesorder.domain.CityDO">
+	     SELECT
+	     	<include refid="MybatisCityDAO_all_column_fields" />
+		 FROM
+		 	city
+			<include refid="MybatisCityDAO_dynamic_where_fields" />
+ 	</select>
+
+ 	<select id="MybatisCityDAO_select_dynamic_count" resultType="long" parameterType="com.meitun.salesorder.domain.CityDO">
+	     SELECT
+	     	count(1)
+		 FROM
+		 	city
+	 	<include refid="MybatisCityDAO_dynamic_where_fields" />
+ 	</select>
+
+ 	<select id="MybatisCityDAO_select_dynamic_page_query" resultMap="CityDOResultMap" parameterType="com.meitun.salesorder.domain.CityDO">
+	     SELECT
+	     	<include refid="MybatisCityDAO_all_column_fields" />
+		 FROM
+		 	city
+	 	<include refid="MybatisCityDAO_dynamic_where_fields" />
+	 	Limit #{start},#{pageSize}
+ 	</select>
+
+</mapper>
