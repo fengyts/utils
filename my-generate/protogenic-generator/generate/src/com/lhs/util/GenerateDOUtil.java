@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -224,15 +223,6 @@ public class GenerateDOUtil {
 		return table_name;
 	}
 
-	/**
-	 * <pre>
-	 * 生成domain实体对象
-	 * </pre>
-	 *
-	 * @param domain
-	 * @param packgeDO
-	 * @return
-	 */
 	public static String generateDomainString(OneTableDomainDO domain, PackageDO packgeDO) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("package ");
@@ -241,8 +231,7 @@ public class GenerateDOUtil {
 		sb.append(RN);
 		sb.append(RN);
 		sb.append("import ");
-//		sb.append(packgeDO.getDomainPackageName());
-		sb.append("ng.bayue.common");
+		sb.append(packgeDO.getDomainPackageName());
 		sb.append(".BaseDO;");
 		sb.append(RN);
 		sb.append(RN);
@@ -256,7 +245,7 @@ public class GenerateDOUtil {
 		sb.append("* ");
 		sb.append(getDataObjectComment(domain));
 		sb.append(RN);
-		sb.append("* @author fengyts " + new Date());
+		sb.append("* @author haisheng.long " + new Date());
 		sb.append(RN);
 		sb.append("*/");
 		sb.append(RN);
@@ -634,17 +623,11 @@ public class GenerateDOUtil {
 	}
 
 	public static void main(String args[]) throws Exception {
-		ReadProperties prop = new ReadProperties("src/main/java/com/lhs/domain/config.properties");
+
+		ReadProperties prop = new ReadProperties("src/com/lhs/domain/config.properties");
 		String package_name = prop.getValue("package_name");
 		String templateType = prop.getValue("template_type");
 		if (package_name == null || package_name == "") {
-			return;
-		}
-		
-		Map<String, String> tables = MeteDataUtil.queryTables(prop);
-//		assert tables.isEmpty():"warn:table is not exist!!!!";
-		if(tables.isEmpty()){
-			System.out.println("warn:table is not exist!!!!");
 			return;
 		}
 
@@ -703,6 +686,7 @@ public class GenerateDOUtil {
 		FreeMarkerUtil.generateFile(template_path, service_exception_template_name, service_exception_file_name, exception_root_map);
 		FreeMarkerUtil.generateFile(template_path, dao_exception_template_name, dao_exception_file_name, exception_root_map);
 
+		Map<String, String> tables = MeteDataUtil.queryTables(prop);
 		String bean_use_auto_wire = prop.getValue("bean_use_auto_wire");
 		String useStatementNamespaces = prop.getValue("useStatementNamespaces");
 		String sqlmap_orm = prop.getValue("sqlmap_orm");
@@ -818,8 +802,7 @@ public class GenerateDOUtil {
 					FreeMarkerUtil.generateFile(template_path, mybatis_sqlmap_config_template_name, mybatis_sql_map_config_file, root);
 				}
 
-//				String base_do_html_file = domain_save_path + File.separator + "BaseDO.java";
-				String base_do_html_file = util_save_path + File.separator + "BaseDO.java";
+				String base_do_html_file = domain_save_path + File.separator + "BaseDO.java";
 				String page_html_file = util_save_path + File.separator + "Page.java";
 
 				FreeMarkerUtil.generateFile(template_path, page_template_name, page_html_file, root);

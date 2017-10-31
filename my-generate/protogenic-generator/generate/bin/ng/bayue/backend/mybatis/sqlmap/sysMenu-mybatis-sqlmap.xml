@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ng.bayue.backend.domain.SysMenuMapper">
+
+	<resultMap type="ng.bayue.backend.domain.SysMenuDO" id="SysMenuDOResultMap">
+		<id column="id" property="id" />
+        <result column="code" property="code"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="category" property="category"/>
+        <result column="menu_type" property="menuType"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="modify_user_id" property="modifyUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+        <result column="status" property="status"/>
+	</resultMap>
+
+	<sql id="MybatisSysMenuDAO_all_column_fields">
+	      id,code,parent_id,name,url,category,menu_type,create_user_id,modify_user_id,create_time,modify_time,status
+ 	</sql>
+	<!-- 只有varchar char text类型 做 !='' 判断，生成代码时,其他类型时只做!=null 决断 0或fasle与空''是相同的，在mybatis中的动态语句中 -->
+	<sql id="MybatisSysMenuDAO_dynamic_where_fields"><!-- xml转义字符需要 <![CDATA[   ]]> 标签-->
+		<where>
+			<if test="code != null  and code != '' "> AND code=#{code} </if>
+			<if test="parentId != null "> AND parent_id=#{parentId} </if>
+			<if test="name != null  and name != '' "> AND name=#{name} </if>
+			<if test="url != null  and url != '' "> AND url=#{url} </if>
+			<if test="category != null  and category != '' "> AND category=#{category} </if>
+			<if test="menuType != null "> AND menu_type=#{menuType} </if>
+			<if test="createUserId != null "> AND create_user_id=#{createUserId} </if>
+			<if test="modifyUserId != null "> AND modify_user_id=#{modifyUserId} </if>
+			<if test="status != null "> AND status=#{status} </if>
+		</where>
+ 	</sql>
+
+	<select id="MybatisSysMenuDAO_selectById" parameterType="long" resultMap="SysMenuDOResultMap">
+	SELECT
+		<include refid="MybatisSysMenuDAO_all_column_fields" />
+	FROM
+		be_sys_menu
+	WHERE
+		 id = #{id}
+	</select>
+
+    <insert id="MybatisSysMenuDAO_insert" parameterType="ng.bayue.backend.domain.SysMenuDO" useGeneratedKeys="true">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO be_sys_menu(
+				id,
+				code,
+				parent_id,
+				name,
+				url,
+				category,
+				menu_type,
+				create_user_id,
+				modify_user_id,
+				create_time,
+				modify_time,
+				status
+		)values(
+				#{id},
+				#{code},
+				#{parentId},
+				#{name},
+				#{url},
+				#{category},
+				#{menuType},
+				#{createUserId},
+				#{modifyUserId},
+				#{createTime},
+				#{modifyTime},
+				#{status}
+		)
+    </insert>
+
+	<update id="MybatisSysMenuDAO_updateById" parameterType="ng.bayue.backend.domain.SysMenuDO">
+		UPDATE be_sys_menu
+		SET
+					code = #{code},
+					parent_id = #{parentId},
+					name = #{name},
+					url = #{url},
+					category = #{category},
+					menu_type = #{menuType},
+					create_user_id = #{createUserId},
+					modify_user_id = #{modifyUserId},
+					modify_time = #{modifyTime},
+					status = #{status}
+		WHERE
+			id = #{id}
+	</update>
+
+	<delete id="MybatisSysMenuDAO_deleteById" parameterType="long">
+		DELETE FROM be_sys_menu WHERE id = #{id}
+	</delete>
+
+	<update id="MybatisSysMenuDAO_update_dynamic" parameterType="ng.bayue.backend.domain.SysMenuDO">
+		UPDATE be_sys_menu
+		<set>
+					<if test="code != null  and code != '' ">code=#{code},</if>
+					<if test="parentId != null ">parent_id=#{parentId},</if>
+					<if test="name != null  and name != '' ">name=#{name},</if>
+					<if test="url != null  and url != '' ">url=#{url},</if>
+					<if test="category != null  and category != '' ">category=#{category},</if>
+					<if test="menuType != null ">menu_type=#{menuType},</if>
+					<if test="createUserId != null ">create_user_id=#{createUserId},</if>
+					<if test="modifyUserId != null ">modify_user_id=#{modifyUserId},</if>
+					<if test="modifyTime != null ">modify_time=#{modifyTime},</if>
+					<if test="status != null ">status=#{status},</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+ 	<select id="MybatisSysMenuDAO_select_dynamic" resultMap="SysMenuDOResultMap" parameterType="ng.bayue.backend.domain.SysMenuDO">
+	     SELECT
+	     	<include refid="MybatisSysMenuDAO_all_column_fields" />
+		 FROM
+		 	be_sys_menu
+			<include refid="MybatisSysMenuDAO_dynamic_where_fields" />
+ 	</select>
+
+ 	<select id="MybatisSysMenuDAO_select_dynamic_count" resultType="long" parameterType="ng.bayue.backend.domain.SysMenuDO">
+	     SELECT
+	     	count(1)
+		 FROM
+		 	be_sys_menu
+	 	<include refid="MybatisSysMenuDAO_dynamic_where_fields" />
+ 	</select>
+
+ 	<select id="MybatisSysMenuDAO_select_dynamic_page_query" resultMap="SysMenuDOResultMap" parameterType="ng.bayue.backend.domain.SysMenuDO">
+	     SELECT
+	     	<include refid="MybatisSysMenuDAO_all_column_fields" />
+		 FROM
+		 	be_sys_menu
+	 	<include refid="MybatisSysMenuDAO_dynamic_where_fields" />
+	 	Limit #{start},#{pageSize}
+ 	</select>
+
+</mapper>

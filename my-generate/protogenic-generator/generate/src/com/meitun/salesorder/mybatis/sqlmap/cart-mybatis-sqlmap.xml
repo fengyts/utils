@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.meitun.salesorder.domain.CartMapper">
+
+	<resultMap type="com.meitun.salesorder.domain.CartDO" id="CartDOResultMap">
+		<id column="id" property="id" />
+        <result column="item_id" property="itemId"/>
+        <result column="sku_id" property="skuId"/>
+        <result column="member_id" property="memberId"/>
+        <result column="quantity" property="quantity"/>
+        <result column="selected" property="selected"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+	</resultMap>
+
+	<sql id="MybatisCartDAO_all_column_fields">
+	      id,item_id,sku_id,member_id,quantity,selected,create_time,modify_time
+ 	</sql>
+
+	<sql id="MybatisCartDAO_dynamic_where_fields"><!-- xml转义字符需要 <![CDATA[   ]]> 标签-->
+		<where>
+			<if test="itemId != null  and itemId != '' "> AND item_id=#{itemId} </if>
+			<if test="skuId != null  and skuId != '' "> AND sku_id=#{skuId} </if>
+			<if test="memberId != null  and memberId != '' "> AND member_id=#{memberId} </if>
+			<if test="quantity != null  and quantity != '' "> AND quantity=#{quantity} </if>
+			<if test="selected != null  and selected != '' "> AND selected=#{selected} </if>
+		</where>
+ 	</sql>
+
+	<select id="MybatisCartDAO_selectById" parameterType="long" resultMap="CartDOResultMap">
+	SELECT
+		<include refid="MybatisCartDAO_all_column_fields" />
+	FROM
+		oc_cart
+	WHERE
+		 id = #{id}
+	</select>
+
+    <insert id="MybatisCartDAO_insert" parameterType="com.meitun.salesorder.domain.CartDO" useGeneratedKeys="true">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO oc_cart(
+				id,
+				item_id,
+				sku_id,
+				member_id,
+				quantity,
+				selected,
+				create_time,
+				modify_time
+		)values(
+				#{id},
+				#{itemId},
+				#{skuId},
+				#{memberId},
+				#{quantity},
+				#{selected},
+				#{createTime},
+				#{modifyTime}
+		)
+    </insert>
+
+	<update id="MybatisCartDAO_updateById" parameterType="long">
+		UPDATE oc_cart
+		SET
+					item_id = #{itemId},
+					sku_id = #{skuId},
+					member_id = #{memberId},
+					quantity = #{quantity},
+					selected = #{selected},
+					modify_time = #{modifyTime}
+		WHERE
+			id = #{id}
+	</update>
+
+	<delete id="MybatisCartDAO_deleteById" parameterType="long">
+		DELETE FROM oc_cart WHERE id = #{id}
+	</delete>
+
+	<update id="MybatisCartDAO_update_dynamic" parameterType="com.meitun.salesorder.domain.CartDO">
+		UPDATE oc_cart
+		<set>
+			<if test="itemId != null  and itemId != '' ">item_id=#{itemId},</if>
+			<if test="skuId != null  and skuId != '' ">sku_id=#{skuId},</if>
+			<if test="memberId != null  and memberId != '' ">member_id=#{memberId},</if>
+			<if test="quantity != null  and quantity != '' ">quantity=#{quantity},</if>
+			<if test="selected != null  and selected != '' ">selected=#{selected},</if>
+			<if test="modifyTime != null  and modifyTime != '' ">modify_time=#{modifyTime},</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+ 	<select id="MybatisCartDAO_select_dynamic" resultMap="CartDOResultMap" parameterType="com.meitun.salesorder.domain.CartDO">
+	     SELECT
+	     	<include refid="MybatisCartDAO_all_column_fields" />
+		 FROM
+		 	oc_cart
+			<include refid="MybatisCartDAO_dynamic_where_fields" />
+ 	</select>
+
+ 	<select id="MybatisCartDAO_select_dynamic_count" resultType="long" parameterType="com.meitun.salesorder.domain.CartDO">
+	     SELECT
+	     	count(1)
+		 FROM
+		 	oc_cart
+	 	<include refid="MybatisCartDAO_dynamic_where_fields" />
+ 	</select>
+
+ 	<select id="MybatisCartDAO_select_dynamic_page_query" resultMap="CartDOResultMap" parameterType="com.meitun.salesorder.domain.CartDO">
+	     SELECT
+	     	<include refid="MybatisCartDAO_all_column_fields" />
+		 FROM
+		 	oc_cart
+	 	<include refid="MybatisCartDAO_dynamic_where_fields" />
+	 	Limit #{start},#{pageSize}
+ 	</select>
+
+</mapper>

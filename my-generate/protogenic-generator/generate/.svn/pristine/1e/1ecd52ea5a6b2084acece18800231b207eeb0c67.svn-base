@@ -104,127 +104,6 @@ public class PackageDO {
 		init(packageName, appName);
 
 	}
-	
-	private void init(String generatePackageName, String appName) throws Exception {
-		if (generatePackageName.indexOf(".") == -1) {
-			throw new Exception();
-		}
-		// String canonicalName = PackageDO.class.getCanonicalName();
-		String[] arraysts = generatePackageName.split("\\.");
-		StringBuilder sb = new StringBuilder();
-		sb.append(arraysts[0]);
-		sb.append(".");
-		sb.append(arraysts[1]);
-		if (appName != null && appName != "") {
-			sb.append(".");
-			sb.append(appName);
-		}
-
-		Set<String> set = new HashSet<String>();
-		String pre_package_name = sb.toString();
-
-		String projectAbsPath = System.getProperty("user.dir");// 用户项目的绝对路径
-//		String srcProjectAbsPath = projectAbsPath + File.separator + "src" + File.separator;
-		//maven项目的source folder 是src/main/java
-		String srcAbsPathCommon = projectAbsPath + File.separator + "src" + File.separator + "main" + File.separator; // src/main
-		String srcProjectAbsPath = srcAbsPathCommon + "java" + File.separator;
-
-		String domain_package_name = pre_package_name + ".domain";
-		String domain_save_path = domain_package_name.replace(".", File.separator);
-		setDomainPackageName(domain_package_name);
-		setDomainSavePath(srcProjectAbsPath + domain_save_path);
-		set.add(srcProjectAbsPath + domain_save_path);
-
-		String interface_dao_package_name = pre_package_name + ".dao";
-		String dao_save_path = interface_dao_package_name.replace(".", File.separator);
-		setDaoPackageName(interface_dao_package_name);
-		setDaoSavePath(srcProjectAbsPath + dao_save_path);
-		set.add(srcProjectAbsPath + dao_save_path);
-
-		if (IBATIS_SQLMAP_ORM.equals(this.sqlmapOrm)) {
-			String ibatis_package_name = pre_package_name + ".dao.ibatis";
-			String ibatis_dao_impl_save_path = ibatis_package_name.replace(".", File.separator);
-			setIbatisPackageName(ibatis_package_name);
-			setIbatisDaoImplSavePath(srcProjectAbsPath + ibatis_dao_impl_save_path);
-			set.add(srcProjectAbsPath + ibatis_dao_impl_save_path);
-
-			String ibatis_sqlmap_package_name = pre_package_name + ".ibatis.sqlmap";
-			String ibatis_sqlmap_save_path = ibatis_sqlmap_package_name.replace(".", File.separator);
-			setIbatisSqlMapPackageName(ibatis_sqlmap_package_name);
-			setIbatisSqlMapSavePath(srcProjectAbsPath + ibatis_sqlmap_save_path);
-			set.add(srcProjectAbsPath + ibatis_sqlmap_save_path);
-		}
-
-		if (MYBATIS_SQLMAP_ORM.equals(this.sqlmapOrm)) {
-			String mybatis_dao_impl_package_name = pre_package_name + ".dao.mybatis";
-			String mybatis_dao_impl_save_path = mybatis_dao_impl_package_name.replace(".", File.separator);
-			setMybatisPackageName(mybatis_dao_impl_package_name);
-			setMybatisDaoImplSavePath(srcProjectAbsPath + mybatis_dao_impl_save_path);
-			set.add(srcProjectAbsPath + mybatis_dao_impl_save_path);
-
-			String mybatis_sqlmap_package_name = pre_package_name + ".mybatis.sqlmap";
-			String mybatis_sqlmap_save_path = mybatis_sqlmap_package_name.replace(".", File.separator);
-			setMybatisSqlMapPackageName(mybatis_sqlmap_package_name);
-			setMybatisSqlMapSavePath(srcProjectAbsPath + mybatis_sqlmap_save_path);
-			set.add(srcProjectAbsPath + mybatis_sqlmap_save_path);
-		}
-		String service_package_name = pre_package_name + ".service";
-		String service_save_path = service_package_name.replace(".", File.separator);
-		setServicePackageName(service_package_name);
-		setServiceSavePath(srcProjectAbsPath + service_save_path);
-		set.add(srcProjectAbsPath + service_save_path);
-
-		String controller_package_name = pre_package_name + ".controller";
-		String controller_save_path = controller_package_name.replace(".", File.separator);
-		setControllerPackageName(controller_package_name);
-		setControllerSavePath(srcProjectAbsPath + controller_save_path);
-		set.add(srcProjectAbsPath + controller_save_path);
-
-		String template_package_name = pre_package_name + ".template";
-		String template_save_path = template_package_name.replace(".", File.separator);
-		setTemplatePackageName(template_package_name);
-		setTemplateSavePath(srcProjectAbsPath + template_save_path);
-		set.add(srcProjectAbsPath + template_save_path);
-
-		String service_impl_package_name = pre_package_name + ".service.impl";
-		String service_impl_save_path = service_impl_package_name.replace(".", File.separator);
-		setServiceImplPackageName(service_impl_package_name);
-		setServiceImplSavePath(srcProjectAbsPath + service_impl_save_path);
-		set.add(srcProjectAbsPath + service_impl_save_path);
-
-		String exception_package_name = pre_package_name + ".exception";
-		String exception_save_path = exception_package_name.replace(".", File.separator);
-		setExceptionPackageName(exception_package_name);
-		setExceptionSavePath(srcProjectAbsPath + exception_save_path);
-		set.add(srcProjectAbsPath + exception_save_path);
-
-//		String util_package_name = pre_package_name + ".util";
-		String util_package_name = "ng.bayue.util";
-//		System.out.println(util_package_name);
-		String util_save_path = util_package_name.replace(".", File.separator);
-		setUtilPackageName(util_package_name);
-		setUtilSavePath(srcProjectAbsPath + util_save_path);
-		set.add(srcProjectAbsPath + util_save_path);
-
-		String constant_package_name = pre_package_name + ".constant";
-		String constant_save_path = constant_package_name.replace(".", File.separator);
-		setConstantPackageName(constant_package_name);
-		setConstantSavePath(srcProjectAbsPath + constant_save_path);
-		set.add(srcProjectAbsPath + constant_save_path);
-
-//		String templatePath = projectAbsPath + File.separator + "webapp" + File.separator + "template";
-		//maven项目webapp目录在 src/main/下
-		String templatePath = srcAbsPathCommon + "webapp" + File.separator + "template";
-		setTemplatePath(templatePath);
-
-		for (String path : set) {
-			File file = new File(path);
-			if (!(file.exists()) && !(file.isDirectory())) {
-				file.mkdirs();
-			}
-		}
-
-	}
 
 	public String getDaoPackageName() {
 		return daoPackageName;
@@ -300,6 +179,121 @@ public class PackageDO {
 
 	public String getTemplatePath() {
 		return templatePath;
+	}
+
+	private void init(String generatePackageName, String appName) throws Exception {
+		if (generatePackageName.indexOf(".") == -1) {
+			throw new Exception();
+		}
+		// String canonicalName = PackageDO.class.getCanonicalName();
+		String[] arraysts = generatePackageName.split("\\.");
+		StringBuilder sb = new StringBuilder();
+		sb.append(arraysts[0]);
+		sb.append(".");
+		sb.append(arraysts[1]);
+		if (appName != null && appName != "") {
+			sb.append(".");
+			sb.append(appName);
+		}
+
+		Set<String> set = new HashSet<String>();
+		String pre_package_name = sb.toString();
+
+		String projectAbsPath = System.getProperty("user.dir");// 用户项目的绝对路径
+		String srcProjectAbsPath = projectAbsPath + File.separator + "src" + File.separator;
+
+		String domain_package_name = pre_package_name + ".domain";
+		String domain_save_path = domain_package_name.replace(".", File.separator);
+		setDomainPackageName(domain_package_name);
+		setDomainSavePath(srcProjectAbsPath + domain_save_path);
+		set.add(srcProjectAbsPath + domain_save_path);
+
+		String interface_dao_package_name = pre_package_name + ".dao";
+		String dao_save_path = interface_dao_package_name.replace(".", File.separator);
+		setDaoPackageName(interface_dao_package_name);
+		setDaoSavePath(srcProjectAbsPath + dao_save_path);
+		set.add(srcProjectAbsPath + dao_save_path);
+
+		if (IBATIS_SQLMAP_ORM.equals(this.sqlmapOrm)) {
+			String ibatis_package_name = pre_package_name + ".dao.ibatis";
+			String ibatis_dao_impl_save_path = ibatis_package_name.replace(".", File.separator);
+			setIbatisPackageName(ibatis_package_name);
+			setIbatisDaoImplSavePath(srcProjectAbsPath + ibatis_dao_impl_save_path);
+			set.add(srcProjectAbsPath + ibatis_dao_impl_save_path);
+
+			String ibatis_sqlmap_package_name = pre_package_name + ".ibatis.sqlmap";
+			String ibatis_sqlmap_save_path = ibatis_sqlmap_package_name.replace(".", File.separator);
+			setIbatisSqlMapPackageName(ibatis_sqlmap_package_name);
+			setIbatisSqlMapSavePath(srcProjectAbsPath + ibatis_sqlmap_save_path);
+			set.add(srcProjectAbsPath + ibatis_sqlmap_save_path);
+		}
+
+		if (MYBATIS_SQLMAP_ORM.equals(this.sqlmapOrm)) {
+			String mybatis_dao_impl_package_name = pre_package_name + ".dao.mybatis";
+			String mybatis_dao_impl_save_path = mybatis_dao_impl_package_name.replace(".", File.separator);
+			setMybatisPackageName(mybatis_dao_impl_package_name);
+			setMybatisDaoImplSavePath(srcProjectAbsPath + mybatis_dao_impl_save_path);
+			set.add(srcProjectAbsPath + mybatis_dao_impl_save_path);
+
+			String mybatis_sqlmap_package_name = pre_package_name + ".mybatis.sqlmap";
+			String mybatis_sqlmap_save_path = mybatis_sqlmap_package_name.replace(".", File.separator);
+			setMybatisSqlMapPackageName(mybatis_sqlmap_package_name);
+			setMybatisSqlMapSavePath(srcProjectAbsPath + mybatis_sqlmap_save_path);
+			set.add(srcProjectAbsPath + mybatis_sqlmap_save_path);
+		}
+		String service_package_name = pre_package_name + ".service";
+		String service_save_path = service_package_name.replace(".", File.separator);
+		setServicePackageName(service_package_name);
+		setServiceSavePath(srcProjectAbsPath + service_save_path);
+		set.add(srcProjectAbsPath + service_save_path);
+
+		String controller_package_name = pre_package_name + ".controller";
+		String controller_save_path = controller_package_name.replace(".", File.separator);
+		setControllerPackageName(controller_package_name);
+		setControllerSavePath(srcProjectAbsPath + controller_save_path);
+		set.add(srcProjectAbsPath + controller_save_path);
+
+		String template_package_name = pre_package_name + ".template";
+		String template_save_path = template_package_name.replace(".", File.separator);
+		setTemplatePackageName(template_package_name);
+		setTemplateSavePath(srcProjectAbsPath + template_save_path);
+		set.add(srcProjectAbsPath + template_save_path);
+
+		String service_impl_package_name = pre_package_name + ".service.impl";
+		String service_impl_save_path = service_impl_package_name.replace(".", File.separator);
+		setServiceImplPackageName(service_impl_package_name);
+		setServiceImplSavePath(srcProjectAbsPath + service_impl_save_path);
+		set.add(srcProjectAbsPath + service_impl_save_path);
+
+		String exception_package_name = pre_package_name + ".exception";
+		String exception_save_path = exception_package_name.replace(".", File.separator);
+		setExceptionPackageName(exception_package_name);
+		setExceptionSavePath(srcProjectAbsPath + exception_save_path);
+		set.add(srcProjectAbsPath + exception_save_path);
+
+		String util_package_name = pre_package_name + ".util";
+		System.out.println(util_package_name);
+		String util_save_path = util_package_name.replace(".", File.separator);
+		setUtilPackageName(util_package_name);
+		setUtilSavePath(srcProjectAbsPath + util_save_path);
+		set.add(srcProjectAbsPath + util_save_path);
+
+		String constant_package_name = pre_package_name + ".constant";
+		String constant_save_path = constant_package_name.replace(".", File.separator);
+		setConstantPackageName(constant_package_name);
+		setConstantSavePath(srcProjectAbsPath + constant_save_path);
+		set.add(srcProjectAbsPath + constant_save_path);
+
+		String templatePath = projectAbsPath + File.separator + "webapp" + File.separator + "template";
+		setTemplatePath(templatePath);
+
+		for (String path : set) {
+			File file = new File(path);
+			if (!(file.exists()) && !(file.isDirectory())) {
+				file.mkdirs();
+			}
+		}
+
 	}
 
 	public void setDaoPackageName(String daoPackageName) {
