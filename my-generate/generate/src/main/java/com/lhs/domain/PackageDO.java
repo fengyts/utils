@@ -110,12 +110,19 @@ public class PackageDO {
 			throw new Exception();
 		}
 		// String canonicalName = PackageDO.class.getCanonicalName();
-		String[] arraysts = generatePackageName.split("\\.");
+//		String[] arraysts = generatePackageName.split("\\.");
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(arraysts[0]);
+//		sb.append(".");
+//		sb.append(arraysts[1]);
+//		if (appName != null && appName != "") {
+//			sb.append(".");
+//			sb.append(appName);
+//		}
+		
 		StringBuilder sb = new StringBuilder();
-		sb.append(arraysts[0]);
-		sb.append(".");
-		sb.append(arraysts[1]);
-		if (appName != null && appName != "") {
+		sb.append(generatePackageName);
+		if (appName != null && !"".equals(appName)) {
 			sb.append(".");
 			sb.append(appName);
 		}

@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ${packgeDO.daoPackageName}.${domain.className?substring(0,len)}DAO;
 import ${domain.packageName}.${domain.className};
 import ${packgeDO.servicePackageName}.${domain.className?substring(0,len)}Service;
-import ng.bayue.exception.DAOException;
-import ng.bayue.exception.ServiceException;
+import ng.bayue.exception.CommonDAOException;
+import ng.bayue.exception.CommonServiceException;
 <#--
 import ${packgeDO.exceptionPackageName}.DAOException;
 import ${packgeDO.exceptionPackageName}.ServiceException;
@@ -42,101 +42,101 @@ public class ${domain.className?substring(0,len)}ServiceImpl  implements ${domai
 
 	</#if>
 	@Override
-	public Long insert(${domain.className} ${param}) throws ServiceException {
+	public Long insert(${domain.className} ${param}) throws CommonServiceException {
 		try {
 			return ${lower_dao_name}.insert(${param});
-		}catch(DAOException e){
+		}catch(CommonDAOException e){
 			logger.error(e);
-            throw new ServiceException(e);
+            throw new CommonServiceException(e);
 		}
 	}
 
 //	@Override
-//	public int updateById(${domain.className} ${param}) throws ServiceException {
+//	public int updateById(${domain.className} ${param}) throws CommonServiceException {
 //		try {
 //			return (Integer) ${lower_dao_name}.updateById(${param});
-//		}catch(DAOException e){
+//		}catch(CommonDAOException e){
 //			logger.error(e);
-//            throw new ServiceException(e);
+//            throw new CommonServiceException(e);
 //		}
 //	}
 
 	@Override
-	public int update(${domain.className} ${param},boolean isAllField) throws ServiceException {
+	public int update(${domain.className} ${param},boolean isAllField) throws CommonServiceException {
 		try {
 			if(isAllField){
 				return (Integer) ${lower_dao_name}.update(${param});
 			}else{
 				return (Integer) ${lower_dao_name}.updateDynamic(${param});
 			}
-		}catch(DAOException e){
+		}catch(CommonDAOException e){
 			logger.error(e);
-            throw new ServiceException(e);
+            throw new CommonServiceException(e);
 		}
 	}
 
 	@Override
-	public int deleteById(Long id) throws ServiceException {
+	public int deleteById(Long id) throws CommonServiceException {
 		try {
 			return (Integer) ${lower_dao_name}.deleteById(id);
-		}catch(DAOException e){
+		}catch(CommonDAOException e){
 			logger.error(e);
-            throw new ServiceException(e);
+            throw new CommonServiceException(e);
 		}
 	}
 
 //	@Override
-//	public int updateDynamic(${domain.className} ${param}) throws ServiceException {
+//	public int updateDynamic(${domain.className} ${param}) throws CommonServiceException {
 //		try {
 //			return (Integer) ${lower_dao_name}.updateDynamic(${param});
-//		}catch(DAOException e){
+//		}catch(CommonDAOException e){
 //			logger.error(e);
-//            throw new ServiceException(e);
+//            throw new CommonServiceException(e);
 //		}
 //	}
 
 	@Override
-	public ${domain.className} selectById(Long id) throws ServiceException {
+	public ${domain.className} selectById(Long id) throws CommonServiceException {
 		try {
 			return ${lower_dao_name}.selectById(id);
-		}catch(DAOException e){
+		}catch(CommonDAOException e){
 			logger.error(e);
-            throw new ServiceException(e);
+            throw new CommonServiceException(e);
 		}
 	}
 
 	@Override
-	public Long selectCountDynamic(${domain.className} ${param}) throws ServiceException {
+	public Long selectCountDynamic(${domain.className} ${param}) throws CommonServiceException {
 		try {
 			return ${lower_dao_name}.selectCountDynamic(${param});
-		}catch(DAOException e){
+		}catch(CommonDAOException e){
 			logger.error(e);
-            throw new ServiceException(e);
+            throw new CommonServiceException(e);
 		}
 	}
 
 	@Override
-	public List<${domain.className}> selectDynamic(${domain.className} ${param}) throws ServiceException {
+	public List<${domain.className}> selectDynamic(${domain.className} ${param}) throws CommonServiceException {
 		try {
 			return ${lower_dao_name}.selectDynamic(${param});
-		}catch(DAOException e){
+		}catch(CommonDAOException e){
 			logger.error(e);
-            throw new ServiceException(e);
+            throw new CommonServiceException(e);
 		}
 	}
 	
 
-	private List<${domain.className}> selectDynamicPageQuery(${domain.className} ${param}) throws ServiceException {
+	private List<${domain.className}> selectDynamicPageQuery(${domain.className} ${param}) throws CommonServiceException {
 		try {
 			return ${lower_dao_name}.selectDynamicPageQuery(${param});
-		}catch(DAOException e){
+		}catch(CommonDAOException e){
 			logger.error(e);
-            throw new ServiceException(e);
+            throw new CommonServiceException(e);
 		}
 	}
 	
 	@Override
-	public Page<${domain.className}> queryPageListDynamic(${domain.className} ${param}) throws ServiceException{
+	public Page<${domain.className}> queryPageListDynamic(${domain.className} ${param}) throws CommonServiceException{
 		if (${param} != null) {
 			Long totalCount = this.selectCountDynamic(${param});
 
@@ -155,7 +155,7 @@ public class ${domain.className?substring(0,len)}ServiceImpl  implements ${domai
 	}
 	
 	@Override
-	public Page<${domain.className}> queryPageListDynamicAndStartPageSize(${domain.className} ${param}, Integer startPage, Integer pageSize) throws ServiceException {
+	public Page<${domain.className}> queryPageListDynamicAndStartPageSize(${domain.className} ${param}, Integer startPage, Integer pageSize) throws CommonServiceException {
 		if (${param} != null && startPage>0 && pageSize>0) {
 			${param}.setStartPage(startPage);
 			${param}.setPageSize(pageSize);
