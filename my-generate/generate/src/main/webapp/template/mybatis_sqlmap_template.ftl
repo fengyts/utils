@@ -39,12 +39,12 @@
  	</sql>
 
 	<select id="${ibatis_class_dao}_selectById" parameterType="long" resultMap="${resultMap}">
-	SELECT
-		<include refid="${ibatis_class_dao}_all_column_fields" />
-	FROM
-		${tableDO.tableName}
-	WHERE
-		 ${tableDO.primaryKey} = #${primaryProperty}
+		SELECT
+			<include refid="${ibatis_class_dao}_all_column_fields" />
+		FROM
+			${tableDO.tableName}
+		WHERE
+			 ${tableDO.primaryKey} = #${primaryProperty}
 	</select>
 
     <insert id="${ibatis_class_dao}_insert" parameterType="${complete_package_class_name}" useGeneratedKeys="true">

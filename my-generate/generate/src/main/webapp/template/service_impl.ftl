@@ -51,6 +51,7 @@ public class ${domain.className?substring(0,len)}ServiceImpl  implements ${domai
 		}
 	}
 
+<#--
 //	@Override
 //	public int updateById(${domain.className} ${param}) throws CommonServiceException {
 //		try {
@@ -60,6 +61,7 @@ public class ${domain.className?substring(0,len)}ServiceImpl  implements ${domai
 //            throw new CommonServiceException(e);
 //		}
 //	}
+-->
 
 	@Override
 	public int update(${domain.className} ${param},boolean isAllField) throws CommonServiceException {
@@ -85,6 +87,7 @@ public class ${domain.className?substring(0,len)}ServiceImpl  implements ${domai
 		}
 	}
 
+<#--
 //	@Override
 //	public int updateDynamic(${domain.className} ${param}) throws CommonServiceException {
 //		try {
@@ -94,6 +97,7 @@ public class ${domain.className?substring(0,len)}ServiceImpl  implements ${domai
 //            throw new CommonServiceException(e);
 //		}
 //	}
+-->
 
 	@Override
 	public ${domain.className} selectById(Long id) throws CommonServiceException {
