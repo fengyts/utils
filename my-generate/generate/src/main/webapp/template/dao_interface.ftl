@@ -6,6 +6,7 @@ import java.util.List;
 import ${packgeDO.exceptionPackageName}.DAOException;
 -->
 import ng.bayue.service.common.GeneralDAO;
+import ng.bayue.exception.CommonDAOException;
 <#assign len = domain.className?index_of("DO")>
 <#assign param="${domain.className?uncap_first}">
 
@@ -15,5 +16,29 @@ import ng.bayue.service.common.GeneralDAO;
  * @author fengyts ${create_time?if_exists?string("yyyy-MM-dd HH:mm:ss")}
  */
 public interface ${domain.className?substring(0,len)}DAO extends GeneralDAO<${domain.className}> {
+	
+	<#if tableDO.primaryColumnType == 'String'>
+	/**
+	 * <pre>
+	 * 根据主键查询
+	 * </pre>
+	 *
+	 * @param primaryKey
+	 * @return ${domain.className}
+	 * @throws CommonDAOException
+	 */
+	${domain.className} selectByPrimaryKey(String primaryKey) throws CommonDAOException;
+	
+	/**
+	 * <pre>
+	 * 根据主键删除
+	 * </pre>
+	 *
+	 * @param primaryKey
+	 * @return int
+	 * @throws CommonDAOException
+	 */
+	int deleteByPrimaryKey(String primaryKey) throws CommonDAOException;
+	</#if>
 
 }

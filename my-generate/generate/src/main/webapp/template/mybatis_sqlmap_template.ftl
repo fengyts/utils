@@ -37,7 +37,7 @@
 	 </#list>
 		</where>
  	</sql>
-
+	
 	<select id="${ibatis_class_dao}_selectById" parameterType="long" resultMap="${resultMap}">
 		SELECT
 			<include refid="${ibatis_class_dao}_all_column_fields" />
@@ -46,7 +46,19 @@
 		WHERE
 			 ${tableDO.primaryKey} = #${primaryProperty}
 	</select>
-
+	
+	<#if tableDO.primaryColumnType == 'String'>
+	<select id="${ibatis_class_dao}_selectByPrimaryKey" parameterType="string" resultMap="${resultMap}">
+		SELECT
+			<include refid="${ibatis_class_dao}_all_column_fields" />
+		FROM
+			${tableDO.tableName}
+		WHERE
+			 ${tableDO.primaryKey} = #${primaryProperty}
+	</select>
+	</#if>
+	
+	
     <insert id="${ibatis_class_dao}_insert" parameterType="${complete_package_class_name}" useGeneratedKeys="true">
         <selectKey resultType="long" keyProperty="${tableDO.primaryProperty}" order="AFTER">
             SELECT LAST_INSERT_ID() AS ${tableDO.primaryKey}
@@ -75,6 +87,32 @@
 		</#list>
 		)
     </insert>
+	
+	<#if tableDO.primaryColumnType == 'String'>
+	<update id="${ibatis_class_dao}_updateByPrimaryKey" parameterType="${complete_package_class_name}">
+		UPDATE ${tableDO.tableName}
+		SET
+		<#assign k=0>
+		<#list tableDO.columnList as col>
+			<#assign k=k+1>
+			<#assign aa="{${col.propertyName}}">
+			<#--><#if col.name!=tableDO.primaryKey>-->
+			<#if col.name!=tableDO.primaryKey && col.name!=tableDO.createDateFieldName>
+				<#if tableDO.columnList?size!=k>
+					${col.name} = #${aa},
+				<#else>
+					${col.name} = #${aa}
+				</#if>
+			</#if>
+		</#list>
+		WHERE
+			${tableDO.primaryKey} = #${primaryProperty}
+	</update>
+
+	<delete id="${ibatis_class_dao}_deleteByPrimaryKey" parameterType="string">
+		DELETE FROM ${tableDO.tableName} WHERE ${tableDO.primaryKey} = #${primaryProperty}
+	</delete>
+	</#if>
 
 	<update id="${ibatis_class_dao}_updateById" parameterType="${complete_package_class_name}">
 		UPDATE ${tableDO.tableName}
@@ -99,7 +137,8 @@
 	<delete id="${ibatis_class_dao}_deleteById" parameterType="long">
 		DELETE FROM ${tableDO.tableName} WHERE ${tableDO.primaryKey} = #${primaryProperty}
 	</delete>
-
+	
+	
 	<update id="${ibatis_class_dao}_update_dynamic" parameterType="${complete_package_class_name}">
 		UPDATE ${tableDO.tableName}
 		<set>

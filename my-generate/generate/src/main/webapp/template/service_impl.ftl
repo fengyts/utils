@@ -86,6 +86,18 @@ public class ${domain.className?substring(0,len)}ServiceImpl  implements ${domai
             throw new CommonServiceException(e);
 		}
 	}
+	
+	<#if tableDO.primaryColumnType == 'String'>
+	@Override
+	public int deleteByPrimaryKey(String primaryKey) throws CommonServiceException {
+		try {
+			return (Integer) ${lower_dao_name}.deleteByPrimaryKey(primaryKey);
+		}catch(CommonDAOException e){
+			logger.error(e);
+            throw new CommonServiceException(e);
+		}
+	}
+	</#if>
 
 <#--
 //	@Override
@@ -108,6 +120,18 @@ public class ${domain.className?substring(0,len)}ServiceImpl  implements ${domai
             throw new CommonServiceException(e);
 		}
 	}
+	
+	<#if tableDO.primaryColumnType == 'String'>
+	@Override
+	public ${domain.className} selectByPrimaryKey(String primaryKey) throws CommonServiceException {
+		try {
+			return ${lower_dao_name}.selectByPrimaryKey(primaryKey);
+		}catch(CommonDAOException e){
+			logger.error(e);
+            throw new CommonServiceException(e);
+		}
+	}
+	</#if>
 
 	@Override
 	public Long selectCountDynamic(${domain.className} ${param}) throws CommonServiceException {

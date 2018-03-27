@@ -17,6 +17,7 @@ import ng.bayue.service.common.GeneralDAO;
 import org.springframework.stereotype.Component;
 </#if>
 import ${packgeDO.daoPackageName}.${domain.className?substring(0,len)}DAO;
+import ${packgeDO.daoPackageName}.base.MybatisBaseDAO;
 import ${domain.packageName}.${domain.className};
 import ng.bayue.exception.CommonDAOException;
 <#--
@@ -53,6 +54,13 @@ public class Mybatis${domain.className?substring(0,len)}DAO extends MybatisBaseD
 	public Integer deleteById(Long id) throws CommonDAOException {
 		return getSqlSession().delete(getStatement("deleteById"), id);
 	}
+	
+	<#if tableDO.primaryColumnType == 'String'>
+	@Override
+	public int deleteByPrimaryKey(String primaryKey) throws CommonDAOException {
+		return getSqlSession().delete(getStatement("deleteByPrimaryKey"), primaryKey);
+	}
+	</#if>
 
 	@Override
 	public Integer updateDynamic(${domain.className} ${param}) throws CommonDAOException {
@@ -63,6 +71,13 @@ public class Mybatis${domain.className?substring(0,len)}DAO extends MybatisBaseD
 	public ${domain.className} selectById(Long id) throws CommonDAOException {
 		return getSqlSession().selectOne(getStatement("selectById"), id);
 	}
+	
+	<#if tableDO.primaryColumnType == 'String'>
+	@Override
+	public ${domain.className} selectByPrimaryKey(String primaryKey) throws CommonDAOException {
+		return getSqlSession().selectOne(getStatement("selectByPrimaryKey"), primaryKey);
+	}
+	</#if>
 
 	@Override
 	public Long selectCountDynamic(${domain.className} ${param}) throws CommonDAOException {
