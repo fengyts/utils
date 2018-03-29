@@ -8,7 +8,9 @@ import ${packgeDO.exceptionPackageName}.ServiceException;
 import ng.bayue.exception.ServiceException;
 -->
 import ng.bayue.service.common.GeneralService;
+<#if tableDO.primaryColumnType == 'String'>
 import ng.bayue.exception.CommonServiceException;
+</#if>
 import ${domain.packageName}.${domain.className};
 <#assign len = domain.className?index_of("DO")>
 <#assign param="${domain.className?uncap_first}">

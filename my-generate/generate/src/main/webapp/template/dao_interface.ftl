@@ -6,7 +6,9 @@ import java.util.List;
 import ${packgeDO.exceptionPackageName}.DAOException;
 -->
 import ng.bayue.service.common.GeneralDAO;
+<#if tableDO.primaryColumnType == 'String'>
 import ng.bayue.exception.CommonDAOException;
+</#if>
 <#assign len = domain.className?index_of("DO")>
 <#assign param="${domain.className?uncap_first}">
 
