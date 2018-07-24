@@ -33,6 +33,8 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 		public static final String YYYYMMDDHHMMSS1 = "yyyy/MM/dd HH:mm:ss";
 		/** yyyy.MM.dd HH:mm:ss */
 		public static final String YYYYMMDDHHMMSS2 = "yyyy.MM.dd HH:mm:ss";
+		/** yyyyMMddHHmmss */
+		public static final String YYYYMMDDHHMMSS3 = "yyyyMMddHHmmss";
 		
 		/** yyyy-MM-dd HH:mm */
 		public static final String YYYYMMDHHMM = "yyyy-MM-dd HH:mm";

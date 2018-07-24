@@ -69,9 +69,9 @@
 			<#assign j=j+1>
 			<#assign aa="{${col.name}}">
 			<#if tableDO.columnList?size!=j>
-				${col.name},
+			${col.name},
 			<#else>
-				${col.name}
+			${col.name}
 			</#if>
 		</#list>
 		)values(
@@ -80,9 +80,9 @@
 			<#assign i=i+1>
 			<#assign aa="{${col.propertyName}}">
 			<#if tableDO.columnList?size!=i>
-				#${aa},
+			#${aa},
 			<#else>
-				#${aa}
+			#${aa}
 			</#if>
 		</#list>
 		)
@@ -99,9 +99,9 @@
 			<#--><#if col.name!=tableDO.primaryKey>-->
 			<#if col.name!=tableDO.primaryKey && col.name!=tableDO.createDateFieldName>
 				<#if tableDO.columnList?size!=k>
-					${col.name} = #${aa},
+				${col.name} = #${aa},
 				<#else>
-					${col.name} = #${aa}
+				${col.name} = #${aa}
 				</#if>
 			</#if>
 		</#list>
@@ -124,9 +124,9 @@
 			<#--><#if col.name!=tableDO.primaryKey>-->
 			<#if col.name!=tableDO.primaryKey && col.name!=tableDO.createDateFieldName>
 				<#if tableDO.columnList?size!=k>
-					${col.name} = #${aa},
+			${col.name} = #${aa},
 				<#else>
-					${col.name} = #${aa}
+			${col.name} = #${aa}
 				</#if>
 			</#if>
 		</#list>
@@ -147,9 +147,9 @@
 			<#--<#if col.name!=tableDO.primaryKey>-->
 			<#if col.name!=tableDO.primaryKey && col.name!=tableDO.createDateFieldName>
 				<#if col.propertyType=="String">
-					<if test="${col.propertyName} != null  and ${col.propertyName} != '' ">${col.name}=#${aa},</if>
+			<if test="${col.propertyName} != null  and ${col.propertyName} != '' ">${col.name}=#${aa},</if>
 				<#else>
-					<if test="${col.propertyName} != null ">${col.name}=#${aa},</if>
+			<if test="${col.propertyName} != null ">${col.name}=#${aa},</if>
 				</#if>
 			</#if>
 		</#list>
