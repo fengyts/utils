@@ -170,7 +170,7 @@ public final class SecurityUtil {
 	 * 输出为16进制
 	 * </pre>
 	 */
-	private static final char[] DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a',
+	private static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a',
 			'b', 'c', 'd', 'e', 'f' };
 	
 	private static final char[] CHARSET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
@@ -188,8 +188,8 @@ public final class SecurityUtil {
 		char[] out = new char[l << 1];
 		// two characters form the hex value.
 		for (int i = 0, j = 0; i < l; i++) {
-			out[j++] = DIGITS[(0xF0 & data[i]) >>> 4];
-			out[j++] = DIGITS[0x0F & data[i]];
+			out[j++] = HEX_DIGITS[(0xF0 & data[i]) >>> 4];
+			out[j++] = HEX_DIGITS[0x0F & data[i]];
 		}
 		return new String(out);
 	}
@@ -245,24 +245,55 @@ public final class SecurityUtil {
 		}
 		
 	}
+	
+	
+	private static String getFormattedText(byte[] bytes) {
+        int len = bytes.length;
+        StringBuilder buf = new StringBuilder(len * 2);
+        // 把密文转换成十六进制的字符串形式
+        for (int j = 0; j < len; j++) {
+            buf.append(HEX_DIGITS[(bytes[j] >> 4) & 0x0f]);
+            buf.append(HEX_DIGITS[bytes[j] & 0x0f]);
+        }
+        return buf.toString();
+    }
+ 
+    public static String encryptSHA1(String str) {
+    	if (null == str || "".equals(str)) {
+			return null;
+		}
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance(SHA1);
+            messageDigest.update(str.getBytes());
+            return getFormattedText(messageDigest.digest());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 	public static void main(String[] args) {
 		// 原始 密码
-		String source = "admin";
-		// 盐
-		String salt = "15bc08f47ebb0a077c2378bd88781f2a";
-		byte[] bytes = source.getBytes();
-		byte[] saltb = salt.getBytes();
-		byte[] hash = hash(bytes, saltb, 1);
-		String s = new String(encode(hash));
-//		System.out.println("hash2:\n" + s);
+//		String source = "admin";
+//		// 盐
+//		String salt = "15bc08f47ebb0a077c2378bd88781f2a";
+//		byte[] bytes = source.getBytes();
+//		byte[] saltb = salt.getBytes();
+//		byte[] hash = hash(bytes, saltb, 1);
+//		String s = new String(encode(hash));
+////		System.out.println("hash2:\n" + s);
+//		
+//		String pwd = "abc123A";
+////		String st = encode(SecurityUtil.Salt.provideSalt());
+//		String st = "ee2373745ab6b214a5941b9cb281025f";
+//		String enpwd = hashToStr(pwd, st, 2);
+//		System.out.println(st);
+//		System.out.println(enpwd);
 		
-		String pwd = "abc123A";
-//		String st = encode(SecurityUtil.Salt.provideSalt());
-		String st = "ee2373745ab6b214a5941b9cb281025f";
-		String enpwd = hashToStr(pwd, st, 2);
-		System.out.println(st);
-		System.out.println(enpwd);
+		String str1 = "jsapi_ticket=HoagFKDcsGMVCIY2vOjf9i1K5Df4TerGXiZAnkzB4qT-bdGlPmiglFZCSQwD20K1PEmyjbyS-4GNinTXH83Kjg&noncestr=ab4c8cebb9dd4cfebe3c9551f50bf772&timestamp=1533545092&url=http://icweb.checc.cc/";
+		
+		String signature = encryptSHA1(str1);
+		System.out.println(signature);
 	}
 
 }

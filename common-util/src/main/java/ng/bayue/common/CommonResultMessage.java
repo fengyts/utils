@@ -149,6 +149,10 @@ public class CommonResultMessage implements Serializable {
 		return new CommonResultMessage(Success, CommonMessages.HandleSuccess);
 	}
 	
+	public static CommonResultMessage success(Object data) {
+		return new CommonResultMessage(data);
+	}
+	
 	public static CommonResultMessage failure(){
 		return new CommonResultMessage(Failure, CommonMessages.HandleFailure);
 	}
