@@ -41,6 +41,17 @@ public interface ${domain.className?substring(0,len)}DAO extends GeneralDAO<${do
 	 * @throws CommonDAOException
 	 */
 	int deleteByPrimaryKey(String primaryKey) throws CommonDAOException;
+	
+	/**
+	 * <pre>
+	 * 根据主键动态更新
+	 * </pre>
+	 *
+	 * @param ${param}
+	 * @return int
+	 * @throws CommonDAOException
+	 */
+	int updateByPrimaryKey(${domain.className} ${param}) throws CommonDAOException;
 	</#if>
 
 }

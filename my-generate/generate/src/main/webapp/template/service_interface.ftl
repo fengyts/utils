@@ -41,9 +41,20 @@ public interface ${entity?substring(0,len)}Service extends GeneralService<${enti
 	 *
 	 * @param primaryKey
 	 * @return int
-	 * @throws CommonDAOException
+	 * @throws CommonServiceException
 	 */
 	int deleteByPrimaryKey(String primaryKey);
+	
+	/**
+	 * <pre>
+	 * 根据主键动态更新
+	 * </pre>
+	 *
+	 * @param ${param}
+	 * @return int
+	 * @throws CommonServiceException
+	 */
+	int updateByPrimaryKey(${domain.className} ${param}) throws CommonServiceException;
 	</#if>
 	
 }

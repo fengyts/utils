@@ -77,6 +77,11 @@ public class Mybatis${domain.className?substring(0,len)}DAO extends MybatisBaseD
 	public ${domain.className} selectByPrimaryKey(String primaryKey) throws CommonDAOException {
 		return getSqlSession().selectOne(getStatement("selectByPrimaryKey"), primaryKey);
 	}
+	
+	@Override
+	public int updateByPrimaryKey(${domain.className} ${param}) throws CommonDAOException {
+		return getSqlSession().update(getStatement("updateByPrimaryKey"), ${param});
+	}
 	</#if>
 
 	@Override

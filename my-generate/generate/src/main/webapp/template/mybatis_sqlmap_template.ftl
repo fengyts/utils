@@ -179,7 +179,9 @@
 		 FROM
 		 	${tableDO.tableName}
 	 	<include refid="${ibatis_class_dao}_dynamic_where_fields" />
+	 	<#if tableDO.primaryColumnType != 'String'>
 	 	ORDER BY ${tableDO.tableName}.id DESC
+	 	</#if>
 	 	Limit #${tableDO.pageStartFieldName},#${tableDO.pageSizeFieldName}
  	</select>
 

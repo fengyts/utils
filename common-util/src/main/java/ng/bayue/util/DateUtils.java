@@ -145,6 +145,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils{
 		if (null == cal) {
 			return null;
 		}
+		getDayBegin(cal);
 		cal.add(Calendar.DATE, 1);
 		cal.add(Calendar.MILLISECOND, -1);
 
