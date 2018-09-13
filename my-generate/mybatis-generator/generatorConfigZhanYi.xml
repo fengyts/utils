@@ -29,26 +29,26 @@
 		
 		
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/db_lbl" userId="root" password="123456">
+			connectionURL="jdbc:mysql://192.168.9.241:3306/db_eamp" userId="root" password="zhanyi88">
 		</jdbcConnection>
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 		
 		<!-- 生成实体类 -->
-		<javaModelGenerator targetPackage="com.chane.yfk.mybatis.model"
+		<javaModelGenerator targetPackage="com.chaneinfo.eamp.share.mybatis.model"
 			targetProject="mybatis-generator">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 		<!--生成映射文件-->
-		<sqlMapGenerator targetPackage="com.chane.yfk.mybatis.mapping.base"
+		<sqlMapGenerator targetPackage="com.chaneinfo.eamp.share.mybatis.mapping"
 			targetProject="mybatis-generator">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		<!--生成dao-->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.chane.yfk.mybatis.mapper" targetProject="mybatis-generator">
+			targetPackage="com.chaneinfo.eamp.share.mybatis.mapper" targetProject="mybatis-generator">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!-- <table tableName="area" domainObjectName="Area"
@@ -58,7 +58,7 @@
 			enableSelectByExample="true"
 			selectByExampleQueryId="true">
 		</table> -->
-		<table tableName="yfk_c_user_card_trade_record" domainObjectName="YfkCUserCardTradeRecord">
+		<table tableName="marketing_expandmember_template" domainObjectName="MarketingExpandmemberTemplate">
 			<generatedKey column="id" sqlStatement="Mysql" identity="true" />
 		</table>
 	</context>
