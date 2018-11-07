@@ -1,5 +1,5 @@
 package ng.bayue.generator.types;
 
-public class JdbcType {
+public class SqliteJdbcType {
 
 }

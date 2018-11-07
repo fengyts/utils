@@ -1,5 +1,7 @@
 package ng.bayue.generator.constants;
 
+import com.mysql.jdbc.StringUtils;
+
 public final class SymbolConstant {
 
 	public static final String DOT = ".";
@@ -23,5 +25,15 @@ public final class SymbolConstant {
 	public static final String BRACKET_RIGHT = "]";
 	public static final String BRACE_LEFT = "{";
 	public static final String BRACE_RIGHT = "}";
+	
+	public static final String WHITESPACE = " ";
+ 	
+	public static final String R = "\r";
+	public static final String N = "\n";
+	public static final String TAB = "\t";
+			
+
+	private SymbolConstant() {
+	}
 
 }
