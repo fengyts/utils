@@ -1,9 +1,10 @@
-package ng.bayue.generator.types;
+package ng.bayue.generator.constants;
 
 public final class CommonClassConstants {
 
 	public static final String DATE_UTIL = "java.util.Date";
 	public static final String LIST_UTIL = "java.util.List";
+	public static final String MAP_UTIL = "java.util.Map";
 	public static final String BIGDECIMAL = "java.math.BigDecimal";
 
 	public static final String COMPONENT = "org.springframework.stereotype.Component";

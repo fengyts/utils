@@ -58,8 +58,11 @@
 			enableSelectByExample="true"
 			selectByExampleQueryId="true">
 		</table> -->
-		<table tableName="marketing_expandmember_template" domainObjectName="MarketingExpandmemberTemplate">
+		<table tableName="marketing_depositgift" domainObjectName="MarketingDepositgift">
 			<generatedKey column="id" sqlStatement="Mysql" identity="true" />
 		</table>
+<!-- 		<table tableName="enterprise_discount" domainObjectName="EnterpriseDiscount"> -->
+<!-- 			<generatedKey column="id" sqlStatement="Mysql" identity="true" /> -->
+<!-- 		</table> -->
 	</context>
 </generatorConfiguration>

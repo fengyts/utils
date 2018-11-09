@@ -6,7 +6,10 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -144,10 +147,7 @@ public class OnlineReader {
 
 			String line = "";
 
-			Elements js = html.getElementsByTag("script");// ("var nextpage=")
-															// var next_page = ;
-			// String[] nextPageStrs = new String[]{"var[ \\s]+?nextpage[
-			// \\s]?+=", "var[ \\s]+?next_page[ \\s]?+="};
+			Elements js = html.getElementsByTag("script");
 			Element eNextPage = null;
 			if (WebSiteEnum.XXBIQUGE == website) {
 				eNextPage = js.last();
@@ -193,14 +193,21 @@ public class OnlineReader {
 	}
 
 	public static void main(String[] args) {
-		// final String url = "http://www.biqukan.com/1_1680/18577593.html";
+//		 final String url = "https://www.xxbiquge.com/9_9208/9128627.html";
 
-		final String url = "http://www.biquge.com.tw/8_8568/9245011.html";
-		read1(WebSiteEnum.BIQUGE, url);
+//		final String url = "http://www.biquge.com.tw/8_8568/9248786.html";
+//		read1(WebSiteEnum.BIQUGE, url);
 
-		// final String url = "https://www.xxbiquge.com/76_76060/120394.html";
-		// read1(WebSiteEnum.XXBIQUGE, url);
-
+//		 final String url = "https://www.xxbiquge.com/0_347/8910209.html";
+//		 final String url = "https://www.xbiquge6.com/76_76060/1200868.html";
+//		 read1(WebSiteEnum.XXBIQUGE, url);
+		 
+//		 final String url = "https://www.dingdiann.com/ddk76593/4869086.html"; // 顶点
+		
+		Properties properties = System.getProperties();
+		Map<String, String> envs = System.getenv();
+		System.out.println();
+		
 	}
 
 }

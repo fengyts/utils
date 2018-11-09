@@ -1,17 +1,15 @@
 package ng.bayue.generator.types;
 
-import java.sql.Types;
-
 public final class MysqlJdbcType {
-	
-//	public static final String Int = Types.INTEGER;
-//	public static final String i = org.apache.ibatis.type.JdbcType.ARRAY;
-	
-	public static final String byte_type = "bit";
-	public static final String tinyint_type = "tinyint";
-	public static final String smallint_type = "smallint";
-	public static final String mediumint_type = "mediumint";
-	public static final String int_type = "int";
-	public static final String bigint_type = "bigint";
-	
+
+	// public static final String Int = Types.INTEGER;
+	// public static final String i = org.apache.ibatis.type.JdbcType.ARRAY;
+
+	// public static final String BYTE_TYPE = "BIT";
+	// public static final String TINYINT_TYPE = "TINYINT";
+	// public static final String SMALLINT_TYPE = "SMALLINT";
+	// public static final String MEDIUMINT_TYPE = "MEDIUMINT";
+	// public static final String INT_TYPE = "INT";
+	// public static final String BIGINT_TYPE = "BIGINT";
+
 }
