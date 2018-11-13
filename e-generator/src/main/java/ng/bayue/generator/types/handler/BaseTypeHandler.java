@@ -4,7 +4,6 @@ import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 
-import ng.bayue.generator.types.GenericJdbcType;
 import ng.bayue.generator.types.JavaType;
 
 public abstract class BaseTypeHandler implements JdbcTypeResovle {
@@ -55,7 +54,8 @@ public abstract class BaseTypeHandler implements JdbcTypeResovle {
 
 	}
 
-	public Object handler(GenericJdbcType type) {
+	public String handler(String jdbcType) {
+		
 		return null;
 	}
 

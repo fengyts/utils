@@ -1,6 +1,6 @@
 package ng.bayue.generator.types;
 
-public abstract class GenericJdbcType {
+public final class GenericJdbcType {
 
 	public static final String ARRAY = "ARRAY";
 	public static final String BIGINT = "BIGINT";

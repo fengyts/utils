@@ -18,18 +18,18 @@ public enum DbDriverEnum {
 	// jdbc:mckoi:=com.mckoi.JDBCDriver
 
 
-	derby("jdbc:derby:", "org.apache.derby.jdbc.EmbeddedDriver"), 
-	mysql("jdbc:mysql://", "com.mysql.jdbc.Driver"), 
-	oracle("jdbc:oracle:thin:@", "oracle.jdbc.driver.OracleDriver"), 
-	db2("jdbc:oracle://", "com.ibm.db2.jdbc.app.DB2Driver"),
-	sqlserver2000("jdbc:microsoft:sqlserver://", "com.microsoft.jdbc.sqlserver.SQLServerDriver"),
-	sqlserver2005("jdbc:sqlserver://", "com.microsoft.sqlserver.jdbc.SQLServerDriver"),
-	sybase("jdbc:sybase:Tds:", "com.sybase.jdbc.SybDriver"),
-	informix("jdbc:informix-sqli://", "com.informix.jdbc.IfxDriver"),
-	postgresql("jdbc:postgresql://", "org.postgresql.Driver"),
-	sqlite("jdbc:sqlite://", "org.sqlite.JDBC"),
-	h2("jdbc:h2://", "org.h2.Driver"),
-	mckoi("jdbc:mckoi://", "com.mckoi.JDBCDriver")
+	DERBY("jdbc:derby://", "org.apache.derby.jdbc.EmbeddedDriver"), 
+	MYSQL("jdbc:mysql://", "com.mysql.jdbc.Driver"), 
+	ORACLE("jdbc:oracle:thin:@", "oracle.jdbc.driver.OracleDriver"), 
+	DB2("jdbc:oracle://", "com.ibm.db2.jdbc.app.DB2Driver"),
+	SQLSERVER2000("jdbc:microsoft:sqlserver://", "com.microsoft.jdbc.sqlserver.SQLServerDriver"),
+	SQLSERVER2005("jdbc:sqlserver://", "com.microsoft.sqlserver.jdbc.SQLServerDriver"),
+	SYBASE("jdbc:sybase:Tds:", "com.sybase.jdbc.SybDriver"),
+	INFORMIX("jdbc:informix-sqli://", "com.informix.jdbc.IfxDriver"),
+	POSTGRESQL("jdbc:postgresql://", "org.postgresql.Driver"),
+	SQLITE("jdbc:sqlite://", "org.sqlite.JDBC"),
+	H2("jdbc:h2://", "org.h2.Driver"),
+	MCKOI("jdbc:mckoi://", "com.mckoi.JDBCDriver")
 	;
 
 	public String urlPrefix;
