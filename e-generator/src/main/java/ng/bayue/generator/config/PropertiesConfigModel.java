@@ -1,11 +1,13 @@
 package ng.bayue.generator.config;
 
-public class ConfigModel {
+import ng.bayue.generator.utils.StringUtils;
+
+public class PropertiesConfigModel {
 
 	private String dbType = "mysql";
-	private String dbDriverClass;
+	private String dbDriver;
 	private String dbSchema;
-	private String url;
+	private String dbUrl;
 	private String username;
 	private String password;
 	private String sqlmapOrm = "mybatis";
@@ -26,15 +28,17 @@ public class ConfigModel {
 	}
 
 	public void setDbType(String dbType) {
-		this.dbType = dbType;
+		if (StringUtils.isNotBlank(dbType)) {
+			this.dbType = dbType;
+		}
 	}
 
-	public String getDbDriverClass() {
-		return dbDriverClass;
+	public String getDbDriver() {
+		return dbDriver;
 	}
 
-	public void setDbDriverClass(String dbDriverClass) {
-		this.dbDriverClass = dbDriverClass;
+	public void setDbDriver(String dbDriver) {
+		this.dbDriver = dbDriver;
 	}
 
 	public String getDbSchema() {
@@ -45,12 +49,12 @@ public class ConfigModel {
 		this.dbSchema = dbSchema;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getDbUrl() {
+		return dbUrl;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setDbUrl(String dbUrl) {
+		this.dbUrl = dbUrl;
 	}
 
 	public String getUsername() {

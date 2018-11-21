@@ -13,6 +13,10 @@ public class PropertieUtil {
 		this.props = initProp(filePath);
 	}
 
+	public PropertieUtil(Properties props) {
+		this.props = props;
+	}
+
 	private Properties initProp(String filePath) throws Exception {
 		File file = new File(filePath);
 		return initProp(file);
