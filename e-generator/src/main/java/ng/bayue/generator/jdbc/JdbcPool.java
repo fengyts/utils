@@ -27,17 +27,6 @@ public class JdbcPool implements DataSource {
 		initPool(prop);
 	}
 
-//	public JdbcPool(String filePath) {
-//		try {
-//			File propFile = new File(filePath);
-//			Properties prop = new Properties();
-//			prop.load(new FileInputStream(propFile));
-//			initPool(prop);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 	private static void initPool(Properties prop) {
 		try {
 			final PropertiesConfigModel propModel = PropertiesConfigResovler.getConfig(prop);
@@ -50,7 +39,8 @@ public class JdbcPool implements DataSource {
 			Class.forName(driver);
 			final int poolSize = config.poolSize;
 			for (int i = 0; i < poolSize; i++) {
-				Connection conn = DriverManager.getConnection(url, user, password);
+				final Connection conn = DriverManager.getConnection(url, user, password);
+				// System.out.println("创建了连接：" + conn);
 				pool.add(conn);
 			}
 		} catch (ClassNotFoundException | SQLException e) {
@@ -71,8 +61,8 @@ public class JdbcPool implements DataSource {
 					} else {
 						// 如果调用的是Connection对象的close方法，就把conn还给数据库连接池
 						pool.add(conn);
-//						 System.out.println(conn + "被还给pool数据库连接池了！！");
-//						 System.out.println("pool数据库连接池大小为" + pool.size());
+						// System.out.println(conn + "被还给pool数据库连接池了！！");
+						// System.out.println("pool数据库连接池大小为" + pool.size());
 					}
 
 					return null;
@@ -81,17 +71,20 @@ public class JdbcPool implements DataSource {
 			return (Connection) Proxy.newProxyInstance(this.getClass().getClassLoader(),
 					conn.getClass().getInterfaces(), h);
 		} else {
-			throw new SQLException("获取数据库连接失败");
+			// 连接池不够用, 直接获取连接
+			final Connection conn = getConnection(config.getUsername(), config.getPassword());
+			return conn;
+			// throw new SQLException("获取数据库连接失败");
 		}
 	}
 
 	@Override
 	public Connection getConnection(String username, String password) throws SQLException {
 		try {
-			Class.forName(config.getDriver());
+			// Class.forName(config.getDriver());
 			Connection conn = DriverManager.getConnection(config.getDbUrl(), username, password);
 			return conn;
-		} catch (ClassNotFoundException e) {
+		} catch (SQLException e) {
 			throw new SQLException(e);
 		}
 	}

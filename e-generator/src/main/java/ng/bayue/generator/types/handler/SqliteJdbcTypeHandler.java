@@ -2,7 +2,7 @@ package ng.bayue.generator.types.handler;
 
 import ng.bayue.generator.types.GenericJdbcType;
 
-public class SqliteJdbcTypeHandler extends BaseTypeHandler {
+public class SqliteJdbcTypeHandler extends GenericTypeHandler {
 
 	@Override
 	public Object resovle(GenericJdbcType type) {

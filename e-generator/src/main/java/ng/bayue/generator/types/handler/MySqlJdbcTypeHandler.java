@@ -2,7 +2,7 @@ package ng.bayue.generator.types.handler;
 
 import ng.bayue.generator.types.GenericJdbcType;
 
-public class MySqlJdbcTypeHandler extends BaseTypeHandler {
+public class MySqlJdbcTypeHandler extends GenericTypeHandler {
 
 	@Override
 	public Object resovle(GenericJdbcType type) {

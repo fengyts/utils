@@ -6,11 +6,11 @@ import java.util.Map;
 
 import ng.bayue.generator.types.JavaType;
 
-public abstract class BaseTypeHandler implements JdbcTypeResovle {
+public abstract class GenericTypeHandler implements JdbcTypeResovle {
 
 	protected Map<Integer, JdbcTypeInformation> typeMap;
 
-	public BaseTypeHandler() {
+	public GenericTypeHandler() {
 		genericTypeMap();
 	}
 
