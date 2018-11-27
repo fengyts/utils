@@ -51,13 +51,16 @@ public class Test {
 	public static void testGetSql() {
 		String dbSchema = "checc";
 		String tableName = "test_key";
+		String[] tableNames = {"test_key", "test_supplier"};
 		// String sql = getSqlTableConstrainsSingle(dbSchema, tableName, true);
 		// System.out.println(sql);
 //		final String sql = DbInformationSchemaSql.getSqlTableConstrains(dbSchema, true, true, tableName,
 //				"test_supplier");
 //		System.out.println(sql);
-		String sql1 = DbInformationSchemaSql.getSqlTableConstraintColumns(dbSchema, false, tableName, "test_supplier");
-		System.out.println(sql1);
+//		String sql1 = DbInformationSchemaSql.getSqlTableConstraintColumns(dbSchema, false, tableName, "test_supplier");
+//		System.out.println(sql1);
+		String sql2 = DbInformationSchemaSql.getSqlTableColumnDetailInfo(dbSchema, false, tableNames);
+		System.out.println(sql2);
 	}
 
 	public static void testSqlExecute() {

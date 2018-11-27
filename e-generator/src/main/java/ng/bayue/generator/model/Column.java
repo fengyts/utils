@@ -1,5 +1,10 @@
 package ng.bayue.generator.model;
 
+/**
+ * 表列信息
+ * @author lenovopc
+ *
+ */
 public class Column {
 
 	/** 列名 */
@@ -8,13 +13,13 @@ public class Column {
 	private String jdbcType;
 	/** java实例类型 */
 	private String javaType;
-	/** java实例属性 */
-	private String javaProperty;
+	/** java实例属性-列名驼峰形式 */
+	private String javaPropertyName;
 	/** 类型处理器 */
 	private String typeHandler;
 	/** 列注释 */
 	private String comment;
-	
+
 	/** 列默认值 */
 	private Object defaultValue;
 
@@ -42,12 +47,12 @@ public class Column {
 		this.javaType = javaType;
 	}
 
-	public String getJavaProperty() {
-		return javaProperty;
+	public String getJavaPropertyName() {
+		return javaPropertyName;
 	}
 
-	public void setJavaProperty(String javaProperty) {
-		this.javaProperty = javaProperty;
+	public void setJavaPropertyName(String javaPropertyName) {
+		this.javaPropertyName = javaPropertyName;
 	}
 
 	public String getTypeHandler() {
@@ -64,6 +69,14 @@ public class Column {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public Object getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(Object defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 
 }

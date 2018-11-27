@@ -10,6 +10,7 @@ import ng.bayue.generator.utils.StringUtils;
  * @author lenovopc
  *
  */
+@Deprecated
 public class TableConstraints {
 
 	/** 表名 */

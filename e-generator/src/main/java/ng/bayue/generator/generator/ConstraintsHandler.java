@@ -11,9 +11,11 @@ import java.util.Map;
 
 import ng.bayue.generator.constants.ColumnConstraintType;
 import ng.bayue.generator.constants.DbInformationSchemaSql;
+import ng.bayue.generator.model.TableInfo;
 import ng.bayue.generator.model.info.TableConstraints;
 import ng.bayue.generator.utils.JdbcUtil;
 
+@SuppressWarnings("deprecation")
 public class ConstraintsHandler {
 
 	private static boolean isPK(String constraintsType) {
@@ -87,7 +89,21 @@ public class ConstraintsHandler {
 		return uks;
 	}
 
-	public static void getConstraintsStatistics() {
+	public static List<TableInfo> getTableDetailInfo(String dbSchema, boolean isAllTables, String... tableNames) {
+		List<TableInfo> tableInfos = new ArrayList<TableInfo>();
+		try {
+			final String sql = DbInformationSchemaSql.getSqlTableColumnDetailInfo(dbSchema, isAllTables, tableNames);
+			Connection conn = JdbcUtil.getConnection();
+			PreparedStatement pstat = conn.prepareStatement(sql);
+			ResultSet rs = pstat.executeQuery();
+			while (rs.next()) {
+
+			}
+			JdbcUtil.close(conn, pstat, rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tableInfos;
 	}
 
 }
