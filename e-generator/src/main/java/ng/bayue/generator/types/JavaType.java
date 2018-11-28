@@ -7,16 +7,25 @@ public final class JavaType {
 	public static final String STRING = "String";
 	public static final String BIGDECIMAL = "BigDecimal";
 
+	/** java.util.Date */
 	public static final String DATE_UTIL = "Date";
+	/** java.sql.Date */
 	public static final String DATE_SQL = "Date";
 	
 	public static final String LIST = "List";
 	public static final String ARRAYLIST = "ArrayList";
 	public static final String LINKEDLIST = "LinkedList";
+	
 	public static final String MAP = "Map";
 	public static final String HASHMAP = "HashMap";
 	public static final String SORTEDMAP = "SortedMap";
 	public static final String TREEMAP = "TreeMap";
+	public static final String LINKEDHASHMAP = "LinkedHashMap";
+	
+	public static final String SET = "Set";
+	public static final String HASHSET = "HashSet";
+	public static final String TREESET = "TreeSet";
+	public static final String LINKEDHASHSET = "LinkedHashSet";
 	
 	
 	public static final String BYTE_ARRAY = "byte[]";

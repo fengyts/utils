@@ -1,9 +1,12 @@
 package ng.bayue.generator.types.handler;
 
-import ng.bayue.generator.types.GenericJdbcType;
-
+/**
+ * jdbcType解析为java类型
+ * @author lenovopc
+ *
+ */
 public interface JdbcTypeResovle {
-	
-	Object resovle(GenericJdbcType type);
+
+	String resovle(String jdbcType);
 
 }

@@ -1,10 +1,7 @@
 package ng.bayue.generator.constants;
 
-import java.lang.annotation.ElementType;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.mysql.jdbc.StringUtils;
@@ -213,7 +210,7 @@ public final class DbInformationSchemaSql {
 		}
 		String sql = SQL_TABLE_CONSTRAINTS_INFO_ALL.replace(PLACEHOLDER_DB_SCHEMA, dbSchema);
 		sql = handleOnlyUKConstrains(isOnlyUK, sql);
-		isAllTables = isAllTables(isAllTables, tableNames);
+//		isAllTables = isAllTables(isAllTables, tableNames);
 		if (isAllTables) {
 			sql = sql.replace(PLACEHOLDER_IS_ALL_TABLE, "");
 		} else {
@@ -236,19 +233,6 @@ public final class DbInformationSchemaSql {
 			res = sql.replace(PLACEHOLDER_UK_ONLY, "");
 		}
 		return res;
-	}
-
-	/**
-	 * 是否生成所有表, isAllTables参数仅仅是一个预留的标识, 真正影响是否生成所有表的是参数tableNames,若它不为空则标识为只生成指定表(哪怕指定isAllTables为true)。
-	 * @param isAllTables
-	 * @param tableNames
-	 * @return
-	 */
-	private static boolean isAllTables(boolean isAllTables, String... tableNames) {
-		if (null != tableNames && tableNames.length != 0) {
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -276,7 +260,7 @@ public final class DbInformationSchemaSql {
 		}
 		String sql = SQL_TABLE_CONSTRAINTS_KEY_INFO;
 		// 表信息为空，则默认获取所有, 该字段为预留字段
-		isAllTables = isAllTables(isAllTables, tableNames);
+//		isAllTables = isAllTables(isAllTables, tableNames);
 		sql = sql.replace(PLACEHOLDER_DB_SCHEMA, dbSchema);
 		if (isAllTables) {
 			sql = sql.replace(PLACEHOLDER_IS_ALL_TABLE, "");
@@ -305,7 +289,7 @@ public final class DbInformationSchemaSql {
 		}
 		String sql = SQL_TABLE_COLUMN_DETAIL_INFO;
 		// 表信息为空，则默认获取所有, 该字段为预留字段
-		isAllTables = isAllTables(isAllTables, tableNames);
+//		isAllTables = isAllTables(isAllTables, tableNames);
 		sql = sql.replace(PLACEHOLDER_DB_SCHEMA, dbSchema);
 		if (isAllTables) {
 			sql = sql.replace(PLACEHOLDER_IS_ALL_TABLE, "");
@@ -326,74 +310,78 @@ public final class DbInformationSchemaSql {
 		return sql;
 	}
 
+	/**
+	 * 封装<link>DbInformationSchemaSql.SQL_TABLE_COLUMN_DETAIL_INFO</link> sql 查询的列以及列的index位置信息, 方便在ResultSet中按照列名获取index: rs.getString(index);
+	 * 若要增加或删除列的查询只需要修改枚举类：SC, SS, STC的枚举项以及结果集处理的类<link>ConstraintsHandler</link>
+	 * 
+	 * @author lenovopc
+	 *
+	 */
 	public static class SqlTableColumnDetailSelectMapper {
+		public static interface EGeneric {
+			// Enum<?>[] items();
+			// String getPrefix();
+			// int getIndex(Enum<?> e);
+		}
+
 		/** FROM information_schema.COLUMNS c 的字段 */
-		public static enum SC {
-			TABLE_NAME, COLUMN_NAME, DATA_TYPE, COLUMN_COMMENT, COLUMN_KEY, COLUMN_DEFAULT;
-			public static final String TABLE_ALIAS_PREFIX = "c.";
+		public static enum SC implements EGeneric {
+			TABLE_NAME, COLUMN_NAME, DATA_TYPE, COLUMN_KEY, COLUMN_DEFAULT, COLUMN_COMMENT;
+
+			public static final String TABLE_ALIAS_PREFIX = "c";
 			public static final int LENGTH = SC.values().length;
 		}
 
 		/** LEFT JOIN information_schema.STATISTICS s 的字段 */
-		public static enum SS {
+		public static enum SS implements EGeneric {
 			INDEX_NAME, NON_UNIQUE, SEQ_IN_INDEX;
-			public static final String TABLE_ALIAS_PREFIX = "s.";
+
+			public static final String TABLE_ALIAS_PREFIX = "s";
 			public static final int LENGTH = SS.values().length;
 		}
 
 		/** LEFT JOIN information_schema.TABLE_CONSTRAINTS tc 的字段 */
-		public static enum STC {
+		public static enum STC implements EGeneric {
 			CONSTRAINT_NAME, CONSTRAINT_TYPE;
-			public static final String TABLE_ALIAS_PREFIX = "tc.";
+
+			public static final String TABLE_ALIAS_PREFIX = "tc";
 			public static final int LENGTH = STC.values().length;
 		}
 
-		public static final Map<String, Integer> COLUMN_INDEX_MAPPER = new HashMap<String, Integer>();
+		private static final Map<String, Integer> COLUMN_INDEX_MAPPER = new LinkedHashMap<String, Integer>();
 
-		// /** FROM information_schema.COLUMNS c */
-		// // { "c.TABLE_NAME", "c.COLUMN_NAME", "c.DATA_TYPE",
-		// "c.COLUMN_COMMENT",
-		// // "c.COLUMN_KEY", "c.COLUMN_DEFAULT" };
-		// private static final String[] SELECTS_C = new String[SC.LENGTH];
-		// /** LEFT JOIN information_schema.STATISTICS s */
-		// // { "s.INDEX_NAME", "s.NON_UNIQUE", "s.SEQ_IN_INDEX" };
-		// private static final String[] SELECTS_S = new String[SS.LENGTH];
-		// /** LEFT JOIN information_schema.TABLE_CONSTRAINTS tc */
-		// // { "tc.CONSTRAINT_NAME", "tc.CONSTRAINT_TYPE" };
-		// private static final String[] SELECTS_TC = new String[STC.LENGTH];
-
-		// private static final String[] SELECTS_ALL = new
-		// String[SELECTS_C.length + SELECTS_S.length + SELECTS_TC.length];
 		private static final String[] SELECTS_ALL = new String[SC.LENGTH + SS.LENGTH + STC.LENGTH];
 
 		static {
-			// int destPos = 0;
-			// System.arraycopy(SELECTS_C, 0, SELECTS_ALL, destPos,
-			// SELECTS_C.length);
-			// destPos = SELECTS_C.length;
-			// System.arraycopy(SELECTS_S, 0, SELECTS_ALL, destPos,
-			// SELECTS_S.length);
-			// destPos += SELECTS_S.length;
-			// System.arraycopy(SELECTS_TC, 0, SELECTS_ALL, destPos,
-			// SELECTS_TC.length);
 			initColumns();
 		}
 
-		static int index = 0;
+		private static int index = 0;
 
 		private static void initColumns() {
-			SC[] sc = SC.values();
-			fill(sc, SC.LENGTH, SC.TABLE_ALIAS_PREFIX, index);
-			SS[] ss = SS.values();
-			fill(ss, SS.LENGTH, SS.TABLE_ALIAS_PREFIX, index);
-			STC[] stc = STC.values();
-			fill(stc, STC.LENGTH, STC.TABLE_ALIAS_PREFIX, index);
+			try {
+				SC[] sc = SC.values();
+				fill(sc, SC.LENGTH, SC.TABLE_ALIAS_PREFIX);
+				SS[] ss = SS.values();
+				fill(ss, SS.LENGTH, SS.TABLE_ALIAS_PREFIX);
+				STC[] stc = STC.values();
+				fill(stc, STC.LENGTH, STC.TABLE_ALIAS_PREFIX);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
-		private static void fill(Enum<?>[] e, int len, String prefix, int index1) {
+		private static void fill(Enum<?>[] e, int len, String prefix) throws Exception {
+			String name;
 			for (int i = 0; i < len; i++) {
-				SELECTS_ALL[index] = prefix + e[i];
-				COLUMN_INDEX_MAPPER.put(e[i].name(), index);
+				name = prefix + e[i].name();
+				if (COLUMN_INDEX_MAPPER.containsKey(name)) {
+					Arrays.fill(SELECTS_ALL, null);
+					COLUMN_INDEX_MAPPER.clear();
+					throw new Exception("获取表列约束信息的sql查询列存在重复列");
+				}
+				COLUMN_INDEX_MAPPER.put(name, index);
+				SELECTS_ALL[index] = prefix + "." + e[i];
 				index++;
 			}
 		}
@@ -410,12 +398,42 @@ public final class DbInformationSchemaSql {
 			return selects;
 		}
 
-		public static void main(String[] args) {
-			String[] s = SqlTableColumnDetailSelectMapper.SELECTS_ALL;
-			System.out.println(Arrays.toString(s));
-			// System.out.println(SqlTableColumnDetailSelectMapper.getSelects());
-			System.out.println(COLUMN_INDEX_MAPPER);
+		public static int getIndex(Enum<?> e) {
+			String key = "";
+			if (e instanceof SC) {
+				key = SC.TABLE_ALIAS_PREFIX + e.name();
+			} else if (e instanceof SS) {
+				key = SS.TABLE_ALIAS_PREFIX + e.name();
+			} else {
+				key = STC.TABLE_ALIAS_PREFIX + e.name();
+			}
+			Integer index = COLUMN_INDEX_MAPPER.get(key);
+			return null == index ? 0 : index + 1;
 		}
+
+		public static int getIndexEGeneric(EGeneric e) {
+			String key = "";
+			if (e instanceof SC) {
+				SC sc = (SC) e;
+				key = SC.TABLE_ALIAS_PREFIX + sc.name();
+			} else if (e instanceof SS) {
+				SS ss = (SS) e;
+				key = SS.TABLE_ALIAS_PREFIX + ss.name();
+			} else {
+				STC stc = (STC) e;
+				key = STC.TABLE_ALIAS_PREFIX + stc.name();
+			}
+			Integer index = COLUMN_INDEX_MAPPER.get(key);
+			return null == index ? 0 : index + 1;
+		}
+
+//		public static void main(String[] args) {
+//			System.out.println(SqlTableColumnDetailSelectMapper.getSelects());
+//			System.out.println(COLUMN_INDEX_MAPPER);
+//			int index = getIndexEGeneric(SC.COLUMN_COMMENT);
+//			System.out.println(index);
+//		}
+
 	}
 
 }

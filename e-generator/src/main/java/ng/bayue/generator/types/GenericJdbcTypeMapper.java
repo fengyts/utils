@@ -7,6 +7,11 @@ import java.util.Map;
 
 import ng.bayue.generator.utils.StringUtils;
 
+/**
+ * jdbcType名称和java.sql.Types的映射器
+ * @author lenovopc
+ *
+ */
 public final class GenericJdbcTypeMapper {
 
 	private static final Map<Integer, String> typeToName = new HashMap<Integer, String>();

@@ -1,6 +1,6 @@
 package ng.bayue.generator.types;
 
-public final class MysqlJdbcType {
+public final class MySqlJdbcType {
 
 	// public static final String Int = Types.INTEGER;
 	// public static final String i = org.apache.ibatis.type.JdbcType.ARRAY;

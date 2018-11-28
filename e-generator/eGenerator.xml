@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!--数据库驱动 -->
+	<classPathEntry
+		location="D:\develop\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar" />
+		<!-- jdbc连接 --> 
+	<context id="mysql" targetRuntime="MyBatis3">
+		<!-- 生成的Java文件的编码 -->
+    	<property name="javaFileEncoding" value="UTF-8"/>
+		<!-- 格式化java代码 -->
+		<property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+	    <!-- 格式化XML代码 -->
+	    <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+	    <!-- 添加注释 -->
+		<!-- <commentGenerator type="custom.MyCommentGenerator">
+			<property name="suppressDate" value="true" />
+			是否添加注释，false：添加,默认值，true：不添加
+			<property name="suppressAllComments" value="false" />
+			<property name="defaultComments" value="true" />
+		</commentGenerator> -->
+		
+		<commentGenerator type="org.mybatis.generator.internal.DefaultCommentGenerator">
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="false" />
+		</commentGenerator> 
+		
+		
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://47.94.199.26:3306/checc?useSSL=false" 
+			userId="chadmin" 
+			password="8-#xgC%p(t85X">
+		</jdbcConnection>
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		
+		<!-- 生成实体类 -->
+		<!-- targetProject指定项目名称 -->
+		<javaModelGenerator targetPackage="ng.bayue.checc.domain"
+			targetProject="e-generator">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!--生成映射文件-->
+		<!-- targetProject指定项目名称 -->
+		<sqlMapGenerator targetPackage="ng.bayue.checc.mybatis.sqlmap"
+			targetProject="e-generator">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!--生成dao-->
+		<!-- targetProject指定项目名称 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="ng.bayue.checc.mybatis.mapper" targetProject="e-generator">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<!-- <table tableName="area" domainObjectName="Area"
+			enableCountByExample="true" 
+			enableUpdateByExample="true"
+			enableDeleteByExample="true" 
+			enableSelectByExample="true"
+			selectByExampleQueryId="true">
+		</table> -->
+		<table tableName="test_key" domainObjectName="TestKey">
+<!-- 			<generatedKey column="id" sqlStatement="Mysql" identity="true" /> -->
+		</table>
+<!-- 		<table tableName="enterprise_discount" domainObjectName="EnterpriseDiscount"> -->
+<!-- 			<generatedKey column="id" sqlStatement="Mysql" identity="true" /> -->
+<!-- 		</table> -->
+	</context>
+</generatorConfiguration>

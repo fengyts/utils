@@ -6,8 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.mybatis.generator.ant.GeneratorAntTask;
+import org.mybatis.generator.api.IntrospectedColumn;
+import org.mybatis.generator.api.JavaTypeResolver;
+import org.mybatis.generator.api.ShellRunner;
+import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl;
+
 import ng.bayue.generator.constants.DbInformationSchemaSql;
 import ng.bayue.generator.generator.ConstraintsHandler;
+import ng.bayue.generator.model.TableInfo;
 import ng.bayue.generator.model.info.TableConstraints;
 import ng.bayue.generator.utils.JdbcUtil;
 import ng.bayue.generator.utils.PropertiesConfigLoader;
@@ -18,6 +26,23 @@ public class Test {
 		String propFilePath = "src/test/metainfo.properties";
 		PropertiesConfigLoader config = new PropertiesConfigLoader();
 		config.loadPropertieFile(propFilePath);
+	}
+	
+	public static void testGenerator(){
+//		JavaTypeResolver resolver = new JavaTypeResolverDefaultImpl();
+//		IntrospectedColumn introspectedColumn = new IntrospectedColumn();
+//		introspectedColumn.setActualColumnName("test_pk_supplier");
+//		introspectedColumn.setJdbcTypeName("int");
+//		introspectedColumn.setJdbcType(4);
+//		String jdbcType = resolver.calculateJdbcTypeName(introspectedColumn);
+//		FullyQualifiedJavaType javaType = resolver.calculateJavaType(introspectedColumn);
+//		System.out.println(jdbcType);
+//		System.out.println(javaType.getFullyQualifiedName());
+		
+		ShellRunner r = new ShellRunner();
+		String[] args = {"-configfile", "eGenerator.xml"};
+		r.main(args);
+		
 	}
 
 	public static void testJdbcPool() {
@@ -90,8 +115,10 @@ public class Test {
 		final String dbSchema = "checc";
 		final String[] tableNames = new String[] { "test_key", "test_supplier" };
 		final boolean isAllTables = false;
-		List<TableConstraints> list = ConstraintsHandler.getConstraints(dbSchema, isAllTables, tableNames);
-		System.out.println(list.size());
+//		List<TableConstraints> list = ConstraintsHandler.getConstraints(dbSchema, isAllTables, tableNames);
+//		System.out.println(list.size());
+		List<TableInfo> infos =  ConstraintsHandler.getTableDetailInfo(dbSchema, isAllTables, tableNames);
+		System.out.println(infos.size());
 	}
 
 	public static void main(String[] args) {
@@ -99,9 +126,11 @@ public class Test {
 		// for (int i = 0; i < 5; i++) {
 		// testJdbcPool();
 		// }
-		testGetSql();
-		// testSqlExecute();
+//		testGetSql();
+//		 testSqlExecute();
 //		testKeyHandler();
+		testGenerator();
+		
 	}
 
 }

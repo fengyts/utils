@@ -1,6 +1,5 @@
 package ng.bayue.generator.jdbc.poolplugins;
 
-import org.apache.commons.pool2.PooledObject;
 
 /**
  * Provides the possible states that a {@link PooledObject} may be in.

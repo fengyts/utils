@@ -4,8 +4,11 @@ import java.sql.Connection;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.pool2.BasePooledObjectFactory;
-import org.apache.commons.pool2.PooledObject;
+import ng.bayue.generator.jdbc.poolplugins.BasePooledObjectFactory;
+import ng.bayue.generator.jdbc.poolplugins.PooledObject;
+
+//import org.apache.commons.pool2.BasePooledObjectFactory;
+//import org.apache.commons.pool2.PooledObject;
 
 
 public class JdbcConnectionFactory extends BasePooledObjectFactory<Connection> {

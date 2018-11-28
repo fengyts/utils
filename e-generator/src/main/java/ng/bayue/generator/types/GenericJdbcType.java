@@ -36,5 +36,7 @@ public final class GenericJdbcType {
 	public static final String TINYINT = "TINYINT";
 	public static final String VARBINARY = "VARBINARY";
 	public static final String VARCHAR = "VARCHAR";
+	
+	private GenericJdbcType(){}
 
 }

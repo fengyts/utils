@@ -2,8 +2,8 @@ package ng.bayue.generator.jdbc;
 
 public abstract class JdbcPoolConfig {
 
-	private static final int DEFAULT_POOL_SIZE = 3;
-	private static final int DEFAULT_MAX_IDLE = 3;
+	private static final int DEFAULT_POOL_SIZE = 8;
+	private static final int DEFAULT_MAX_IDLE = 8;
 	private static final int DEFAULT_MIN_IDLE = 0;
 
 	protected int poolSize = DEFAULT_POOL_SIZE;
