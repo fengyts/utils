@@ -65,11 +65,11 @@ public class GenericTypeHandler implements JdbcTypeResovle {
 	}
 
 	@Override
-	public String resovle(String jdbcType) {
-		if (StringUtils.isBlank(jdbcType)) {
+	public String resovle(String jdbcTypeName) {
+		if (StringUtils.isBlank(jdbcTypeName)) {
 			return JavaType.OBJECT;
 		}
-		final String jt = jdbcType.toUpperCase();
+		final String jt = jdbcTypeName.toUpperCase();
 		final int type = GenericJdbcTypeMapper.getJdbcType(jt);
 		final JdbcTypeInformation jdbcTypeInformation = typeMap.get(type);
 		return jdbcTypeInformation.getJavaType();
