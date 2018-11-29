@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import ng.bayue.generator.config.PropertiesConfigLoader;
 import ng.bayue.generator.jdbc.JdbcPool;
 
 public class JdbcUtil {

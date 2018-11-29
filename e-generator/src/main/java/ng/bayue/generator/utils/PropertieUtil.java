@@ -2,6 +2,8 @@ package ng.bayue.generator.utils;
 
 import java.util.Properties;
 
+import ng.bayue.generator.config.PropertiesConfigLoader;
+
 public class PropertieUtil {
 
 	private static Properties props = PropertiesConfigLoader.getProperties();

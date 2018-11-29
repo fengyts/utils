@@ -2,6 +2,8 @@ package ng.bayue.generator.model;
 
 import java.util.List;
 
+import ng.bayue.generator.config.Context;
+
 /**
  * 表详细信息
  * @author lenovopc
@@ -20,6 +22,8 @@ public class TableInfo {
 
 	/** 表约束信息 */
 	private ConstraintsInfo constraintsInfo;
+
+	private Context context;
 
 	public String getColumnStr() {
 		String res = ColumnsInfoExtract.extractTableColumnsName(columns);
@@ -56,6 +60,14 @@ public class TableInfo {
 
 	public void setConstraintsInfo(ConstraintsInfo constraintsInfo) {
 		this.constraintsInfo = constraintsInfo;
+	}
+
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
 	}
 
 }

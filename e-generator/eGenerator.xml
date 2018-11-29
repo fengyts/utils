@@ -39,21 +39,20 @@
 		
 		<!-- 生成实体类 -->
 		<!-- targetProject指定项目名称 -->
-		<javaModelGenerator targetPackage="ng.bayue.checc.domain"
-			targetProject="e-generator">
+<!-- 		<javaModelGenerator targetPackage="ng.bayue.checc.domain" targetProject="src\main\java"> -->
+		<javaModelGenerator targetPackage="ng.bayue.checc.domain" targetProject="E:\grepo\utils\e-generator">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 		<!--生成映射文件-->
 		<!-- targetProject指定项目名称 -->
-		<sqlMapGenerator targetPackage="ng.bayue.checc.mybatis.sqlmap"
-			targetProject="e-generator">
+		<sqlMapGenerator targetPackage="ng.bayue.checc.mybatis.sqlmap" targetProject="E:\grepo\utils\e-generator">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		<!--生成dao-->
 		<!-- targetProject指定项目名称 -->
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="ng.bayue.checc.mybatis.mapper" targetProject="e-generator">
+			targetPackage="ng.bayue.checc.mybatis.mapper" targetProject="E:\grepo\utils\e-generator">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		<!-- <table tableName="area" domainObjectName="Area"

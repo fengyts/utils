@@ -17,6 +17,7 @@ import org.mybatis.generator.api.ShellRunner;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl;
 
+import ng.bayue.generator.config.PropertiesConfigLoader;
 import ng.bayue.generator.constants.DbInformationSchemaSql;
 import ng.bayue.generator.generator.ConstraintsHandler;
 import ng.bayue.generator.model.TableInfo;
@@ -24,7 +25,6 @@ import ng.bayue.generator.model.info.TableConstraints;
 import ng.bayue.generator.types.GenericJdbcTypeMapper;
 import ng.bayue.generator.types.handler.GenericTypeHandler;
 import ng.bayue.generator.utils.JdbcUtil;
-import ng.bayue.generator.utils.PropertiesConfigLoader;
 
 public class Test {
 
@@ -242,14 +242,14 @@ public class Test {
 
 	public static void main(String[] args) {
 		initConfig();
-		testJdbcPool();
+//		testJdbcPool();
 		// for (int i = 0; i < 5; i++) {
 		// testJdbcPool();
 		// }
 		// testGetSql();
 		// testSqlExecute();
 		// testKeyHandler();
-		// testGenerator();
+		 testGenerator();
 
 	}
 

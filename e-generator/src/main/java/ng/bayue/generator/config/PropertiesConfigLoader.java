@@ -1,4 +1,4 @@
-package ng.bayue.generator.utils;
+package ng.bayue.generator.config;
 
 import java.io.FileInputStream;
 import java.io.IOException;
