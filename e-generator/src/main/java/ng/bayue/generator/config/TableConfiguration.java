@@ -4,11 +4,52 @@ public class TableConfiguration extends AbstractConfiguration {
 
 	private String tableName;
 
-	private boolean isGeneratedUnique = true;
+	private boolean uniqueEnable = DEFAULT_ENABLE;
 
 	private boolean isAbstractInterface;
 
-	private boolean isGeneratedPage;
-	
+	private boolean pageQueryEnable;
+
+	private boolean batchEnable;
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+
+	public boolean isUniqueEnable() {
+		return uniqueEnable;
+	}
+
+	public void setUniqueEnable(boolean uniqueEnable) {
+		this.uniqueEnable = uniqueEnable;
+	}
+
+	public boolean isAbstractInterface() {
+		return isAbstractInterface;
+	}
+
+	public void setAbstractInterface(boolean isAbstractInterface) {
+		this.isAbstractInterface = isAbstractInterface;
+	}
+
+	public boolean isPageQueryEnable() {
+		return pageQueryEnable;
+	}
+
+	public void setPageQueryEnable(boolean pageQueryEnable) {
+		this.pageQueryEnable = pageQueryEnable;
+	}
+
+	public boolean isBatchEnable() {
+		return batchEnable;
+	}
+
+	public void setBatchEnable(boolean batchEnable) {
+		this.batchEnable = batchEnable;
+	}
 
 }
