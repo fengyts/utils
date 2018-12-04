@@ -66,13 +66,14 @@ public class GenericTypeHandler implements JdbcTypeResovle {
 
 	@Override
 	public String resovle(String jdbcTypeName) {
-		if (StringUtils.isBlank(jdbcTypeName)) {
-			return JavaType.OBJECT;
-		}
-		final String jt = jdbcTypeName.toUpperCase();
-		final int type = GenericJdbcTypeMapper.getJdbcType(jt);
-		final JdbcTypeInformation jdbcTypeInformation = typeMap.get(type);
-		return jdbcTypeInformation.getJavaType();
+//		if (StringUtils.isBlank(jdbcTypeName)) {
+//			return JavaType.OBJECT;
+//		}
+//		final String jt = jdbcTypeName.toUpperCase();
+//		final int type = GenericJdbcTypeMapper.getJdbcType(jt);
+//		final JdbcTypeInformation jdbcTypeInformation = typeMap.get(type);
+//		return jdbcTypeInformation.getJavaType();
+		return null;
 	}
 
 	public static class JdbcTypeInformation {
@@ -93,10 +94,5 @@ public class GenericTypeHandler implements JdbcTypeResovle {
 		}
 	}
 	
-	public static void main(String[] args) {
-		GenericTypeHandler handler = new GenericTypeHandler();
-		String str = handler.resovle("int");
-		System.out.println(str);
-	}
 
 }

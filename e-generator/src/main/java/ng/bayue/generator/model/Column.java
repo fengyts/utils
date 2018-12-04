@@ -12,7 +12,7 @@ public class Column {
 	/** 数据库类型 */
 	private String jdbcType;
 	/** java实例类型 */
-	private String javaType;
+	private String javaPropertyType;
 	/** java实例属性-列名驼峰形式 */
 	private String javaPropertyName;
 	/** 类型处理器 */
@@ -39,12 +39,12 @@ public class Column {
 		this.jdbcType = jdbcType;
 	}
 
-	public String getJavaType() {
-		return javaType;
+	public String getJavaPropertyType() {
+		return javaPropertyType;
 	}
 
-	public void setJavaType(String javaType) {
-		this.javaType = javaType;
+	public void setJavaPropertyType(String javaPropertyType) {
+		this.javaPropertyType = javaPropertyType;
 	}
 
 	public String getJavaPropertyName() {

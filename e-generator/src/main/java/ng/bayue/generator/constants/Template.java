@@ -12,7 +12,7 @@ public final class Template {
 	public static final String GENERIC_PAGE = "generic_page.ftl";
 	public static final String GENERIC_DAO_EXCEPTION = "generic_dao_exception.ftl";
 	public static final String GENERIC_SERVICE_EXCEPTION = "generic_service_exception.ftl";
-	public static final String GENERIC_SERVICE = "generice_service.ftl";
+	public static final String GENERIC_SERVICE = "generic_service.ftl";
 
 	public static final String MB_CONSTANT = "mb_constant.ftl";
 	public static final String MB_DAO = "mb_dao.ftl";
@@ -21,6 +21,16 @@ public final class Template {
 	public static final String MB_SERVICE_IMPL = "mb_service_impl.ftl";
 	public static final String MB_SQLMAP = "mb_sqlmap.ftl";
 
+	public static final String MB_DAO_UNIQUE = "mb_dao_unique.ftl";
+	public static final String MB_DAO_UNIQUE_IMPL = "mb_dao_unique_impl.ftl";
+	public static final String MB_SERVICE_UNIQUE = "mb_service_unique.ftl";
+	public static final String MB_SERVICE_UNIQUE_IMPL = "mb_service_unique_impl.ftl";
+	
+	public static final String MB_DAO_BATCH = "mb_dao_batch.ftl";
+	public static final String MB_DAO_BATCH_IMPL = "mb_dao_batch_impl.ftl";
+	public static final String MB_SERVICE_BATCH = "mb_service_batch.ftl";
+	public static final String MB_SERVICE_BATCH_IMPL = "mb_service_batch_impl.ftl";
+	
 	public static final String MB_SQLMAP_CONFIG = "mb_sqlmap_config.ftl";
 
 	private Template() {
