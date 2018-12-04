@@ -23,7 +23,7 @@ public class TableInfo {
 	/** 表约束信息 */
 	private ConstraintsInfo constraintsInfo;
 
-	private Context context;
+//	private Context context;
 
 	public String getColumnStr() {
 		String res = ColumnsInfoExtract.extractTableColumnsName(columns);
@@ -62,12 +62,12 @@ public class TableInfo {
 		this.constraintsInfo = constraintsInfo;
 	}
 
-	public Context getContext() {
-		return context;
-	}
-
-	public void setContext(Context context) {
-		this.context = context;
-	}
+//	public Context getContext() {
+//		return context;
+//	}
+//
+//	public void setContext(Context context) {
+//		this.context = context;
+//	}
 
 }

@@ -16,10 +16,10 @@ public class GenericTypeHandler implements JdbcTypeResovle {
 	public GenericTypeHandler() {
 		genericTypeMap();
 	}
-	
-//	static {
-//		genericTypeMap();
-//	}
+
+	// static {
+	// genericTypeMap();
+	// }
 
 	private static void genericTypeMap() {
 		typeMap = new HashMap<Integer, JdbcTypeInformation>();
@@ -65,15 +65,18 @@ public class GenericTypeHandler implements JdbcTypeResovle {
 	}
 
 	@Override
+	public String getJavaTypeName(String jdbcTypeName) {
+		if (StringUtils.isBlank(jdbcTypeName)) {
+			return JavaType.OBJECT;
+		}
+		final String jt = jdbcTypeName.toUpperCase();
+		final int type = GenericJdbcTypeMapper.getJdbcType(jt);
+		final JdbcTypeInformation jdbcTypeInformation = typeMap.get(type);
+		return jdbcTypeInformation.getJavaType();
+	}
+
 	public String resovle(String jdbcTypeName) {
-//		if (StringUtils.isBlank(jdbcTypeName)) {
-//			return JavaType.OBJECT;
-//		}
-//		final String jt = jdbcTypeName.toUpperCase();
-//		final int type = GenericJdbcTypeMapper.getJdbcType(jt);
-//		final JdbcTypeInformation jdbcTypeInformation = typeMap.get(type);
-//		return jdbcTypeInformation.getJavaType();
-		return null;
+		return getJavaTypeName(jdbcTypeName);
 	}
 
 	public static class JdbcTypeInformation {
@@ -93,6 +96,5 @@ public class GenericTypeHandler implements JdbcTypeResovle {
 			return javaType;
 		}
 	}
-	
 
 }

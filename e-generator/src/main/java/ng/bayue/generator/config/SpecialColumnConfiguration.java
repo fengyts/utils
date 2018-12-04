@@ -8,6 +8,27 @@ public class SpecialColumnConfiguration extends AbstractConfiguration {
 	// private int columnLength;
 	// private String javaPropertyType;
 
-	private boolean tinyintToBooleanEnable = DEFAULT_ENABLE;
+	private int columnLength;
 
+	private boolean tinyintToBooleanEnable;
+
+	public boolean isTinyintToBooleanEnable() {
+		return tinyintToBooleanEnable;
+	}
+
+	public void setTinyintToBooleanEnable(Boolean tinyintToBooleanEnable) {
+		if(null == tinyintToBooleanEnable){
+			tinyintToBooleanEnable = columnLength <= 1;
+		}
+		this.tinyintToBooleanEnable = tinyintToBooleanEnable;
+	}
+
+	public int getColumnLength() {
+		return columnLength;
+	}
+
+	public void setColumnLength(int columnLength) {
+		this.columnLength = columnLength;
+	}
+	
 }

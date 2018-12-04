@@ -6,11 +6,21 @@ public class TableConfiguration extends AbstractConfiguration {
 
 	private boolean uniqueEnable = DEFAULT_ENABLE;
 
-	private boolean isAbstractInterface;
+	private boolean isAbstractInterface = DEFAULT_ENABLE;
 
-	private boolean pageQueryEnable;
+	private boolean pageQueryEnable = DEFAULT_ENABLE;
 
-	private boolean batchEnable;
+	private boolean batchEnable = DEFAULT_ENABLE;
+
+	private SpecialColumnConfiguration specialColumnConfiguration;
+
+	public SpecialColumnConfiguration getSpecialColumnConfiguration() {
+		return specialColumnConfiguration;
+	}
+
+	public void setSpecialColumnConfiguration(SpecialColumnConfiguration specialColumnConfiguration) {
+		this.specialColumnConfiguration = specialColumnConfiguration;
+	}
 
 	public String getTableName() {
 		return tableName;

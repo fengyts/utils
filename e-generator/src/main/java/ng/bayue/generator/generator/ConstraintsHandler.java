@@ -22,7 +22,8 @@ import ng.bayue.generator.model.TableInfo;
 import ng.bayue.generator.model.info.TableConstraints;
 import ng.bayue.generator.utils.JdbcUtil;
 
-@SuppressWarnings("deprecation")
+@Deprecated
+@SuppressWarnings({"deprecation", "unused"})
 public class ConstraintsHandler {
 
 	private static boolean isPK(String constraintsType) {
@@ -183,7 +184,7 @@ public class ConstraintsHandler {
 		column.setColumnName(columnName);
 		column.setComment(columnComment);
 		column.setDefaultValue(columnDefault);
-		column.setJdbcType(dataType);
+		column.setJdbcTypeName(dataType);
 
 		columns.add(column);
 	}

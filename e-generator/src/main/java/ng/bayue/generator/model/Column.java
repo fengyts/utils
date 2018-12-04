@@ -10,13 +10,13 @@ public class Column {
 	/** 列名 */
 	private String columnName;
 	/** 数据库类型 */
-	private String jdbcType;
+	private String jdbcTypeName;
 	/** java实例类型 */
 	private String javaPropertyType;
 	/** java实例属性-列名驼峰形式 */
 	private String javaPropertyName;
-	/** 类型处理器 */
-	private String typeHandler;
+	// /** 类型处理器 */
+	// private String typeHandler;
 	/** 列注释 */
 	private String comment;
 
@@ -31,12 +31,12 @@ public class Column {
 		this.columnName = columnName;
 	}
 
-	public String getJdbcType() {
-		return jdbcType;
+	public String getJdbcTypeName() {
+		return jdbcTypeName;
 	}
 
-	public void setJdbcType(String jdbcType) {
-		this.jdbcType = jdbcType;
+	public void setJdbcTypeName(String jdbcTypeName) {
+		this.jdbcTypeName = jdbcTypeName;
 	}
 
 	public String getJavaPropertyType() {
@@ -53,14 +53,6 @@ public class Column {
 
 	public void setJavaPropertyName(String javaPropertyName) {
 		this.javaPropertyName = javaPropertyName;
-	}
-
-	public String getTypeHandler() {
-		return typeHandler;
-	}
-
-	public void setTypeHandler(String typeHandler) {
-		this.typeHandler = typeHandler;
 	}
 
 	public String getComment() {

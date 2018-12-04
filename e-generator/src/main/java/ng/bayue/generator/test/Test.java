@@ -242,14 +242,14 @@ public class Test {
 
 	public static void main(String[] args) {
 		initConfig();
-//		testJdbcPool();
+		testJdbcPool();
 		// for (int i = 0; i < 5; i++) {
 		// testJdbcPool();
 		// }
 		// testGetSql();
 		// testSqlExecute();
 		// testKeyHandler();
-		 testGenerator();
+//		 testGenerator();
 
 	}
 
