@@ -11,17 +11,14 @@ public class Column {
 	private String columnName;
 	/** 数据库类型 */
 	private String jdbcTypeName;
-	/** java实例类型 */
+	/** java属性类型 */
 	private String javaPropertyType;
 	/** java实例属性-列名驼峰形式 */
 	private String javaPropertyName;
-	// /** 类型处理器 */
-	// private String typeHandler;
-	/** 列注释 */
-	private String comment;
-
 	/** 列默认值 */
 	private Object defaultValue;
+	/** 列注释 */
+	private String comment;
 
 	public String getColumnName() {
 		return columnName;

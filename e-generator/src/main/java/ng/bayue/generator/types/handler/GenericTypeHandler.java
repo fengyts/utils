@@ -64,7 +64,6 @@ public class GenericTypeHandler implements JdbcTypeResovle {
 
 	}
 
-	@Override
 	public String getJavaTypeName(String jdbcTypeName) {
 		if (StringUtils.isBlank(jdbcTypeName)) {
 			return JavaType.OBJECT;
@@ -74,7 +73,8 @@ public class GenericTypeHandler implements JdbcTypeResovle {
 		final JdbcTypeInformation jdbcTypeInformation = typeMap.get(type);
 		return jdbcTypeInformation.getJavaType();
 	}
-
+	
+	@Override
 	public String resovle(String jdbcTypeName) {
 		return getJavaTypeName(jdbcTypeName);
 	}

@@ -1,6 +1,10 @@
 package ng.bayue.generator.model;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import ng.bayue.generator.utils.StringUtils;
 
 /**
  * 表约束信息
@@ -10,16 +14,43 @@ import java.util.List;
 public class ConstraintsInfo {
 
 	/** 主键约束信息 */
-	private PrimaryKeyInfo pkInfo;
+	private PrimaryKeyInfo pkInfo = new PrimaryKeyInfo();
 
 	/** 唯一键约束信息  */
-	private List<UniqueKeyInfo> ukInfos;
+	// private List<UniqueKeyInfo> ukInfos;
+	private Map<String, UniqueKeyInfo> ukInfosMap;
 
 	/**
 	 * 其他约束信息, 预留
 	 * @return
 	 */
 	private List<? extends AbstractConstraints> others;
+
+	public void addPrimaryKeyColumn(Column... columns) {
+		if (null == pkInfo) {
+			pkInfo = new PrimaryKeyInfo();
+		}
+		pkInfo.addColumn(columns);
+	}
+
+	public void addUniqueInfo(String uniqueIndexName, Column column) {
+		if (StringUtils.isBlank(uniqueIndexName) || null == column) {
+			throw new NullPointerException();
+		}
+		if (null == ukInfosMap) {
+			ukInfosMap = new LinkedHashMap<String, UniqueKeyInfo>();
+		}
+		UniqueKeyInfo ukInfo = ukInfosMap.get(uniqueIndexName);
+		if (null == ukInfo) {
+			ukInfo = new UniqueKeyInfo();
+		}
+		ukInfo.setConstraintName(uniqueIndexName);
+		ukInfo.addColumn(column);
+		ukInfosMap.put(uniqueIndexName, ukInfo);
+	}
+
+	// ======================
+	// methods setter and getter
 
 	public PrimaryKeyInfo getPkInfo() {
 		return pkInfo;
@@ -29,12 +60,12 @@ public class ConstraintsInfo {
 		this.pkInfo = pkInfo;
 	}
 
-	public List<UniqueKeyInfo> getUkInfos() {
-		return ukInfos;
+	public Map<String, UniqueKeyInfo> getUkInfosMap() {
+		return ukInfosMap;
 	}
 
-	public void setUkInfos(List<UniqueKeyInfo> ukInfos) {
-		this.ukInfos = ukInfos;
+	public void setUkInfosMap(Map<String, UniqueKeyInfo> ukInfosMap) {
+		this.ukInfosMap = ukInfosMap;
 	}
 
 	public List<? extends AbstractConstraints> getOthers() {

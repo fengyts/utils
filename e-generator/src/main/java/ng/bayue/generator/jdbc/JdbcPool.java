@@ -36,10 +36,27 @@ public class JdbcPool implements DataSource {
 			final String url = config.getDbUrl();
 			final String user = config.getUsername();
 			final String password = config.getPassword();
+
+			final Properties connProp = new Properties();
+			connProp.setProperty("user", user);
+			connProp.setProperty("password", password);
+			// 设置可以获取表注释,不设置将获取不到表的注释
+			// connProp.setProperty("remarks", "true");
+			
+			// Connector/J 5.0.0以后的版本有一个名为useInformationSchema的数据库连接参数,
+			// 在默认连接参数情况下,useInformationSchema=false,导致Connection.getMetaData()方法返回的DatabaseMetaData
+			// 对象是com.mysql.jdbc.DatabaseMetaData,而不是com.mysql.jdbc。DatabaseMetaDataUsingInfoSchema,
+			// DatabaseMetaDataUsingInfoSchema是DatabaseMetaData是的子类,看名称就能联想到是通过
+			// INFORMATION_SCHEMA 数据库获取数据库的metadata,可以正确返回table_comment字段。
+			// 设置可以获取表注释,不设置将获取不到表的注释
+			connProp.setProperty("useInformationSchema", "true");
+
 			Class.forName(driver);
 			final int poolSize = config.poolSize;
 			for (int i = 0; i < poolSize; i++) {
-				final Connection conn = DriverManager.getConnection(url, user, password);
+				// final Connection conn = DriverManager.getConnection(url,
+				// user, password);
+				final Connection conn = DriverManager.getConnection(url, connProp);
 				// System.out.println("创建了连接：" + conn);
 				pool.add(conn);
 			}

@@ -1,16 +1,16 @@
 package ng.bayue.generator.config;
 
-public class TableConfiguration extends AbstractConfiguration {
+public class TableConfiguration extends GlobalConfiguration {
 
 	private String tableName;
 
-	private boolean uniqueEnable = DEFAULT_ENABLE;
+	private String tableNamePrefix;
 
-	private boolean isAbstractInterface = DEFAULT_ENABLE;
-
-	private boolean pageQueryEnable = DEFAULT_ENABLE;
-
-	private boolean batchEnable = DEFAULT_ENABLE;
+	// private boolean uniqueEnable;
+	// private boolean isAbstractInterface;
+	// private boolean pageQueryEnable;
+	// private boolean batchEnable;
+	// private boolean extendSqlMapEnable;
 
 	private SpecialColumnConfiguration specialColumnConfiguration;
 
@@ -28,6 +28,14 @@ public class TableConfiguration extends AbstractConfiguration {
 
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
+	}
+
+	public String getTableNamePrefix() {
+		return tableNamePrefix;
+	}
+
+	public void setTableNamePrefix(String tableNamePrefix) {
+		this.tableNamePrefix = tableNamePrefix;
 	}
 
 	public boolean isUniqueEnable() {
@@ -60,6 +68,14 @@ public class TableConfiguration extends AbstractConfiguration {
 
 	public void setBatchEnable(boolean batchEnable) {
 		this.batchEnable = batchEnable;
+	}
+
+	public boolean isExtendSqlMapEnable() {
+		return extendSqlMapEnable;
+	}
+
+	public void setExtendSqlMapEnable(boolean extendSqlMapEnable) {
+		this.extendSqlMapEnable = extendSqlMapEnable;
 	}
 
 }

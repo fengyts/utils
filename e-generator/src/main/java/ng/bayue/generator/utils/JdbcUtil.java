@@ -16,14 +16,41 @@ public class JdbcUtil {
 		return pool.getConnection();
 	}
 
-	public static void close(Connection conn, PreparedStatement pstat, ResultSet rs) throws SQLException {
+	public static void closeResultSet(ResultSet rs) {
 		if (null != rs)
-			rs.close();
-		if (null != pstat) {
-			pstat.close();
-		}
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	}
+
+	public static void closePrepareStatement(PreparedStatement pstat) {
+		if (null != pstat)
+			try {
+				pstat.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	}
+
+	public static void closeConnection(Connection conn) {
 		if (null != conn)
-			conn.close();
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	}
+
+	public static void close(Connection conn, PreparedStatement pstat, ResultSet rs) {
+		try {
+			closeResultSet(rs);
+			closePrepareStatement(pstat);
+			closeConnection(conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

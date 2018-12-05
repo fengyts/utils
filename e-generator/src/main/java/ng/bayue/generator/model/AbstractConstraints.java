@@ -1,5 +1,7 @@
 package ng.bayue.generator.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -9,7 +11,7 @@ import java.util.List;
  */
 public abstract class AbstractConstraints {
 
-	protected String tableName;
+//	protected String tableName;
 	/** 约束名称 */
 	protected String constraintName;
 	/** 约束类型 */
@@ -17,16 +19,32 @@ public abstract class AbstractConstraints {
 	/** 键对应的列名 */
 	protected List<Column> columns;
 
-	/** 是否联合键 */
-	protected boolean isUnion;
-
-	public String getTableName() {
-		return tableName;
+	/** 是否联合键, true: 联合键；false: 单列键  */
+	protected boolean isUnion() {
+		if (columns == null) {
+			return false;
+		}
+		return columns.size() != 1;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
+	protected void addColumn(Column... column) {
+		if (columns == null) {
+			columns = new ArrayList<Column>();
+		}
+		columns.addAll(Arrays.asList(column));
 	}
+	
+
+	// ============================
+	// methods setter and getter
+
+//	public String getTableName() {
+//		return tableName;
+//	}
+//
+//	public void setTableName(String tableName) {
+//		this.tableName = tableName;
+//	}
 
 	public String getConstraintName() {
 		return constraintName;
@@ -52,12 +70,12 @@ public abstract class AbstractConstraints {
 		this.columns = columns;
 	}
 
-	public boolean isUnion() {
-		return isUnion;
-	}
-
-	public void setUnion(boolean isUnion) {
-		this.isUnion = isUnion;
-	}
+	// public boolean isUnion() {
+	// return isUnion;
+	// }
+	//
+	// public void setUnion(boolean isUnion) {
+	// this.isUnion = isUnion;
+	// }
 
 }

@@ -7,6 +7,6 @@ package ng.bayue.generator.types.handler;
  */
 public interface JdbcTypeResovle {
 
-	String getJavaTypeName(String jdbcTypeName);
+	String resovle(String jdbcTypeName);
 
 }

@@ -1,6 +1,6 @@
 package ng.bayue.generator.config;
 
-public class SpecialColumnConfiguration extends AbstractConfiguration {
+public class SpecialColumnConfiguration extends GlobalConfiguration {
 
 	// private String columnName;
 	// private String columnTypeName;

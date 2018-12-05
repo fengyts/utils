@@ -1,4 +1,4 @@
-package ng.bayue.generator.generator;
+package ng.bayue.generator.gen;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ng.bayue.generator.config.Context;
 import ng.bayue.generator.constants.ColumnConstraintType;
 import ng.bayue.generator.constants.DbInformationSchemaSql;
 import ng.bayue.generator.constants.DbInformationSchemaSql.SqlTableColumnDetailSelectMapper;
@@ -27,11 +28,11 @@ import ng.bayue.generator.utils.JdbcUtil;
 public class ConstraintsHandler {
 
 	private static boolean isPK(String constraintsType) {
-		return ColumnConstraintType.PRIMAY_KEY.typeName.equalsIgnoreCase(constraintsType);
+		return ColumnConstraintType.PRIMAY_KEY.constraintType.equalsIgnoreCase(constraintsType);
 	}
 
 	private static boolean isUK(String constraintsType) {
-		return ColumnConstraintType.UNIQUE.typeName.equalsIgnoreCase(constraintsType);
+		return ColumnConstraintType.UNIQUE.constraintType.equalsIgnoreCase(constraintsType);
 	}
 
 	/**
@@ -155,7 +156,7 @@ public class ConstraintsHandler {
 					// 保存上一张表信息
 					tableInfos.add(table);
 					// 初始化新表
-					table = new TableInfo();
+					table = new TableInfo(new Context());
 					columns = new ArrayList<Column>();
 					constraintsInfo = new ConstraintsInfo();
 
