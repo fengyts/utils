@@ -5,9 +5,12 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import ng.bayue.generator.config.Context;
 import ng.bayue.generator.config.TableConfiguration;
@@ -47,11 +50,9 @@ public class TableInfoHandler {
 			param.setColumnNamePattern("%");
 
 			List<TableInfo> results = getTableInfo(metaData, param);
-			for (TableInfo ti : results) {
-				param.setTableNamePattern(ti.getTableName());
-				getColumns(metaData, param, ti);
-				getConstraintInfo(metaData, param, ti);
-			}
+			executeOrigain(results, metaData, param);
+			// execute(results, metaData, param);
+			// executeTask(results, metaData, param);
 
 			JdbcUtil.closeConnection(conn);
 			return results;
@@ -61,34 +62,129 @@ public class TableInfoHandler {
 		return null;
 	}
 
-	private void execu(List<TableInfo> tis) {
-		int seq = 5;
-		int len = tis.size();
-		int k = len / 5;
-		int s = len % 5;
-		for (int i = 0; i < len; i++) {
-			
+	private void executeOrigain(final List<TableInfo> tis, final DatabaseMetaData metaData, final Param paramO)
+			throws SQLException {
+		for (TableInfo ti : tis) {
+			paramO.setTableNamePattern(ti.getTableName());
+			getColumns(metaData, paramO, ti);
+			getConstraintInfo(metaData, paramO, ti);
 		}
-		HandleThreadPool.getFixedPool().execute(new Runnable() {
-			@Override
-			public void run() {
-			}
-		});
 	}
-	
-	private static class HandleThreadPool {
-		private static volatile ExecutorService fixedPool;
 
-		public static ExecutorService getFixedPool() {
-			if (fixedPool == null) {
-				synchronized (HandleThreadPool.class) {
-					if (fixedPool == null) {
-						fixedPool = Executors.newFixedThreadPool(5);
+	private void executeTask(final List<TableInfo> tis, final DatabaseMetaData metaDataO, final Param paramO)
+			throws Exception {
+		if (null == tis || tis.size() == 0) {
+			throw new NullPointerException("表不存在");
+		}
+		int perThreadHandleSize = HandleThreadPool.SIZE;
+		int totalDataSize = tis.size();
+
+		int threadNum = totalDataSize / perThreadHandleSize;
+		if (totalDataSize % perThreadHandleSize != 0) {
+			threadNum += 1;
+		}
+
+		// 任务集合
+		List<Callable<List<TableInfo>>> tasks = new ArrayList<Callable<List<TableInfo>>>();
+		Callable<List<TableInfo>> task;
+		List<TableInfo> perList;
+
+		// 分割数据
+		for (int i = 0; i < threadNum; i++) {
+			if (i == threadNum - 1) {
+				perList = tis.subList(perThreadHandleSize * i, totalDataSize);
+			} else {
+				perList = tis.subList(perThreadHandleSize * i, perThreadHandleSize * (i + 1));
+			}
+			final List<TableInfo> perListTask = perList;
+			task = new Callable<List<TableInfo>>() {
+				private Connection conn = JdbcUtil.getConnection();
+
+				@Override
+				public List<TableInfo> call() throws Exception {
+					final int size = perListTask.size();
+					TableInfo ti;
+					Param param;
+					DatabaseMetaData metaData = conn.getMetaData();
+					for (int i = 0; i < size; i++) {
+						ti = perListTask.get(i);
+						param = new Param();
+						param.setTableNamePattern(ti.getTableName());
+						param.setCatalog(paramO.getCatalog());
+						param.setSchemaPattern(paramO.getSchemaPattern());
+						param.setColumnNamePattern("%");
+
+						getColumns(metaData, param, ti);
+						getConstraintInfo(metaData, param, ti);
+					}
+					JdbcUtil.closeConnection(conn);
+					return null;
+				}
+			};
+			tasks.add(task);
+		}
+
+		ExecutorService executor = HandleThreadPool.getFixedThreadPool();
+		List<Future<List<TableInfo>>> invokeAll = executor.invokeAll(tasks);
+
+		// List<TableInfo> results = new ArrayList<TableInfo>();
+		// for (Future<List<TableInfo>> f : invokeAll) {
+		// results.addAll(f.get());
+		// }
+
+		executor.shutdown();
+	}
+
+	private void execute(final List<TableInfo> tis, final DatabaseMetaData metaData, final Param paramO) {
+		if (null == tis || tis.size() == 0) {
+			throw new NullPointerException("表不存在");
+		}
+		final int lenSrc = tis.size();
+		int stepLen = HandleThreadPool.SIZE;
+		int taskNum = lenSrc / stepLen;
+		int surplus = lenSrc % stepLen;
+		if (0 == taskNum) {
+			taskNum = 1;
+		}
+		if (lenSrc <= stepLen) {
+			stepLen = lenSrc;
+			surplus = 0;
+		}
+		int tempStart = 0, tempEnd = stepLen;
+		ExecutorService executor = HandleThreadPool.getFixedThreadPool();
+		for (int i = 1; i <= taskNum; i++) {
+			tempStart = (i - 1) * stepLen;
+			tempEnd = i * stepLen;
+			if (i == taskNum) {
+				tempEnd += surplus;
+			}
+			final int indexStart = tempStart;
+			final int indexEnd = tempEnd;
+
+			executor.execute(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						TableInfo ti;
+						Param param;
+						for (int i = indexStart; i < indexEnd; i++) {
+							ti = tis.get(i);
+							param = new Param();
+							param.setTableNamePattern(ti.getTableName());
+							param.setCatalog(paramO.getCatalog());
+							param.setSchemaPattern(paramO.getSchemaPattern());
+							param.setColumnNamePattern("%");
+
+							getColumns(metaData, param, ti);
+							getConstraintInfo(metaData, param, ti);
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
 					}
 				}
-			}
-			return fixedPool;
+			});
 		}
+		executor.shutdown();
 	}
 
 	private List<TableInfo> getTableInfo(DatabaseMetaData metaData, Param param) throws SQLException {
@@ -112,13 +208,12 @@ public class TableInfoHandler {
 		if (null == tableInfo || null == param || null == metaData) {
 			throw new NullPointerException();
 		}
-		List<Column> columns = new ArrayList<Column>();
-		// DatabaseMetaData metaData = conn.getMetaData();
 		ResultSet rs = metaData.getColumns(param.getCatalog(), param.getSchemaPattern(), param.getTableNamePattern(),
 				param.getColumnNamePattern());
 
-		GenericTypeHandler handler = new GenericTypeHandler();
+		List<Column> columns = new ArrayList<Column>();
 		Column column;
+		GenericTypeHandler handler = new GenericTypeHandler();
 		while (rs.next()) {
 			column = new Column();
 			int jdbcType = rs.getInt("DATA_TYPE");
@@ -142,8 +237,6 @@ public class TableInfoHandler {
 			column.setJavaPropertyType(javaTypeName);
 			column.setJavaPropertyName(StringUtils.toHumpFormat(columnName));
 
-			// System.out.println(tableName + "——" + columnName);
-
 			columns.add(column);
 		}
 		tableInfo.setColumns(columns);
@@ -159,10 +252,10 @@ public class TableInfoHandler {
 		}
 	}
 
-	private void getPKInfo(DatabaseMetaData metaData, Param param, TableInfo tableInfo) throws SQLException {
+	private TableInfo getPKInfo(DatabaseMetaData metaData, Param param, TableInfo tableInfo) throws SQLException {
+		TableInfo rti = tableInfo;
 		ResultSet primaryKeys = metaData.getPrimaryKeys(param.getCatalog(), param.getSchemaPattern(),
 				param.getTableNamePattern());
-		// ResultSetMetaData pkMeta = primaryKeys.getMetaData();
 		List<Column> columns = new ArrayList<Column>();
 		Column column;
 		while (primaryKeys.next()) {
@@ -173,7 +266,9 @@ public class TableInfoHandler {
 			columns.add(column);
 		}
 		tableInfo.addPrimaryKeyConstraints(columns.toArray(new Column[0]));
+		rti.addPrimaryKeyConstraints(columns.toArray(new Column[0]));
 		closeResultSet(primaryKeys);
+		return rti;
 	}
 
 	private void getUniqueInfo(DatabaseMetaData metaData, Param param, boolean isOnlyUnique, TableInfo tableInfo)
@@ -198,6 +293,22 @@ public class TableInfoHandler {
 		try {
 			JdbcUtil.closeResultSet(rs);
 		} catch (Exception e) {
+		}
+	}
+
+	private static class HandleThreadPool {
+		private static final int SIZE = 5;
+		private static volatile ExecutorService fixedThreadPool;
+
+		public static ExecutorService getFixedThreadPool() {
+			if (fixedThreadPool == null) {
+				synchronized (HandleThreadPool.class) {
+					if (fixedThreadPool == null) {
+						fixedThreadPool = Executors.newFixedThreadPool(SIZE);
+					}
+				}
+			}
+			return fixedThreadPool;
 		}
 	}
 

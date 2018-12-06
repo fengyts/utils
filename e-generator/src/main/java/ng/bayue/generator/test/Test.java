@@ -23,6 +23,7 @@ import ng.bayue.generator.config.PropertiesConfigLoader;
 import ng.bayue.generator.constants.DbInformationSchemaSql;
 import ng.bayue.generator.gen.ConstraintsHandler;
 import ng.bayue.generator.gen.TableInfoHandler;
+import ng.bayue.generator.model.ConstraintsInfo;
 import ng.bayue.generator.model.TableInfo;
 import ng.bayue.generator.model.info.TableConstraints;
 import ng.bayue.generator.types.GenericJdbcTypeMapper;
@@ -49,18 +50,28 @@ public class Test {
 		// System.out.println(jdbcType);
 		// System.out.println(javaType.getFullyQualifiedName());
 
-//		ShellRunner r = new ShellRunner();
+		// ShellRunner r = new ShellRunner();
 		String[] args = { "-configfile", "eGenerator.xml" };
 		ShellRunner.main(args);
 	}
-	
-	public static void testEG(){
+
+	public static void testEG() {
 		Context context = new Context();
 		TableInfoHandler handler = new TableInfoHandler(context);
-//		String tableNamePattern = "test_key";
+		// String tableNamePattern = "test_key";
+		// String tableNamePattern = "exchange_order_status";
 		String tableNamePattern = null;
-		List<TableInfo> tableInfo = handler.introspectTable(tableNamePattern);
-		System.out.println(tableInfo.size());
+		List<TableInfo> tis = handler.introspectTable(tableNamePattern);
+		System.out.println(tis.size());
+		int count = 0;
+		for (TableInfo ti : tis) {
+			ConstraintsInfo constraintsInfo = ti.getConstraintsInfo();
+			if (null == constraintsInfo) {
+				count++;
+				System.out.println("null:" + ti.getTableName());
+			}
+		}
+		System.out.println(count);
 	}
 
 	public static void testJdbcPool() {
@@ -84,13 +95,13 @@ public class Test {
 
 			Connection conn = JdbcUtil.getConnection();
 
-//			DatabaseMetaData metaData = conn.getMetaData();
-//			String catalog = conn.getCatalog();
-//			Properties clientInfo = conn.getClientInfo();
-//			String schema = conn.getSchema();
-//			Map<String, Class<?>> typeMap = conn.getTypeMap();
-//
-//			String table = "test_key";
+			// DatabaseMetaData metaData = conn.getMetaData();
+			// String catalog = conn.getCatalog();
+			// Properties clientInfo = conn.getClientInfo();
+			// String schema = conn.getSchema();
+			// Map<String, Class<?>> typeMap = conn.getTypeMap();
+			//
+			// String table = "test_key";
 
 			// 参考博客
 			// https://www.cnblogs.com/lbangel/p/3487796.html
@@ -108,7 +119,7 @@ public class Test {
 	}
 
 	public static void testGetSql() {
-		String dbSchema = "checc";
+		String dbSchema = "testeg";
 		String tableName = "test_key";
 		String[] tableNames = { "test_key", "test_supplier" };
 		// String sql = getSqlTableConstrainsSingle(dbSchema, tableName, true);
@@ -129,7 +140,7 @@ public class Test {
 	public static void testSqlExecute() {
 		try {
 			Connection conn = JdbcUtil.getConnection();
-			final String dbSchema = "checc";
+			final String dbSchema = "testeg";
 			final String tableName = "test_key";
 			final String sql = DbInformationSchemaSql.getSqlTableConstrains(dbSchema, true, true, tableName,
 					"test_supplier");
@@ -150,7 +161,7 @@ public class Test {
 	}
 
 	public static void testKeyHandler() {
-		final String dbSchema = "checc";
+		final String dbSchema = "testeg";
 		final String[] tableNames = new String[] { "test_key", "test_supplier" };
 		final boolean isAllTables = false;
 		// List<TableConstraints> list =
@@ -162,7 +173,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		initConfig();
-//		testJdbcPool();
+		// testJdbcPool();
 		// for (int i = 0; i < 5; i++) {
 		// testJdbcPool();
 		// }
@@ -170,9 +181,8 @@ public class Test {
 		// testSqlExecute();
 		// testKeyHandler();
 		// testGenerator();
-		
-//		testEG();
-		
+
+		testEG();
 
 	}
 
