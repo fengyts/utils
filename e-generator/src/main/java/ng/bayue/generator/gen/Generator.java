@@ -4,6 +4,6 @@ import ng.bayue.generator.model.TableInfo;
 
 public interface Generator {
 	
-	void generate(TableInfo tableInfo);
+	<M> M generate(TableInfo tableInfo);
 
 }

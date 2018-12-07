@@ -1,6 +1,8 @@
 package ng.bayue.generator.utils;
 
 public final class StringUtils {
+	
+	public static final String WHITESPACE = " ";
 
 	/**
 	 * <pre>

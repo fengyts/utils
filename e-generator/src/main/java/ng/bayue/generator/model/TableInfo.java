@@ -12,7 +12,7 @@ import ng.bayue.generator.utils.StringUtils;
  * @author lenovopc
  *
  */
-public class TableInfo {
+public class TableInfo extends AbstractInfo {
 
 	/** 表名 */
 	private String tableName;
@@ -27,7 +27,6 @@ public class TableInfo {
 	private ConstraintsInfo constraintsInfo;
 	
 	private Context context;
-//	private TableConfiguration tableConfiguration;
 	
 	public TableInfo(Context context){
 		this.context = context;
@@ -95,10 +94,16 @@ public class TableInfo {
 		constraintsInfo.addUniqueInfo(uniqueIndexName, column);
 	}
 	
-	private void initTableInfo(){
-		if(constraintsInfo == null){
+	private void initTableInfo() {
+		if (constraintsInfo == null) {
 			constraintsInfo = new ConstraintsInfo();
 		}
+	}
+
+	@Override
+	protected String getHumpFormat() {
+		super.toHumpFormat(tableName);
+		return humpFormat;
 	}
 
 	// ===================================

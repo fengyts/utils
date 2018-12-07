@@ -1,34 +1,23 @@
 package ng.bayue.generator.test;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
-import org.mybatis.generator.ant.GeneratorAntTask;
-import org.mybatis.generator.api.IntrospectedColumn;
-import org.mybatis.generator.api.JavaTypeResolver;
 import org.mybatis.generator.api.ShellRunner;
-import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
-import org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl;
 
 import ng.bayue.generator.config.Context;
 import ng.bayue.generator.config.PropertiesConfigLoader;
 import ng.bayue.generator.constants.DbInformationSchemaSql;
 import ng.bayue.generator.gen.ConstraintsHandler;
 import ng.bayue.generator.gen.TableInfoHandler;
+import ng.bayue.generator.model.Column;
 import ng.bayue.generator.model.ConstraintsInfo;
 import ng.bayue.generator.model.TableInfo;
-import ng.bayue.generator.model.info.TableConstraints;
-import ng.bayue.generator.types.GenericJdbcTypeMapper;
-import ng.bayue.generator.types.handler.GenericTypeHandler;
 import ng.bayue.generator.utils.JdbcUtil;
+import ng.bayue.generator.utils.StringUtils;
 
 public class Test {
 
@@ -61,8 +50,10 @@ public class Test {
 		// String tableNamePattern = "test_key";
 		// String tableNamePattern = "exchange_order_status";
 		String tableNamePattern = null;
+		long timeStart = System.currentTimeMillis();
 		List<TableInfo> tis = handler.introspectTable(tableNamePattern);
-		System.out.println(tis.size());
+		long timeEnd = System.currentTimeMillis();
+		System.out.println("耗时：" + (timeEnd - timeStart) + "ms");
 		int count = 0;
 		for (TableInfo ti : tis) {
 			ConstraintsInfo constraintsInfo = ti.getConstraintsInfo();
@@ -70,7 +61,19 @@ public class Test {
 				count++;
 				System.out.println("null:" + ti.getTableName());
 			}
+			String tableName = ti.getTableName();
+			List<Column> columns = ti.getColumns();
+			for(Column c : columns){
+				if(null == c){
+					System.out.println("null column:" + tableName);
+				}else {
+					if(StringUtils.isBlank(c.getJavaPropertyType())){
+						System.out.println("null javaPropertyType:" + tableName + "-column:" + c.getColumnName());
+					}
+				}
+			}
 		}
+		System.out.println(tis.size());
 		System.out.println(count);
 	}
 
@@ -183,7 +186,7 @@ public class Test {
 		// testGenerator();
 
 		testEG();
-
+		
 	}
 
 }

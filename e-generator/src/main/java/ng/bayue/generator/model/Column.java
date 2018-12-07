@@ -5,7 +5,7 @@ package ng.bayue.generator.model;
  * @author lenovopc
  *
  */
-public class Column {
+public class Column extends AbstractInfo {
 
 	/** 列名 */
 	private String columnName;
@@ -20,12 +20,19 @@ public class Column {
 	/** 列注释 */
 	private String comment;
 
+	@Override
+	public String getHumpFormat() {
+		super.toHumpFormat(columnName);
+		return humpFormat;
+	}
+
 	public String getColumnName() {
 		return columnName;
 	}
 
 	public void setColumnName(String columnName) {
 		this.columnName = columnName;
+//		this.javaPropertyName = getHumpFormat();
 	}
 
 	public String getJdbcTypeName() {
