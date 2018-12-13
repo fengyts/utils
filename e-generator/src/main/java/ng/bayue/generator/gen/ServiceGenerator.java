@@ -2,9 +2,9 @@ package ng.bayue.generator.gen;
 
 import ng.bayue.generator.model.TableInfo;
 
-public class SqlMapperGenerator extends AbstractGenerator implements Generator {
+public class ServiceGenerator extends AbstractGenerator implements Generator {
 
-	public SqlMapperGenerator(TableInfo tableInfo) {
+	public ServiceGenerator(TableInfo tableInfo) {
 		super(tableInfo);
 	}
 

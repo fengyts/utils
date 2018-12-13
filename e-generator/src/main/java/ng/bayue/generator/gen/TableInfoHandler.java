@@ -20,6 +20,7 @@ import ng.bayue.generator.types.GenericJdbcTypeMapper;
 import ng.bayue.generator.types.handler.GenericTypeHandler;
 import ng.bayue.generator.utils.JdbcUtil;
 import ng.bayue.generator.utils.StringUtils;
+import ng.bayue.generator.utils.ThreadPoolUtil;
 
 public class TableInfoHandler {
 
@@ -126,7 +127,8 @@ public class TableInfoHandler {
 			tasks.add(task);
 		}
 
-		ExecutorService executor = HandleThreadPool.getFixedThreadPool();
+//		ExecutorService executor = HandleThreadPool.getFixedThreadPool();
+		ExecutorService executor = ThreadPoolUtil.getFixedThreadPool();
 		List<Future<List<TableInfo>>> invokeAll = executor.invokeAll(tasks);
 
 		// 汇总结果集
@@ -244,21 +246,21 @@ public class TableInfoHandler {
 		}
 	}
 
-	private static class HandleThreadPool {
-		private static final int SIZE = 8;
-		private static volatile ExecutorService fixedThreadPool;
-
-		public static ExecutorService getFixedThreadPool() {
-			if (fixedThreadPool == null) {
-				synchronized (HandleThreadPool.class) {
-					if (fixedThreadPool == null) {
-						fixedThreadPool = Executors.newFixedThreadPool(SIZE);
-					}
-				}
-			}
-			return fixedThreadPool;
-		}
-	}
+//	private static class HandleThreadPool {
+//		private static final int SIZE = 8;
+//		private static volatile ExecutorService fixedThreadPool;
+//
+//		public static ExecutorService getFixedThreadPool() {
+//			if (fixedThreadPool == null) {
+//				synchronized (HandleThreadPool.class) {
+//					if (fixedThreadPool == null) {
+//						fixedThreadPool = Executors.newFixedThreadPool(SIZE);
+//					}
+//				}
+//			}
+//			return fixedThreadPool;
+//		}
+//	}
 
 	private static class Param {
 		private String catalog;

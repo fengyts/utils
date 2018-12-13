@@ -1,9 +1,12 @@
 package ng.bayue.generator.gen;
 
-import ng.bayue.generator.model.TableInfo;
-
 public interface Generator {
-	
-	<M> M generate(TableInfo tableInfo);
+
+	/**
+	 * 
+	 * @param tableInfo
+	 * @return Model
+	 */
+	<M> M generate();
 
 }
