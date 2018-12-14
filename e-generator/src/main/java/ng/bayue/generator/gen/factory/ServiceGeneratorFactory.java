@@ -1,6 +1,7 @@
-package ng.bayue.generator.gen;
+package ng.bayue.generator.gen.factory;
 
-import ng.bayue.generator.model.TableInfo;
+import ng.bayue.generator.gen.ServiceGenerator;
+import ng.bayue.generator.information.TableInfo;
 
 public class ServiceGeneratorFactory implements FactoryGenerator {
 

@@ -1,12 +1,12 @@
-package ng.bayue.generator.gen;
+package ng.bayue.generator.gen.handler;
 
 import ng.bayue.generator.information.TableInfo;
 
-public abstract class AbstractGenerator {
+public class ConstraintsInfoHandler {
 
-	protected TableInfo tableInfo;
+	private TableInfo tableInfo;
 
-	protected AbstractGenerator(TableInfo tableInfo) {
+	public ConstraintsInfoHandler(TableInfo tableInfo) {
 		this.tableInfo = tableInfo;
 	}
 

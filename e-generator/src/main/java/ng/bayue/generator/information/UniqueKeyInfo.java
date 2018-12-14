@@ -1,12 +1,12 @@
-package ng.bayue.generator.model;
+package ng.bayue.generator.information;
 
-import ng.bayue.generator.constants.ColumnConstraintType;
+import ng.bayue.generator.constants.ConstraintType;
 
 public class UniqueKeyInfo extends AbstractConstraints {
 
 	public UniqueKeyInfo() {
 		super();
-		setConstraintType(ColumnConstraintType.UNIQUE.constraintType);
+		setConstraintType(ConstraintType.UNIQUE.constraintType);
 	}
 
 //	@Override

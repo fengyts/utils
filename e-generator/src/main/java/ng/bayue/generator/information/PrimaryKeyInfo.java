@@ -1,13 +1,13 @@
-package ng.bayue.generator.model;
+package ng.bayue.generator.information;
 
-import ng.bayue.generator.constants.ColumnConstraintType;
+import ng.bayue.generator.constants.ConstraintType;
 
 public class PrimaryKeyInfo extends AbstractConstraints {
 
 	public PrimaryKeyInfo() {
 		super();
-		setConstraintType(ColumnConstraintType.PRIMAY_KEY.constraintType);
-		setConstraintName(ColumnConstraintType.PRIMAY_KEY.constraintName);
+		setConstraintType(ConstraintType.PRIMAY_KEY.constraintType);
+		setConstraintName(ConstraintType.PRIMAY_KEY.constraintName);
 	}
 
 //	@Override

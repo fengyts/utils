@@ -1,4 +1,4 @@
-package ng.bayue.generator.model;
+package ng.bayue.generator.information;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,8 +17,8 @@ public class ConstraintsInfo {
 	private PrimaryKeyInfo pkInfo = new PrimaryKeyInfo();
 
 	/** 唯一键约束信息  */
-	// private List<UniqueKeyInfo> ukInfos;
-	private Map<String, UniqueKeyInfo> ukInfosMap;
+	// private List<UniqueKeyInfo> uniqueInfos;
+	private Map<String, UniqueKeyInfo> uniqueInfosMap;
 
 	/**
 	 * 其他约束信息, 预留
@@ -37,17 +37,37 @@ public class ConstraintsInfo {
 		if (StringUtils.isBlank(uniqueIndexName) || null == column) {
 			throw new NullPointerException();
 		}
-		if (null == ukInfosMap) {
-			ukInfosMap = new LinkedHashMap<String, UniqueKeyInfo>();
+		if (null == uniqueInfosMap) {
+			uniqueInfosMap = new LinkedHashMap<String, UniqueKeyInfo>();
 		}
-		UniqueKeyInfo ukInfo = ukInfosMap.get(uniqueIndexName);
+		UniqueKeyInfo ukInfo = uniqueInfosMap.get(uniqueIndexName);
 		if (null == ukInfo) {
 			ukInfo = new UniqueKeyInfo();
 		}
 		ukInfo.setConstraintName(uniqueIndexName);
 		ukInfo.addColumn(column);
-		ukInfosMap.put(uniqueIndexName, ukInfo);
+		uniqueInfosMap.put(uniqueIndexName, ukInfo);
 	}
+	
+	public boolean isUnionPK() {
+		return pkInfo.isUnionKey();
+	}
+
+//	/**
+//	 * 是否单一列唯一索引
+//	 * @return true: 单一列唯一索引；false: 联合唯一索引
+//	 */
+//	public boolean isUnionUnique() {
+//		if(ukInfosMap == null){
+//			return false;
+//		}
+//		boolean isUnionUnique = true;
+//		if(ukInfosMap.size() == 1){
+//			
+//			return true;
+//		}
+//		return true;
+//	}
 
 	// ======================
 	// methods setter and getter
@@ -60,12 +80,12 @@ public class ConstraintsInfo {
 		this.pkInfo = pkInfo;
 	}
 
-	public Map<String, UniqueKeyInfo> getUkInfosMap() {
-		return ukInfosMap;
+	public Map<String, UniqueKeyInfo> getUniqueInfosMap() {
+		return uniqueInfosMap;
 	}
 
-	public void setUkInfosMap(Map<String, UniqueKeyInfo> ukInfosMap) {
-		this.ukInfosMap = ukInfosMap;
+	public void setUniqueInfosMap(Map<String, UniqueKeyInfo> uniqueInfosMap) {
+		this.uniqueInfosMap = uniqueInfosMap;
 	}
 
 	public List<? extends AbstractConstraints> getOthers() {

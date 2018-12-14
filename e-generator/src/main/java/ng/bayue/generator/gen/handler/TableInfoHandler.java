@@ -1,4 +1,4 @@
-package ng.bayue.generator.gen;
+package ng.bayue.generator.gen.handler;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -13,9 +13,9 @@ import java.util.concurrent.Future;
 
 import ng.bayue.generator.config.Context;
 import ng.bayue.generator.config.TableConfiguration;
-import ng.bayue.generator.constants.ColumnConstraintType;
-import ng.bayue.generator.model.Column;
-import ng.bayue.generator.model.TableInfo;
+import ng.bayue.generator.constants.ConstraintType;
+import ng.bayue.generator.information.Column;
+import ng.bayue.generator.information.TableInfo;
 import ng.bayue.generator.types.GenericJdbcTypeMapper;
 import ng.bayue.generator.types.handler.GenericTypeHandler;
 import ng.bayue.generator.utils.JdbcUtil;
@@ -51,7 +51,6 @@ public class TableInfoHandler {
 
 			List<TableInfo> results = getTableInfo(metaData, param);
 			// executeOrigain(results, metaData, param);
-			// execute(results, metaData, param);
 			results = executeTask(results, metaData, param);
 
 			JdbcUtil.closeConnection(conn);
@@ -127,7 +126,7 @@ public class TableInfoHandler {
 			tasks.add(task);
 		}
 
-//		ExecutorService executor = HandleThreadPool.getFixedThreadPool();
+		// ExecutorService executor = HandleThreadPool.getFixedThreadPool();
 		ExecutorService executor = ThreadPoolUtil.getFixedThreadPool();
 		List<Future<List<TableInfo>>> invokeAll = executor.invokeAll(tasks);
 
@@ -229,7 +228,7 @@ public class TableInfoHandler {
 		Column column;
 		while (indexInfo.next()) {
 			String indexName = indexInfo.getString("INDEX_NAME");
-			if (ColumnConstraintType.PRIMAY_KEY.constraintName.equalsIgnoreCase(indexName)) {
+			if (ConstraintType.PRIMAY_KEY.constraintName.equalsIgnoreCase(indexName)) {
 				continue;
 			}
 			String columnName = indexInfo.getString("COLUMN_NAME");
@@ -246,21 +245,21 @@ public class TableInfoHandler {
 		}
 	}
 
-//	private static class HandleThreadPool {
-//		private static final int SIZE = 8;
-//		private static volatile ExecutorService fixedThreadPool;
-//
-//		public static ExecutorService getFixedThreadPool() {
-//			if (fixedThreadPool == null) {
-//				synchronized (HandleThreadPool.class) {
-//					if (fixedThreadPool == null) {
-//						fixedThreadPool = Executors.newFixedThreadPool(SIZE);
-//					}
-//				}
-//			}
-//			return fixedThreadPool;
-//		}
-//	}
+	// private static class HandleThreadPool {
+	// private static final int SIZE = 8;
+	// private static volatile ExecutorService fixedThreadPool;
+	//
+	// public static ExecutorService getFixedThreadPool() {
+	// if (fixedThreadPool == null) {
+	// synchronized (HandleThreadPool.class) {
+	// if (fixedThreadPool == null) {
+	// fixedThreadPool = Executors.newFixedThreadPool(SIZE);
+	// }
+	// }
+	// }
+	// return fixedThreadPool;
+	// }
+	// }
 
 	private static class Param {
 		private String catalog;

@@ -1,6 +1,6 @@
 package ng.bayue.generator.gen;
 
-import ng.bayue.generator.model.TableInfo;
+import ng.bayue.generator.information.TableInfo;
 
 public class ServiceGenerator extends AbstractGenerator implements Generator {
 

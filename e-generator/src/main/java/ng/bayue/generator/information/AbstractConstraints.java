@@ -1,4 +1,4 @@
-package ng.bayue.generator.model;
+package ng.bayue.generator.information;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +20,7 @@ public abstract class AbstractConstraints {
 	protected List<Column> columns;
 
 	/** 是否联合键, true: 联合键；false: 单列键  */
-	protected boolean isUnion() {
+	protected boolean isUnionKey() {
 		if (columns == null) {
 			return false;
 		}

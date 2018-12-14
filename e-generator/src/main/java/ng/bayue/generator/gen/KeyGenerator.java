@@ -2,9 +2,9 @@ package ng.bayue.generator.gen;
 
 import ng.bayue.generator.information.TableInfo;
 
-public class DaoGenerator extends AbstractGenerator implements Generator {
+public class KeyGenerator extends AbstractGenerator implements Generator {
 
-	public DaoGenerator(TableInfo tableInfo) {
+	public KeyGenerator(TableInfo tableInfo) {
 		super(tableInfo);
 	}
 

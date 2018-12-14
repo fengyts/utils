@@ -1,4 +1,4 @@
-package ng.bayue.generator.model;
+package ng.bayue.generator.information;
 
 /**
  * 表列信息

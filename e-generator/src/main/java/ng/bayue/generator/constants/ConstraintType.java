@@ -1,6 +1,6 @@
 package ng.bayue.generator.constants;
 
-public enum ColumnConstraintType {
+public enum ConstraintType {
 
 	INDEX("INDEX", ""), // 索引
 	PRIMAY_KEY("PRIMARY KEY", "PRIMARY"), // 主键
@@ -17,7 +17,7 @@ public enum ColumnConstraintType {
 	public String constraintType;
 	public String constraintName;
 
-	private ColumnConstraintType(String constraintType, String constraintName) {
+	private ConstraintType(String constraintType, String constraintName) {
 		this.constraintType = constraintType;
 		this.constraintName = constraintName;
 	}

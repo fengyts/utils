@@ -11,11 +11,10 @@ import org.mybatis.generator.api.ShellRunner;
 import ng.bayue.generator.config.Context;
 import ng.bayue.generator.config.PropertiesConfigLoader;
 import ng.bayue.generator.constants.DbInformationSchemaSql;
-import ng.bayue.generator.gen.ConstraintsHandler;
-import ng.bayue.generator.gen.TableInfoHandler;
-import ng.bayue.generator.model.Column;
-import ng.bayue.generator.model.ConstraintsInfo;
-import ng.bayue.generator.model.TableInfo;
+import ng.bayue.generator.gen.handler.TableInfoHandler;
+import ng.bayue.generator.information.Column;
+import ng.bayue.generator.information.ConstraintsInfo;
+import ng.bayue.generator.information.TableInfo;
 import ng.bayue.generator.utils.JdbcUtil;
 import ng.bayue.generator.utils.StringUtils;
 
@@ -163,16 +162,6 @@ public class Test {
 
 	}
 
-	public static void testKeyHandler() {
-		final String dbSchema = "testeg";
-		final String[] tableNames = new String[] { "test_key", "test_supplier" };
-		final boolean isAllTables = false;
-		// List<TableConstraints> list =
-		// ConstraintsHandler.getConstraints(dbSchema, isAllTables, tableNames);
-		// System.out.println(list.size());
-		List<TableInfo> infos = ConstraintsHandler.getTableDetailInfo(dbSchema, isAllTables, tableNames);
-		System.out.println(infos.size());
-	}
 
 	public static void main(String[] args) {
 		initConfig();
@@ -182,7 +171,6 @@ public class Test {
 		// }
 		// testGetSql();
 		// testSqlExecute();
-		// testKeyHandler();
 		// testGenerator();
 
 		testEG();

@@ -1,9 +1,10 @@
-package ng.bayue.generator.model;
+package ng.bayue.generator.information;
 
 import ng.bayue.generator.utils.StringUtils;
 
 public abstract class AbstractInfo {
 
+	/** 表名|列名 java驼峰形式 */
 	protected String humpFormat;
 
 	protected abstract String getHumpFormat();

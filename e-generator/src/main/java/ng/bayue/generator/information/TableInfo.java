@@ -1,4 +1,4 @@
-package ng.bayue.generator.model;
+package ng.bayue.generator.information;
 
 import java.util.ArrayList;
 import java.util.List;
