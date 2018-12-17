@@ -25,14 +25,14 @@ public class TableInfo extends AbstractInfo {
 
 	/** 表约束信息 */
 	private ConstraintsInfo constraintsInfo;
-	
+
 	private Context context;
-	
-	public TableInfo(Context context){
+
+	public TableInfo(Context context) {
 		this.context = context;
 	}
-	
-	public TableConfiguration getTableConfiguration(){
+
+	public TableConfiguration getTableConfiguration() {
 		return context.getTableConfiguration(tableName);
 	}
 
@@ -53,55 +53,24 @@ public class TableInfo extends AbstractInfo {
 		return null;
 	}
 
-//	public void addPrimaryKeyConstraints(Column column) {
-//		if (null == column) {
-//			throw new NullPointerException();
-//		}
-//		if (null == constraintsInfo) {
-//			constraintsInfo = new ConstraintsInfo();
-//			PrimaryKeyInfo pkInfo = new PrimaryKeyInfo();
-//			List<Column> columnsPKs = new ArrayList<Column>();
-//			columnsPKs.add(column);
-//			pkInfo.setColumns(columnsPKs);
-//			constraintsInfo.setPkInfo(pkInfo);
-//		} else {
-//			PrimaryKeyInfo pkInfo = constraintsInfo.getPkInfo();
-//			if (null == pkInfo) {
-//				pkInfo = new PrimaryKeyInfo();
-//				List<Column> columnsPKs = new ArrayList<Column>();
-//				columnsPKs.add(column);
-//				pkInfo.setColumns(columnsPKs);
-//				constraintsInfo.setPkInfo(pkInfo);
-//			} else {
-//				List<Column> columnsPKs = pkInfo.getColumns();
-//				if (null == columnsPKs) {
-//					columnsPKs = new ArrayList<Column>();
-//					columnsPKs.add(column);
-//					pkInfo.setColumns(columnsPKs);
-//				}
-//				columnsPKs.add(column);
-//			}
-//		}
-//	}
-
 	public void addPrimaryKeyConstraints(Column... columns) {
-		initTableInfo();
+		initTableConstraintsInfo();
 		constraintsInfo.addPrimaryKeyColumn(columns);
 	}
 
 	public void addUniqueConstraints(String uniqueIndexName, Column column) {
-		initTableInfo();
+		initTableConstraintsInfo();
 		constraintsInfo.addUniqueInfo(uniqueIndexName, column);
 	}
-	
-	private void initTableInfo() {
+
+	private void initTableConstraintsInfo() {
 		if (constraintsInfo == null) {
 			constraintsInfo = new ConstraintsInfo();
 		}
 	}
 
 	@Override
-	protected String getHumpFormat() {
+	public String getHumpFormat() {
 		super.toHumpFormat(tableName);
 		return humpFormat;
 	}

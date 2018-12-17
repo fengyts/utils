@@ -47,13 +47,18 @@ public final class SymbolConstant {
 	public static final String BRACKET_RIGHT = "]";
 	public static final String BRACE_LEFT = "{";
 	public static final String BRACE_RIGHT = "}";
+	public static final String ANGLE_BRACKET_LEFT = "<";
+	public static final String ANGLE_BRACKET_RIGHT = ">";
 
 	public static final String WHITESPACE = "";
+	public static final String WHITESPACE_CHAR = " ";
+	public static final String WHITESPACE_CHAR_DOUBLE = "  ";
+	public static final String WHITESPACE_CHAR_TAB = "	";
 
 	public static final String R = "\r";
 	public static final String N = "\n";
 	public static final String TAB = "\t";
-
+	
 	private SymbolConstant() {
 	}
 
