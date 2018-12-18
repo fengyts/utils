@@ -10,6 +10,11 @@ public class PrimaryKeyInfo extends AbstractConstraints {
 		setConstraintName(ConstraintType.PRIMAY_KEY.constraintName);
 	}
 
+	@Override
+	public boolean isUnionKey() {
+		return super.isUnionKey();
+	}
+
 //	@Override
 //	public void addColumn(Column... column) {
 //		if (null == column) {
@@ -17,5 +22,7 @@ public class PrimaryKeyInfo extends AbstractConstraints {
 //		}
 //		super.addColumn(column);
 //	}
+	
+	
 
 }

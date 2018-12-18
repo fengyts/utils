@@ -6,9 +6,21 @@
 		type="">
 		<property name="" value="" />
 	</cache>
-	
+
 	<parameterMap type="" id="">
-		<parameter property="" javaType="" jdbcType="" mode="IN" resultMap="" scale="" typeHandler=""/>
+		<parameter property="" javaType="" jdbcType="" mode="IN"
+			resultMap="" scale="" typeHandler="" />
 	</parameterMap>
+
+	<resultMap type="" id="" autoMapping="true" extends="">
+		<constructor>
+			<idArg column="" columnPrefix="" javaType="" jdbcType="" name=""
+				resultMap="" select="" typeHandler="" />
+			<arg column="" columnPrefix="" javaType="" jdbcType="" name=""
+				resultMap="" select="" typeHandler="" />
+		</constructor>
+	</resultMap>
+
+
 
 </mapper>

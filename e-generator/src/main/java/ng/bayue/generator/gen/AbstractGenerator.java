@@ -7,6 +7,9 @@ public abstract class AbstractGenerator {
 	protected TableInfo tableInfo;
 
 	protected AbstractGenerator(TableInfo tableInfo) {
+		if (null == tableInfo) {
+			throw new NullPointerException();
+		}
 		this.tableInfo = tableInfo;
 	}
 

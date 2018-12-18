@@ -35,12 +35,14 @@ public final class SymbolConstant {
 	/** 单引号: "'" */
 	public static final String QUOTES = "'";
 	/** 反斜线符号: "\\" */
-	public static final String back_slank = "\\";
+	public static final String BACK_SLANK = "\\";
+	/** 斜杠,除法符号: "/" */
+	public static final String SPRIT = "/";
 	/** 双引号: "\"" */
 	public static final String DOUBLE_QUOTES = "\"";
 	/** "`"间隔符号: "`" */
 	public static final String BACK_QUOTES = "`";
-	
+
 	public static final String PARENTHESIS_LEFT = "(";
 	public static final String PARENTHESIS_RIGHT = ")";
 	public static final String BRACKET_LEFT = "[";
@@ -58,7 +60,7 @@ public final class SymbolConstant {
 	public static final String R = "\r";
 	public static final String N = "\n";
 	public static final String TAB = "\t";
-	
+
 	private SymbolConstant() {
 	}
 
