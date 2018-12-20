@@ -1,10 +1,23 @@
 package ng.bayue.generator.template.model;
 
+import java.io.File;
 import java.util.List;
+
+import ng.bayue.generator.utils.StringUtils;
 
 public class PackageData {
 
+	private static final String separator = File.separator;
+
+	/** 工具包名 */
+	private List<String> utilsPackageName;
+	private String utilsSavePath;
+
 	private String basePackageName;
+	private String basePackageSavePath;
+
+	private String commonPackageName;
+	private String commonSavePath;
 
 	/** 实体类包名 */
 	private String entityPackageName;
@@ -18,6 +31,10 @@ public class PackageData {
 	/** mybatisSqlMap 包名 */
 	private String sqlMapPackageName;
 	private String sqlMapSavePath;
+
+	/** sql扩展(自定义sql mapping文件) */
+	private String sqlMapExtendPackageName;
+	private String sqlMapExtendSavePath;
 
 	private String daoPackageName;
 	private String daoImplPackageName;
@@ -35,8 +52,136 @@ public class PackageData {
 	private String exceptionPackageName;
 	private String exceptionSavePath;
 
-	/** 工具包名 */
-	private List<String> utilsPackageName;
+	public PackageData() {
+		super();
+	}
+
+	public void createPackageDir() {
+		setDefaultValue();
+		createDir(basePackageSavePath);
+		createDir(utilsSavePath);
+		createDir(commonSavePath);
+		createDir(constantSavePath);
+		createDir(entitySavePath);
+		createDir(sqlMapSavePath);
+		createDir(sqlMapExtendSavePath);
+		createDir(daoSavePath);
+		createDir(daoImplSavePath);
+		createDir(serviceSavePath);
+		createDir(serviceImplSavePath);
+		createDir(controllerSavePath);
+		createDir(exceptionSavePath);
+	}
+
+	private void createDir(File packageDir) {
+		if ((!packageDir.exists()) && !packageDir.isDirectory()) {
+			packageDir.mkdirs();
+		}
+	}
+
+	private void createDir(String filePath) {
+		if (StringUtils.isNotBlank(filePath)) {
+			if (!filePath.startsWith(basePackageSavePath)) {
+				filePath = basePackageSavePath + File.separator + filePath;
+			}
+			filePath = filePath.replace(".", separator);
+			createDir(new File(filePath));
+		}
+	}
+
+	public boolean checkBlankBasePackageSavePath() {
+		return StringUtils.isBlank(basePackageSavePath);
+	}
+
+	public boolean checkBlankBasePackageName() {
+		return StringUtils.isBlank(basePackageName);
+	}
+
+	public void setDefaultValue() {
+		String basePackagePath = "";
+		// String basePackage = "";
+		if (checkBlankBasePackageName()) {
+			System.out.println("waring: basePackageSavePath is not assigned, will be use default project");
+			basePackagePath = System.getProperty("user.dir") + separator;
+		} else {
+			if (StringUtils.isNotBlank(basePackageName)) {
+				final String[] basePackagePrefix = { "src/main/java", "src.main.java" };
+				for (String str : basePackagePrefix) {
+					if (basePackageName.startsWith(str)) {
+						basePackageName = basePackageName.substring(str.length());
+						if (basePackageName.startsWith("/") || basePackageName.startsWith(".")) {
+							basePackageName = basePackageName.substring(1);
+						}
+					}
+				}
+				basePackageName = basePackageName.replace("/", ".");
+				basePackagePath = basePackageName.replace(".", separator) + separator;
+			}
+		}
+		String mavenStructure = "src" + separator + "main" + separator + "java";
+		if (!basePackagePath.contains(mavenStructure)) {
+			File file = new File(mavenStructure);
+			if (file.exists()) {
+				basePackagePath = mavenStructure + separator + basePackagePath;
+			}
+		}
+		basePackageSavePath = basePackagePath;
+		if (StringUtils.isBlank(utilsSavePath)) {
+			utilsSavePath = basePackageSavePath + "util";
+		}
+		if (StringUtils.isBlank(commonSavePath)) {
+			commonSavePath = basePackageSavePath + "common";
+		}
+		if (StringUtils.isBlank(constantSavePath)) {
+			constantSavePath = basePackageSavePath + "constant";
+		}
+		if (StringUtils.isBlank(entitySavePath)) {
+			entitySavePath = basePackageSavePath + "mybatis" + separator + "model";
+		}
+		if (StringUtils.isBlank(sqlMapSavePath)) {
+			sqlMapSavePath = basePackageSavePath + "mybatis" + separator + "sqlmap";
+		}
+		if (StringUtils.isBlank(sqlMapExtendSavePath)) {
+			sqlMapExtendSavePath = basePackageSavePath + "mybatis" + separator + "sqlmap" + separator + "extend";
+		}
+		if (StringUtils.isBlank(daoSavePath)) {
+			daoSavePath = basePackageSavePath + "mybatis" + separator + "dao";
+		}
+		if (StringUtils.isBlank(daoImplSavePath)) {
+			daoImplSavePath = basePackageSavePath + "mybatis" + separator + "dao" + separator + "impl";
+		}
+		if (StringUtils.isBlank(serviceSavePath)) {
+			serviceSavePath = basePackageSavePath + "service";
+		}
+		if (StringUtils.isBlank(serviceImplSavePath)) {
+			serviceImplSavePath = basePackageSavePath + "service" + separator + "impl";
+		}
+		if (StringUtils.isBlank(controllerSavePath)) {
+			controllerSavePath = basePackageSavePath + "controller";
+		}
+		if (StringUtils.isBlank(exceptionSavePath)) {
+			exceptionSavePath = basePackageSavePath + "exception";
+		}
+
+	}
+
+	// ========== setter and getter methods ============
+
+	public List<String> getUtilsPackageName() {
+		return utilsPackageName;
+	}
+
+	public void setUtilsPackageName(List<String> utilsPackageName) {
+		this.utilsPackageName = utilsPackageName;
+	}
+
+	public String getUtilsSavePath() {
+		return utilsSavePath;
+	}
+
+	public void setUtilsSavePath(String utilsSavePath) {
+		this.utilsSavePath = utilsSavePath;
+	}
 
 	public String getBasePackageName() {
 		return basePackageName;
@@ -44,6 +189,30 @@ public class PackageData {
 
 	public void setBasePackageName(String basePackageName) {
 		this.basePackageName = basePackageName;
+	}
+
+	public String getBasePackageSavePath() {
+		return basePackageSavePath;
+	}
+
+	public void setBasePackageSavePath(String basePackageSavePath) {
+		this.basePackageSavePath = basePackageSavePath;
+	}
+
+	public String getCommonPackageName() {
+		return commonPackageName;
+	}
+
+	public void setCommonPackageName(String commonPackageName) {
+		this.commonPackageName = commonPackageName;
+	}
+
+	public String getCommonSavePath() {
+		return commonSavePath;
+	}
+
+	public void setCommonSavePath(String commonSavePath) {
+		this.commonSavePath = commonSavePath;
 	}
 
 	public String getEntityPackageName() {
@@ -92,6 +261,22 @@ public class PackageData {
 
 	public void setSqlMapSavePath(String sqlMapSavePath) {
 		this.sqlMapSavePath = sqlMapSavePath;
+	}
+
+	public String getSqlMapExtendPackageName() {
+		return sqlMapExtendPackageName;
+	}
+
+	public void setSqlMapExtendPackageName(String sqlMapExtendPackageName) {
+		this.sqlMapExtendPackageName = sqlMapExtendPackageName;
+	}
+
+	public String getSqlMapExtendSavePath() {
+		return sqlMapExtendSavePath;
+	}
+
+	public void setSqlMapExtendSavePath(String sqlMapExtendSavePath) {
+		this.sqlMapExtendSavePath = sqlMapExtendSavePath;
 	}
 
 	public String getDaoPackageName() {
@@ -188,14 +373,6 @@ public class PackageData {
 
 	public void setExceptionSavePath(String exceptionSavePath) {
 		this.exceptionSavePath = exceptionSavePath;
-	}
-
-	public List<String> getUtilsPackageName() {
-		return utilsPackageName;
-	}
-
-	public void setUtilsPackageName(List<String> utilsPackageName) {
-		this.utilsPackageName = utilsPackageName;
 	}
 
 }

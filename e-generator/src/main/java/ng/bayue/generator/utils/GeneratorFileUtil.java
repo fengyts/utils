@@ -15,6 +15,7 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.Version;
+import ng.bayue.generator.template.model.FreemarkerDataModel;
 
 public class GeneratorFileUtil {
 
@@ -50,9 +51,9 @@ public class GeneratorFileUtil {
 //			if(!dir.exists()){
 //				dir.mkdirs();
 //			}
-//			if(!file.exists()){
-//				file.createNewFile();
-//			}
+			if(!file.exists()){
+				file.createNewFile();
+			}
 //			if(!templateFile.exists()){
 //				templateFile.createNewFile();
 //			}

@@ -1,9 +1,14 @@
-package #{tableDO.packageName};
+<#assign packageData=rootData.packageData>
+<#assign tableData=rootData.tableEngityData>
+<#assign tableEntityName=tableData.tableEntityName />
+package ${packageData.servicePackageName};
 
-<#assign tableName=tableDO.tableName />
-<#-- -->
+import ${packageData.entityPackageName}.${tableEntityName};
 
-public interface #{tableName}Service extends GenericService<#{tableName}>{
+<#-- 
+-->
+
+public interface ${tableEntityName}Service extends GenericService<${tableEntityName}>{
 	
 }
 

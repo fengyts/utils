@@ -15,12 +15,12 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.10</version>
-			<scope>test</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>junit</groupId> -->
+<!-- 			<artifactId>junit</artifactId> -->
+<!-- 			<version>4.10</version> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -31,11 +31,11 @@
 			<artifactId>freemarker</artifactId>
 			<version>2.3.28</version>
 		</dependency>
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-			<version>3.2.8</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.mybatis</groupId> -->
+<!-- 			<artifactId>mybatis</artifactId> -->
+<!-- 			<version>3.2.8</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.mybatis.generator</groupId>
 			<artifactId>mybatis-generator-core</artifactId>
@@ -64,4 +64,17 @@
 
 
 	</dependencies>
+	
+	<build>
+		<resources>
+			<resource>
+				<targetPath>template</targetPath>
+				<directory>src/main/template</directory>
+				<includes>
+					<include>**/*.ftl</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+	
 </project>

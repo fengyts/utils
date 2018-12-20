@@ -1,20 +1,29 @@
 package ng.bayue.generator.test;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.generator.api.ShellRunner;
 
 import ng.bayue.generator.config.Context;
 import ng.bayue.generator.config.PropertiesConfigLoader;
 import ng.bayue.generator.constants.DbInformationSchemaSql;
+import ng.bayue.generator.constants.Template;
 import ng.bayue.generator.gen.handler.TableInfoHandler;
 import ng.bayue.generator.information.Column;
 import ng.bayue.generator.information.ConstraintsInfo;
 import ng.bayue.generator.information.TableInfo;
+import ng.bayue.generator.template.model.FreemarkerDataModel;
+import ng.bayue.generator.template.model.KeyInfoData;
+import ng.bayue.generator.template.model.PackageData;
+import ng.bayue.generator.template.model.TableEntityData;
+import ng.bayue.generator.utils.GeneratorFileUtil;
 import ng.bayue.generator.utils.JdbcUtil;
 import ng.bayue.generator.utils.StringUtils;
 
@@ -62,11 +71,11 @@ public class Test {
 			}
 			String tableName = ti.getTableName();
 			List<Column> columns = ti.getColumns();
-			for(Column c : columns){
-				if(null == c){
+			for (Column c : columns) {
+				if (null == c) {
 					System.out.println("null column:" + tableName);
-				}else {
-					if(StringUtils.isBlank(c.getJavaPropertyType())){
+				} else {
+					if (StringUtils.isBlank(c.getJavaPropertyType())) {
 						System.out.println("null javaPropertyType:" + tableName + "-column:" + c.getColumnName());
 					}
 				}
@@ -162,6 +171,43 @@ public class Test {
 
 	}
 
+	public static void testGenerateFile() {
+		FreemarkerDataModel fdm = new FreemarkerDataModel();
+		TableEntityData table = new TableEntityData();
+		table.setTableName("test_key");
+		table.setTableEntityName("TestKey");
+		KeyInfoData keyInfo = new KeyInfoData();
+		table.setKeyInfo(keyInfo);
+
+		fdm.setTableEngityData(table);
+
+		final String separator = File.separator;
+		PackageData packageData = new PackageData();
+		String basePackage = "ng" + separator + "bayue" + separator + "generator";
+		packageData.setBasePackageName(basePackage);
+		packageData.setEntityPackageName(basePackage + ".entity");
+		packageData.setServicePackageName(basePackage + ".service");
+		
+		packageData.setBasePackageSavePath("abc.bayue.base");
+		fdm.setPackageData(packageData);
+
+		Map<String, Object> rootMap = new HashMap<String, Object>();
+		rootMap.put("rootData", fdm);
+
+		String rootPath = Test.class.getResource("/").getPath();
+		String templatesPath = rootPath + "/template";
+		String templateFile = Template.getTemplate(Template.MB_SERVICE);
+//		String generateFilePath = "E:\\grepo\\utils\\e-generator\\src\\test\\java\\";
+//		generateFilePath += basePackage + "\\service\\TestKey.java";
+//		System.out.println(generateFilePath);
+
+		packageData.createPackageDir();
+//		System.out.println(System.getProperty("user.dir"));
+		// GeneratorFileUtil.generateFile(templatesPath, Template.MB_SERVICE,
+		// generateFilePath, rootMap);
+		// GeneratorFileUtil.createJaveSourceFile(path, fileName, writeString);
+
+	}
 
 	public static void main(String[] args) {
 		initConfig();
@@ -173,8 +219,11 @@ public class Test {
 		// testSqlExecute();
 		// testGenerator();
 
-		testEG();
-		
+		// testEG();
+		testGenerateFile();
+		// String templatesPath = Test.class.getResource("/").getPath();
+		// System.out.println(templatesPath);
+
 	}
 
 }

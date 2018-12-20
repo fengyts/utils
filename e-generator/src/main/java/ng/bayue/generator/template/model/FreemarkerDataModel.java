@@ -4,7 +4,8 @@ public class FreemarkerDataModel {
 
 	private PackageData packageData;
 
-	private String entityName;
+	private TableEntityData tableEngityData;
+
 	private boolean generateUniqueEnable;
 	private boolean generateBatchEnable;
 
@@ -16,12 +17,12 @@ public class FreemarkerDataModel {
 		this.packageData = packageData;
 	}
 
-	public String getEntityName() {
-		return entityName;
+	public TableEntityData getTableEngityData() {
+		return tableEngityData;
 	}
 
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
+	public void setTableEngityData(TableEntityData tableEngityData) {
+		this.tableEngityData = tableEngityData;
 	}
 
 	public boolean isGenerateUniqueEnable() {

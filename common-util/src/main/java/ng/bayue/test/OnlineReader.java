@@ -198,15 +198,12 @@ public class OnlineReader {
 //		final String url = "http://www.biquge.com.tw/8_8568/9248786.html";
 //		read1(WebSiteEnum.BIQUGE, url);
 
-//		 final String url = "https://www.xxbiquge.com/0_347/8910209.html";
+		 final String url = "https://www.xbiquge6.com/22_22634/1609991.html";
 //		 final String url = "https://www.xbiquge6.com/76_76060/1200868.html";
-//		 read1(WebSiteEnum.XXBIQUGE, url);
+		 read1(WebSiteEnum.XXBIQUGE, url);
 		 
 //		 final String url = "https://www.dingdiann.com/ddk76593/4869086.html"; // 顶点
 		
-		Properties properties = System.getProperties();
-		Map<String, String> envs = System.getenv();
-		System.out.println();
 		
 	}
 
