@@ -198,7 +198,7 @@ public class OnlineReader {
 //		final String url = "http://www.biquge.com.tw/8_8568/9248786.html";
 //		read1(WebSiteEnum.BIQUGE, url);
 
-		 final String url = "https://www.xbiquge6.com/22_22634/1609991.html";
+		 final String url = "https://www.xbiquge6.com/22_22634/1610392.html";
 //		 final String url = "https://www.xbiquge6.com/76_76060/1200868.html";
 		 read1(WebSiteEnum.XXBIQUGE, url);
 		 

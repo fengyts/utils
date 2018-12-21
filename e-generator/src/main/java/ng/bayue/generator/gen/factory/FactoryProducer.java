@@ -78,25 +78,30 @@ public final class FactoryProducer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends FactoryGenerator> T getFactory(Class<T> clazz) throws Exception {
-		if (null == clazz)
-			throw new NullPointerException();
-		if (SqlMapperXMLGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
-			return (T) SingletonSqlMapperXMLGeneratorFactory.getFactoryInstance();
+	public static <T extends FactoryGenerator> T getFactory(Class<T> clazz) {
+		try {
+			if (null == clazz)
+				throw new NullPointerException();
+			if (SqlMapperXMLGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
+				return (T) SingletonSqlMapperXMLGeneratorFactory.getFactoryInstance();
+			}
+			if (DaoGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
+				return (T) SingletonDaoGeneratorFactory.getFactoryInstance();
+			}
+			if (ServiceGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
+				return (T) SingletonServiceGeneratorFactory.getFactoryInstance();
+			}
+			if (EntityGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
+				return (T) SingletonEntityGeneratorFactory.getFactoryInstance();
+			}
+			if (KeyGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
+				return (T) SingletonKeyGeneratorFactory.getFactoryInstance();
+			}
+			return clazz.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
 		}
-		if (DaoGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
-			return (T) SingletonDaoGeneratorFactory.getFactoryInstance();
-		}
-		if (ServiceGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
-			return (T) SingletonServiceGeneratorFactory.getFactoryInstance();
-		}
-		if (EntityGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
-			return (T) SingletonEntityGeneratorFactory.getFactoryInstance();
-		}
-		if (KeyGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
-			return (T) SingletonKeyGeneratorFactory.getFactoryInstance();
-		}
-		return clazz.newInstance();
+		return null;
 	}
 
 }

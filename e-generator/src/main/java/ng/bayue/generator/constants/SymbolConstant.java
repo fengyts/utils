@@ -59,6 +59,7 @@ public final class SymbolConstant {
 
 	public static final String R = "\r";
 	public static final String N = "\n";
+	public static final String RN = R + N;
 	public static final String TAB = "\t";
 
 	private SymbolConstant() {

@@ -1,5 +1,6 @@
 package ng.bayue.generator.test;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +15,11 @@ import org.mybatis.generator.api.ShellRunner;
 import ng.bayue.generator.config.Context;
 import ng.bayue.generator.config.PropertiesConfigLoader;
 import ng.bayue.generator.constants.DbInformationSchemaSql;
-import ng.bayue.generator.constants.Template;
+import ng.bayue.generator.constants.GeneratorTemplate;
+import ng.bayue.generator.gen.EntityGenerator;
+import ng.bayue.generator.gen.factory.EntityGeneratorFactory;
+import ng.bayue.generator.gen.factory.FactoryGenerator;
+import ng.bayue.generator.gen.factory.FactoryProducer;
 import ng.bayue.generator.gen.handler.TableInfoHandler;
 import ng.bayue.generator.information.Column;
 import ng.bayue.generator.information.ConstraintsInfo;
@@ -55,9 +60,9 @@ public class Test {
 	public static void testEG() {
 		Context context = new Context();
 		TableInfoHandler handler = new TableInfoHandler(context);
-		// String tableNamePattern = "test_key";
+		String tableNamePattern = "test_key";
 		// String tableNamePattern = "exchange_order_status";
-		String tableNamePattern = null;
+		// String tableNamePattern = null;
 		long timeStart = System.currentTimeMillis();
 		List<TableInfo> tis = handler.introspectTable(tableNamePattern);
 		long timeEnd = System.currentTimeMillis();
@@ -85,67 +90,16 @@ public class Test {
 		System.out.println(count);
 	}
 
-	public static void testJdbcPool() {
-		try {
-			// Thread t = new Thread(new Runnable() {
-			// @Override
-			// public void run() {
-			// try {
-			// Connection conn = JdbcUtil.getConnection();
-			// System.out.println("线程占用一个连接：" + conn);
-			//
-			// Thread.sleep(3000);
-			// conn.close();
-			// } catch (SQLException | InterruptedException e) {
-			// e.printStackTrace();
-			// }
-			// }
-			// });
-			//
-			// t.start();
-
-			Connection conn = JdbcUtil.getConnection();
-
-			// DatabaseMetaData metaData = conn.getMetaData();
-			// String catalog = conn.getCatalog();
-			// Properties clientInfo = conn.getClientInfo();
-			// String schema = conn.getSchema();
-			// Map<String, Class<?>> typeMap = conn.getTypeMap();
-			//
-			// String table = "test_key";
-
-			// 参考博客
-			// https://www.cnblogs.com/lbangel/p/3487796.html
-			// 获取表索引信息
-			// 获取外键
-			// 获取主键信息
-			// 获取列信息
-
-			System.out.println();
-			conn.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void testGetSql() {
-		String dbSchema = "testeg";
-		String tableName = "test_key";
-		String[] tableNames = { "test_key", "test_supplier" };
-		// String sql = getSqlTableConstrainsSingle(dbSchema, tableName, true);
-		// System.out.println(sql);
-		// final String sql =
-		// DbInformationSchemaSql.getSqlTableConstrains(dbSchema, true, true,
-		// tableName,
-		// "test_supplier");
-		// System.out.println(sql);
-		// String sql1 =
-		// DbInformationSchemaSql.getSqlTableConstraintColumns(dbSchema, false,
-		// tableName, "test_supplier");
-		// System.out.println(sql1);
-		String sql2 = DbInformationSchemaSql.getSqlTableColumnDetailInfo(dbSchema, false, tableNames);
-		System.out.println(sql2);
+	public static void testEGeneratorMethod() {
+		Context context = new Context();
+		TableInfoHandler handler = new TableInfoHandler(context);
+		String tableNamePattern = "test_key";
+		// String tableNamePattern = "exchange_order_status";
+		long timeStart = System.currentTimeMillis();
+		List<TableInfo> tis = handler.introspectTable(tableNamePattern);
+		
+		FactoryGenerator factory = FactoryProducer.getFactory(EntityGeneratorFactory.class);
+		EntityGenerator eg = factory.create(tis.get(0));
 	}
 
 	public static void testSqlExecute() {
@@ -187,7 +141,7 @@ public class Test {
 		packageData.setBasePackageName(basePackage);
 		packageData.setEntityPackageName(basePackage + ".entity");
 		packageData.setServicePackageName(basePackage + ".service");
-		
+
 		packageData.setBasePackageSavePath("abc.bayue.base");
 		fdm.setPackageData(packageData);
 
@@ -195,34 +149,12 @@ public class Test {
 		rootMap.put("rootData", fdm);
 
 		String rootPath = Test.class.getResource("/").getPath();
-		String templatesPath = rootPath + "/template";
-		String templateFile = Template.getTemplate(Template.MB_SERVICE);
-//		String generateFilePath = "E:\\grepo\\utils\\e-generator\\src\\test\\java\\";
-//		generateFilePath += basePackage + "\\service\\TestKey.java";
-//		System.out.println(generateFilePath);
-
-		packageData.createPackageDir();
-//		System.out.println(System.getProperty("user.dir"));
-		// GeneratorFileUtil.generateFile(templatesPath, Template.MB_SERVICE,
-		// generateFilePath, rootMap);
-		// GeneratorFileUtil.createJaveSourceFile(path, fileName, writeString);
 
 	}
 
 	public static void main(String[] args) {
 		initConfig();
-		// testJdbcPool();
-		// for (int i = 0; i < 5; i++) {
-		// testJdbcPool();
-		// }
-		// testGetSql();
-		// testSqlExecute();
-		// testGenerator();
-
-		// testEG();
-		testGenerateFile();
-		// String templatesPath = Test.class.getResource("/").getPath();
-		// System.out.println(templatesPath);
+		testEG();
 
 	}
 

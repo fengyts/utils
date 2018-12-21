@@ -37,4 +37,16 @@ public class KeyGenerator extends AbstractGenerator implements Generator {
 		}
 	}
 
+	public String generateGetterMethod(String javaPropertyName, String javaPropertyType) {
+		return super.generateGetterMethod(javaPropertyName, javaPropertyType);
+	}
+
+	public String generateSetterMethod(String javaPropertyName, String javaPropertyType) {
+		return super.generateSetterMethod(javaPropertyName, javaPropertyType);
+	}
+
+	public String generateSetterAndGetterMethod() {
+		return super.generateSetterAndGetterMethod();
+	}
+
 }

@@ -1,7 +1,7 @@
 package ng.bayue.generator.utils;
 
 public final class StringUtils {
-	
+
 	public static final String WHITESPACE = " ";
 
 	/**
@@ -32,7 +32,7 @@ public final class StringUtils {
 	public static boolean isNotBlank(final CharSequence cs) {
 		return !isBlank(cs);
 	}
-	
+
 	/**
 	 * 下划线形式字符串转驼峰格式
 	 * @param columnName
@@ -85,6 +85,32 @@ public final class StringUtils {
 		return res.toString();
 	}
 
+	/**
+	 * 首字母大写
+	 * @param str
+	 * @return
+	 */
+	public static String upperCaseCapitalLetter(String str) {
+		char[] ch = str.toCharArray();
+		if (ch[0] >= 'a' && ch[0] <= 'z') {
+			ch[0] = (char) (ch[0] - 32);
+		}
+		return new String(ch);
+	}
+
+	public static String lowerCaseCapitalLetter(String str) {
+		char[] ch = str.toCharArray();
+		if (ch[0] >= 'A' && ch[0] <= 'Z') {
+			ch[0] = (char) (ch[0] + 32);
+		}
+		return new String(ch);
+	}
+
+	/**
+	 * 首字母大写
+	 * @param str
+	 * @return
+	 */
 	public static String capitalLetterToUpperCase(String str) {
 		final StringBuilder res = new StringBuilder();
 		if (str != null && str.trim().length() != 0) {

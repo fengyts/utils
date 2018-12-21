@@ -4,7 +4,7 @@ import ng.bayue.generator.gen.Generator;
 import ng.bayue.generator.information.TableInfo;
 
 public interface FactoryGenerator {
-	
-	Generator create(TableInfo tableInfo);
+
+	<T extends Generator> T create(TableInfo tableInfo);
 
 }

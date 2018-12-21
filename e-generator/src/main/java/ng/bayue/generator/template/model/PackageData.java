@@ -99,7 +99,6 @@ public class PackageData {
 
 	public void setDefaultValue() {
 		String basePackagePath = "";
-		// String basePackage = "";
 		if (checkBlankBasePackageName()) {
 			System.out.println("waring: basePackageSavePath is not assigned, will be use default project");
 			basePackagePath = System.getProperty("user.dir") + separator;
@@ -127,40 +126,41 @@ public class PackageData {
 		}
 		basePackageSavePath = basePackagePath;
 		if (StringUtils.isBlank(utilsSavePath)) {
-			utilsSavePath = basePackageSavePath + "util";
+			utilsSavePath = basePackageSavePath + "util" + separator;
 		}
 		if (StringUtils.isBlank(commonSavePath)) {
-			commonSavePath = basePackageSavePath + "common";
+			commonSavePath = basePackageSavePath + "common" + separator;
 		}
 		if (StringUtils.isBlank(constantSavePath)) {
-			constantSavePath = basePackageSavePath + "constant";
+			constantSavePath = basePackageSavePath + "constant" + separator;
 		}
 		if (StringUtils.isBlank(entitySavePath)) {
-			entitySavePath = basePackageSavePath + "mybatis" + separator + "model";
+			entitySavePath = basePackageSavePath + "mybatis" + separator + "model" + separator;
 		}
 		if (StringUtils.isBlank(sqlMapSavePath)) {
-			sqlMapSavePath = basePackageSavePath + "mybatis" + separator + "sqlmap";
+			sqlMapSavePath = basePackageSavePath + "mybatis" + separator + "sqlmap" + separator;
 		}
 		if (StringUtils.isBlank(sqlMapExtendSavePath)) {
-			sqlMapExtendSavePath = basePackageSavePath + "mybatis" + separator + "sqlmap" + separator + "extend";
+			sqlMapExtendSavePath = basePackageSavePath + "mybatis" + separator + "sqlmap" + separator + "extend"
+					+ separator;
 		}
 		if (StringUtils.isBlank(daoSavePath)) {
-			daoSavePath = basePackageSavePath + "mybatis" + separator + "dao";
+			daoSavePath = basePackageSavePath + "mybatis" + separator + "dao" + separator;
 		}
 		if (StringUtils.isBlank(daoImplSavePath)) {
-			daoImplSavePath = basePackageSavePath + "mybatis" + separator + "dao" + separator + "impl";
+			daoImplSavePath = basePackageSavePath + "mybatis" + separator + "dao" + separator + "impl" + separator;
 		}
 		if (StringUtils.isBlank(serviceSavePath)) {
-			serviceSavePath = basePackageSavePath + "service";
+			serviceSavePath = basePackageSavePath + "service" + separator;
 		}
 		if (StringUtils.isBlank(serviceImplSavePath)) {
-			serviceImplSavePath = basePackageSavePath + "service" + separator + "impl";
+			serviceImplSavePath = basePackageSavePath + "service" + separator + "impl" + separator;
 		}
 		if (StringUtils.isBlank(controllerSavePath)) {
-			controllerSavePath = basePackageSavePath + "controller";
+			controllerSavePath = basePackageSavePath + "controller" + separator;
 		}
 		if (StringUtils.isBlank(exceptionSavePath)) {
-			exceptionSavePath = basePackageSavePath + "exception";
+			exceptionSavePath = basePackageSavePath + "exception" + separator;
 		}
 
 	}
