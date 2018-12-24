@@ -2,9 +2,12 @@ package ng.bayue.generator.information;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ng.bayue.generator.config.Context;
 import ng.bayue.generator.config.TableConfiguration;
+import ng.bayue.generator.template.model.EntityProperty;
+import ng.bayue.generator.template.model.KeyInfoData;
 import ng.bayue.generator.utils.StringUtils;
 
 /**
@@ -28,6 +31,8 @@ public class TableInfo extends AbstractInfo {
 
 	private Context context;
 
+	private ColumnsInfoExtract extractInfo;
+
 	public TableInfo(Context context) {
 		this.context = context;
 	}
@@ -36,9 +41,63 @@ public class TableInfo extends AbstractInfo {
 		return context.getTableConfiguration(tableName);
 	}
 
+	public void initExtractInfo(List<Column> columns) {
+		this.extractInfo = new ColumnsInfoExtract(columns);
+	}
+
 	public String getColumnStr() {
-		String res = ColumnsInfoExtract.extractTableColumnsName(columns);
-		return res;
+		return extractInfo.extractTableColumnsName();
+	}
+
+	public List<String> getImports() {
+		return extractInfo.extractTableColumnsImports();
+	}
+
+	public List<EntityProperty> getEntityProperties() {
+		return extractInfo.extractTableProperties();
+	}
+
+	public KeyInfoData getKeyInfo() {
+		KeyInfoData keyInfoData = new KeyInfoData();
+		boolean unionPK = constraintsInfo.isUnionPK();
+		keyInfoData.setUnionPK(unionPK);
+		if (unionPK) {
+			KeyInfoData.KeyInfo pk = new KeyInfoData.KeyInfo();
+			List<Column> pkColumns = constraintsInfo.getPkInfo().getColumns();
+			ColumnsInfoExtract cie = new ColumnsInfoExtract(pkColumns);
+
+			pk.setProperties(cie.extractTableProperties());
+			pk.setImports(cie.extractTableColumnsImports());
+			pk.setKeyEntityName(humpFormat + "PrimaryKey");
+
+			keyInfoData.setPrimaryKey(pk);
+		}
+
+		Map<String, UniqueKeyInfo> uniqueInfosMap = constraintsInfo.getUniqueInfosMap();
+		if (null != uniqueInfosMap && uniqueInfosMap.size() > 0) {
+			keyInfoData.setHasUniqueKey(true);
+			List<KeyInfoData.KeyInfo> uks = new ArrayList<KeyInfoData.KeyInfo>();
+			final String uniqueSuffix = "Unique";
+			for (Map.Entry<String, UniqueKeyInfo> entry : uniqueInfosMap.entrySet()) {
+				KeyInfoData.KeyInfo uk = new KeyInfoData.KeyInfo();
+				String key = entry.getKey();
+				UniqueKeyInfo ukInfo = entry.getValue();
+				List<Column> columns = ukInfo.getColumns();
+				ColumnsInfoExtract cie = new ColumnsInfoExtract(columns);
+				if (ukInfo.isUnionKey()) {
+					key = StringUtils.toHumpFormat(key);
+				} else {
+					key = columns.get(0).getHumpFormat();
+				}
+				uk.setProperties(cie.extractTableProperties());
+				uk.setImports(cie.extractTableColumnsImports());
+				uk.setKeyEntityName(key + uniqueSuffix);
+
+				uks.add(uk);
+			}
+			keyInfoData.setUniqueKey(uks);
+		}
+		return keyInfoData;
 	}
 
 	public Column getColumnByName(String columnName) {
@@ -80,6 +139,14 @@ public class TableInfo extends AbstractInfo {
 
 	public String getTableName() {
 		return tableName;
+	}
+
+	public Context getContext() {
+		return context;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
 	}
 
 	public void setTableName(String tableName) {

@@ -1,5 +1,9 @@
 package ng.bayue.generator.template.model;
 
+import java.util.List;
+
+import ng.bayue.generator.utils.StringUtils;
+
 public class TableEntityData {
 
 	private KeyInfoData keyInfo;
@@ -9,6 +13,16 @@ public class TableEntityData {
 	private String tableEntityName;
 
 	private String allColumns;
+
+	private List<String> imports;
+	private List<EntityProperty> properties;
+	
+	public String capitalUpperTableEntityName(){
+		return StringUtils.capitalLetterToUpperCase(tableEntityName);
+	}
+
+	// =================================
+	// getter and setter methods
 
 	public KeyInfoData getKeyInfo() {
 		return keyInfo;
@@ -48,6 +62,22 @@ public class TableEntityData {
 
 	public void setAllColumns(String allColumns) {
 		this.allColumns = allColumns;
+	}
+
+	public List<EntityProperty> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(List<EntityProperty> properties) {
+		this.properties = properties;
+	}
+
+	public List<String> getImports() {
+		return imports;
+	}
+
+	public void setImports(List<String> imports) {
+		this.imports = imports;
 	}
 
 }

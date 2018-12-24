@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import ng.bayue.generator.config.Context;
@@ -181,17 +180,20 @@ public class TableInfoHandler {
 			// String isGeneratedColumn = rs.getString("IS_GENERATEDCOLUMN");
 
 			String jdbcTypeName = GenericJdbcTypeMapper.getJdbcTypeName(jdbcType);
-			String javaTypeName = GenericTypeHandler.getJavaTypeName(jdbcTypeName);
+			// String javaTypeName =
+			// GenericTypeHandler.getJavaTypeNameShort(jdbcTypeName);
+			column.setJavaTypeInfo(GenericTypeHandler.getJavaTypeInfo(jdbcTypeName));
 			column.setColumnName(columnName);
 			column.setDefaultValue(columnDefaultVal);
 			column.setComment(remarks);
 			column.setJdbcTypeName(jdbcTypeName);
-			column.setJavaPropertyType(javaTypeName);
-			// column.setJavaPropertyName(StringUtils.toHumpFormat(columnName));
+			// column.setJavaPropertyType(javaTypeName);
+			column.setJavaPropertyName(StringUtils.toHumpFormat(columnName));
 
 			columns.add(column);
 		}
 		tableInfo.setColumns(columns);
+		tableInfo.initExtractInfo(columns);
 		closeResultSet(rs);
 	}
 

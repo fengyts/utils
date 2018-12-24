@@ -33,7 +33,7 @@ public class KeyGenerator extends AbstractGenerator implements Generator {
 			Parameter param = new Parameter();
 		} else {
 			Column column = columns.get(0);
-			pkClassName = column.getJavaPropertyType();
+			pkClassName = column.getJavaTypeInfo().getJavaTypeShort();
 		}
 	}
 

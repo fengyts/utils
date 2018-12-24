@@ -28,12 +28,12 @@ public class PackageData {
 	/** 常量类保存路径 */
 	private String constantSavePath;
 
-	/** mybatisSqlMap 包名 */
-	private String sqlMapPackageName;
+	/** mybatisSqlMap xml保存路径 */
+	// private String sqlMapPackageName;
 	private String sqlMapSavePath;
 
 	/** sql扩展(自定义sql mapping文件) */
-	private String sqlMapExtendPackageName;
+	// private String sqlMapExtendPackageName;
 	private String sqlMapExtendSavePath;
 
 	private String daoPackageName;
@@ -128,11 +128,20 @@ public class PackageData {
 		if (StringUtils.isBlank(utilsSavePath)) {
 			utilsSavePath = basePackageSavePath + "util" + separator;
 		}
+		if (StringUtils.isBlank(commonPackageName)) {
+			commonPackageName = basePackageName + ".common";
+		}
 		if (StringUtils.isBlank(commonSavePath)) {
 			commonSavePath = basePackageSavePath + "common" + separator;
 		}
+		if (StringUtils.isBlank(constantPackageName)) {
+			constantPackageName = basePackageName + ".constant";
+		}
 		if (StringUtils.isBlank(constantSavePath)) {
 			constantSavePath = basePackageSavePath + "constant" + separator;
+		}
+		if (StringUtils.isBlank(entityPackageName)) {
+			entityPackageName = basePackageName + ".mybatis.model";
 		}
 		if (StringUtils.isBlank(entitySavePath)) {
 			entitySavePath = basePackageSavePath + "mybatis" + separator + "model" + separator;
@@ -144,20 +153,38 @@ public class PackageData {
 			sqlMapExtendSavePath = basePackageSavePath + "mybatis" + separator + "sqlmap" + separator + "extend"
 					+ separator;
 		}
+		if (StringUtils.isBlank(daoPackageName)) {
+			daoPackageName = basePackageName + ".mybatis.dao";
+		}
 		if (StringUtils.isBlank(daoSavePath)) {
 			daoSavePath = basePackageSavePath + "mybatis" + separator + "dao" + separator;
+		}
+		if (StringUtils.isBlank(daoImplPackageName)) {
+			daoImplPackageName = basePackageName + ".mybatis.dao.impl";
 		}
 		if (StringUtils.isBlank(daoImplSavePath)) {
 			daoImplSavePath = basePackageSavePath + "mybatis" + separator + "dao" + separator + "impl" + separator;
 		}
+		if (StringUtils.isBlank(servicePackageName)) {
+			servicePackageName = basePackageName + ".service";
+		}
 		if (StringUtils.isBlank(serviceSavePath)) {
 			serviceSavePath = basePackageSavePath + "service" + separator;
+		}
+		if (StringUtils.isBlank(serviceImplPackageName)) {
+			serviceImplPackageName = basePackageName + ".service.impl";
 		}
 		if (StringUtils.isBlank(serviceImplSavePath)) {
 			serviceImplSavePath = basePackageSavePath + "service" + separator + "impl" + separator;
 		}
+		if (StringUtils.isBlank(controllerPackageName)) {
+			controllerPackageName = basePackageName + ".controller";
+		}
 		if (StringUtils.isBlank(controllerSavePath)) {
 			controllerSavePath = basePackageSavePath + "controller" + separator;
+		}
+		if (StringUtils.isBlank(exceptionPackageName)) {
+			exceptionPackageName = basePackageName + ".exception";
 		}
 		if (StringUtils.isBlank(exceptionSavePath)) {
 			exceptionSavePath = basePackageSavePath + "exception" + separator;
@@ -247,28 +274,12 @@ public class PackageData {
 		this.constantSavePath = constantSavePath;
 	}
 
-	public String getSqlMapPackageName() {
-		return sqlMapPackageName;
-	}
-
-	public void setSqlMapPackageName(String sqlMapPackageName) {
-		this.sqlMapPackageName = sqlMapPackageName;
-	}
-
 	public String getSqlMapSavePath() {
 		return sqlMapSavePath;
 	}
 
 	public void setSqlMapSavePath(String sqlMapSavePath) {
 		this.sqlMapSavePath = sqlMapSavePath;
-	}
-
-	public String getSqlMapExtendPackageName() {
-		return sqlMapExtendPackageName;
-	}
-
-	public void setSqlMapExtendPackageName(String sqlMapExtendPackageName) {
-		this.sqlMapExtendPackageName = sqlMapExtendPackageName;
 	}
 
 	public String getSqlMapExtendSavePath() {

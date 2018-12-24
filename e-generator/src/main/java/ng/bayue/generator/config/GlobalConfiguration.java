@@ -1,5 +1,7 @@
 package ng.bayue.generator.config;
 
+import ng.bayue.generator.template.model.PackageData;
+
 public class GlobalConfiguration extends AbstractConfiguration {
 
 	protected String[] tableNamePrefixs;
@@ -13,6 +15,8 @@ public class GlobalConfiguration extends AbstractConfiguration {
 	protected boolean batchEnable = DEFAULT_ENABLE;
 
 	protected boolean extendSqlMapEnable = DEFAULT_ENABLE;
+
+	protected PackageData packageData;
 
 	public String[] getTableNamePrefixs() {
 		return tableNamePrefixs;
@@ -60,6 +64,14 @@ public class GlobalConfiguration extends AbstractConfiguration {
 
 	public void setExtendSqlMapEnable(boolean extendSqlMapEnable) {
 		this.extendSqlMapEnable = extendSqlMapEnable;
+	}
+
+	public PackageData getPackageData() {
+		return packageData;
+	}
+
+	public void setPackageData(PackageData packageData) {
+		this.packageData = packageData;
 	}
 
 }

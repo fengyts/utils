@@ -1,6 +1,23 @@
 package ng.bayue.generator.gen.factory;
 
+import ng.bayue.generator.gen.Generator;
+
 public final class FactoryProducer {
+
+	private static final class SingletonFreemarkerGeneratorFactory {
+		private static volatile FreemarkerGeneratorFactory generatorFactoryInstance;
+
+		private static FreemarkerGeneratorFactory getFactoryInstance() {
+			if (null == generatorFactoryInstance) {
+				synchronized (FreemarkerGeneratorFactory.class) {
+					if (null == generatorFactoryInstance) {
+						generatorFactoryInstance = new FreemarkerGeneratorFactory();
+					}
+				}
+			}
+			return generatorFactoryInstance;
+		}
+	}
 
 	private static final class SingletonDaoGeneratorFactory {
 		private static volatile DaoGeneratorFactory generatorFactoryInstance;
@@ -78,10 +95,13 @@ public final class FactoryProducer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends FactoryGenerator> T getFactory(Class<T> clazz) {
+	public static <T extends FactoryGenerator<?>> T getFactory(Class<T> clazz) {
 		try {
 			if (null == clazz)
 				throw new NullPointerException();
+			if (FreemarkerGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
+				return (T) SingletonFreemarkerGeneratorFactory.getFactoryInstance();
+			}
 			if (SqlMapperXMLGeneratorFactory.class.getSimpleName().equals(clazz.getSimpleName())) {
 				return (T) SingletonSqlMapperXMLGeneratorFactory.getFactoryInstance();
 			}

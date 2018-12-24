@@ -3,6 +3,7 @@ package ng.bayue.generator.gen;
 import java.util.List;
 import java.util.Map;
 
+import ng.bayue.generator.config.Context;
 import ng.bayue.generator.constants.JavaVisibility;
 import ng.bayue.generator.constants.SymbolConstant;
 import ng.bayue.generator.information.Column;
@@ -13,12 +14,14 @@ import ng.bayue.generator.utils.StringUtils;
 public abstract class AbstractGenerator {
 
 	protected TableInfo tableInfo;
+	protected Context context;
 
 	protected AbstractGenerator(TableInfo tableInfo) {
 		if (null == tableInfo) {
 			throw new NullPointerException();
 		}
 		this.tableInfo = tableInfo;
+		this.context = tableInfo.getContext();
 	}
 
 	public static void generateFile(String templateName, String fileName, Map<?, ?> dataMap) {
@@ -69,7 +72,7 @@ public abstract class AbstractGenerator {
 		List<Column> columns = tableInfo.getColumns();
 		for (Column column : columns) {
 			String javaPropertyName = column.getJavaPropertyName();
-			String javaPropertyType = column.getJavaPropertyType();
+			String javaPropertyType = column.getJavaTypeInfo().getJavaTypeShort();
 			s.append(generateSetterMethod(javaPropertyName, javaPropertyType))
 					.append(generateGetterMethod(javaPropertyName, javaPropertyType));
 		}

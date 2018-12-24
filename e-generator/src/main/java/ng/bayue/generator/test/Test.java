@@ -80,7 +80,7 @@ public class Test {
 				if (null == c) {
 					System.out.println("null column:" + tableName);
 				} else {
-					if (StringUtils.isBlank(c.getJavaPropertyType())) {
+					if (StringUtils.isBlank(c.getJavaTypeInfo().getJavaTypeShort())) {
 						System.out.println("null javaPropertyType:" + tableName + "-column:" + c.getColumnName());
 					}
 				}
@@ -98,8 +98,9 @@ public class Test {
 		long timeStart = System.currentTimeMillis();
 		List<TableInfo> tis = handler.introspectTable(tableNamePattern);
 		
-		FactoryGenerator factory = FactoryProducer.getFactory(EntityGeneratorFactory.class);
+		FactoryGenerator<EntityGenerator> factory = FactoryProducer.getFactory(EntityGeneratorFactory.class);
 		EntityGenerator eg = factory.create(tis.get(0));
+		eg.generate();
 	}
 
 	public static void testSqlExecute() {

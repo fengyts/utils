@@ -1,5 +1,7 @@
 package ng.bayue.generator.information;
 
+import ng.bayue.generator.types.JavaTypeInformation;
+
 /**
  * 表列信息
  * @author lenovopc
@@ -11,8 +13,6 @@ public class Column extends AbstractInfo {
 	private String columnName;
 	/** 数据库类型 */
 	private String jdbcTypeName;
-	/** java属性类型 */
-	private String javaPropertyType;
 	/** java实例属性-列名驼峰形式 */
 	private String javaPropertyName;
 	/** 列默认值 */
@@ -20,11 +20,18 @@ public class Column extends AbstractInfo {
 	/** 列注释 */
 	private String comment;
 
+	// private String javaPropertyType;
+	/** java属性类型信息 */
+	private JavaTypeInformation javaTypeInfo;
+
 	@Override
 	public String getHumpFormat() {
 		super.toHumpFormat(columnName);
 		return humpFormat;
 	}
+
+	// =================================
+	// setter and getter methods
 
 	public String getColumnName() {
 		return columnName;
@@ -32,7 +39,6 @@ public class Column extends AbstractInfo {
 
 	public void setColumnName(String columnName) {
 		this.columnName = columnName;
-//		this.javaPropertyName = getHumpFormat();
 	}
 
 	public String getJdbcTypeName() {
@@ -41,14 +47,6 @@ public class Column extends AbstractInfo {
 
 	public void setJdbcTypeName(String jdbcTypeName) {
 		this.jdbcTypeName = jdbcTypeName;
-	}
-
-	public String getJavaPropertyType() {
-		return javaPropertyType;
-	}
-
-	public void setJavaPropertyType(String javaPropertyType) {
-		this.javaPropertyType = javaPropertyType;
 	}
 
 	public String getJavaPropertyName() {
@@ -73,6 +71,14 @@ public class Column extends AbstractInfo {
 
 	public void setDefaultValue(Object defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+
+	public JavaTypeInformation getJavaTypeInfo() {
+		return javaTypeInfo;
+	}
+
+	public void setJavaTypeInfo(JavaTypeInformation javaTypeInfo) {
+		this.javaTypeInfo = javaTypeInfo;
 	}
 
 }

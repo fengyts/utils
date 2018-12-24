@@ -4,9 +4,12 @@ import ng.bayue.generator.utils.StringUtils;
 
 public final class JavaTypeInformation {
 
-	private String javaTypeNameShort;
-	private String javaTypeNameFully;
+	public static final JavaTypeInformation OBJECT = new JavaTypeInformation(Object.class.getName());
+
 	private String packageName;
+	private String javaTypeShort;
+	/** javaTypeFully = packageName + "." + javaTypeShort */
+	private String javaTypeFully;
 	private boolean isJavaLangPackage = true;
 	private boolean isArray = false;
 
@@ -14,15 +17,15 @@ public final class JavaTypeInformation {
 		if (StringUtils.isBlank(javaTypeNameFully)) {
 			throw new NullPointerException();
 		}
-		this.javaTypeNameFully = javaTypeNameFully;
+		this.javaTypeFully = javaTypeNameFully;
 		if (CommonJavaType.BYTE_ARRAY.equalsIgnoreCase(javaTypeNameFully) || javaTypeNameFully.endsWith("]")) {
 			this.isArray = true;
-			this.javaTypeNameShort = javaTypeNameFully;
+			this.javaTypeShort = javaTypeNameFully;
 		} else {
 			int lastPoint = javaTypeNameFully.lastIndexOf(".");
 			String packageName = javaTypeNameFully.substring(0, lastPoint);
 			String javaTypeNameShort = javaTypeNameFully.substring(lastPoint + 1);
-			this.javaTypeNameShort = javaTypeNameShort;
+			this.javaTypeShort = javaTypeNameShort;
 			this.packageName = packageName;
 			this.isJavaLangPackage = CommonJavaType.PACKAGE_LANG.equals(packageName);
 		}
@@ -33,20 +36,20 @@ public final class JavaTypeInformation {
 		return jti;
 	}
 
-	public String getJavaTypeNameShort() {
-		return javaTypeNameShort;
+	public String getJavaTypeShort() {
+		return javaTypeShort;
 	}
 
-	public void setJavaTypeNameShort(String javaTypeNameShort) {
-		this.javaTypeNameShort = javaTypeNameShort;
+	public void setJavaTypeShort(String javaTypeShort) {
+		this.javaTypeShort = javaTypeShort;
 	}
 
-	public String getJavaTypeNameFully() {
-		return javaTypeNameFully;
+	public String getJavaTypeFully() {
+		return javaTypeFully;
 	}
 
-	public void setJavaTypeNameFully(String javaTypeNameFully) {
-		this.javaTypeNameFully = javaTypeNameFully;
+	public void setJavaTypeFully(String javaTypeFully) {
+		this.javaTypeFully = javaTypeFully;
 	}
 
 	public String getPackageName() {
@@ -144,5 +147,5 @@ public final class JavaTypeInformation {
 		public static final String CHARACTER = "Character";
 		public static final String BOOLEAN = "Boolean";
 	}
-
+	
 }

@@ -52,6 +52,11 @@ public class ConstraintsInfo {
 	public boolean isUnionPK() {
 		return pkInfo.isUnionKey();
 	}
+	
+	public boolean hasUnique() {
+		return null != uniqueInfosMap && uniqueInfosMap.size() > 0;
+	}
+	
 
 //	/**
 //	 * 是否单一列唯一索引

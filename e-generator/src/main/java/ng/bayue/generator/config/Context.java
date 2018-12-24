@@ -10,22 +10,29 @@ import ng.bayue.generator.utils.StringUtils;
  */
 public class Context extends AbstractContext {
 
-	// private GlobalConfiguration globalConfiguration;
+	private GlobalConfiguration globalConfiguration;
 
-	// private List<TableConfiguration> tableConfigurations;
-
-	/** 表名和表特殊配置映射器  */
+	/** 表名和表特殊配置映射器, key: tableName, value: TableConfiguration */
 	private Map<String, TableConfiguration> tableConfigurationMapper;
 
 	private CommentConfiguration commentConfiguration;
 
 	public TableConfiguration getTableConfiguration(String tableName) {
 		if (StringUtils.isBlank(tableName)) {
-			return new TableConfiguration();
+			// return new TableConfiguration();
+			throw new NullPointerException();
 		}
 		TableConfiguration tableConfiguration = null == tableConfigurationMapper ? new TableConfiguration()
 				: tableConfigurationMapper.get(tableName);
 		return null == tableConfiguration ? new TableConfiguration() : tableConfiguration;
+	}
+
+	public GlobalConfiguration getGlobalConfiguration() {
+		return globalConfiguration;
+	}
+
+	public void setGlobalConfiguration(GlobalConfiguration globalConfiguration) {
+		this.globalConfiguration = globalConfiguration;
 	}
 
 	public Map<String, TableConfiguration> getTableConfigurationMapper() {
@@ -43,5 +50,6 @@ public class Context extends AbstractContext {
 	public void setCommentConfiguration(CommentConfiguration commentConfiguration) {
 		this.commentConfiguration = commentConfiguration;
 	}
+	
 
 }

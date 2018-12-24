@@ -65,20 +65,42 @@ public class GenericTypeHandler implements JdbcTypeResovle {
 
 	}
 
-	public static String getJavaTypeName(String jdbcTypeName) {
+	public static String getJavaTypeNameShort(String jdbcTypeName) {
 		if (StringUtils.isBlank(jdbcTypeName)) {
 			return JavaTypeInformation.CommonJavaType.OBJECT;
 		}
+		final JdbcTypeInformation jdbcTypeInformation = getJdbcTypeInfo(jdbcTypeName);
+		return null == jdbcTypeInformation ? JavaTypeInformation.CommonJavaType.OBJECT
+				: jdbcTypeInformation.getJavaTypeInfo().getJavaTypeShort();
+	}
+
+	public static String getJavaTypeNameFully(String jdbcTypeName) {
+		if (StringUtils.isBlank(jdbcTypeName)) {
+			return JavaTypeInformation.CommonJavaType.OBJECT;
+		}
+		final JdbcTypeInformation jdbcTypeInformation = getJdbcTypeInfo(jdbcTypeName);
+		return null == jdbcTypeInformation ? JavaTypeInformation.CommonJavaType.OBJECT
+				: jdbcTypeInformation.getJavaTypeInfo().getJavaTypeFully();
+	}
+
+	public static JavaTypeInformation getJavaTypeInfo(String jdbcTypeName) {
+		if (StringUtils.isBlank(jdbcTypeName)) {
+			return JavaTypeInformation.OBJECT;
+		}
+		final JdbcTypeInformation jdbcTypeInformation = getJdbcTypeInfo(jdbcTypeName);
+		return null == jdbcTypeInformation ? JavaTypeInformation.OBJECT : jdbcTypeInformation.getJavaTypeInfo();
+	}
+
+	private static JdbcTypeInformation getJdbcTypeInfo(String jdbcTypeName) {
 		final String jt = jdbcTypeName.toUpperCase();
 		final int type = GenericJdbcTypeMapper.getJdbcType(jt);
 		final JdbcTypeInformation jdbcTypeInformation = typeMap.get(type);
-		return null == jdbcTypeInformation ? JavaTypeInformation.CommonJavaType.OBJECT
-				: jdbcTypeInformation.getJavaTypeInfo().getJavaTypeNameShort();
+		return jdbcTypeInformation;
 	}
 
 	@Override
 	public String resovle(String jdbcTypeName) {
-		return getJavaTypeName(jdbcTypeName);
+		return getJavaTypeNameShort(jdbcTypeName);
 	}
 
 	private static JdbcTypeInformation newJdbcTypeInfoInstance(String jdbcTypeName, String javaTypeClassNameFully) {

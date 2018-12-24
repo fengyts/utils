@@ -1,7 +1,6 @@
 package ng.bayue.generator.gen;
 
 import ng.bayue.generator.information.TableInfo;
-import ng.bayue.generator.template.model.TableEntityData;
 
 public class EntityGenerator extends AbstractGenerator implements Generator {
 
@@ -11,10 +10,6 @@ public class EntityGenerator extends AbstractGenerator implements Generator {
 
 	@Override
 	public <M> M generate() {
-		TableEntityData data = new TableEntityData();
-		data.setAllColumns(tableInfo.getColumnStr());
-		data.setTableName(tableInfo.getTableName());
-		data.setTableEntityName(tableInfo.getHumpFormat());
 		return null;
 	}
 

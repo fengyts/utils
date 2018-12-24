@@ -9,6 +9,13 @@ public class FreemarkerDataModel {
 	private boolean generateUniqueEnable;
 	private boolean generateBatchEnable;
 
+	public String capitalUpperTableEntityName() {
+		return tableEngityData.capitalUpperTableEntityName();
+	}
+
+	// ===================================
+	// methods setter and getter
+
 	public PackageData getPackageData() {
 		return packageData;
 	}
