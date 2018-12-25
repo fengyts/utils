@@ -116,14 +116,13 @@ public class Test {
 		FreemarkerGeneratorFactory factory = FactoryProducer.getFactory(FreemarkerGeneratorFactory.class);
 		FreemarkerGenerator eg = factory.create(tis.get(0));
 		FreemarkerDataModel fdm = eg.generate();
+		System.out.println(fdm);
 
-		PackageData pData = context.getGlobalConfiguration().getPackageData();
-
-		Map<String, Object> rootMap = new HashMap<String, Object>();
-		rootMap.put("rootData", fdm);
-
-		String generateFilePath = pData.getEntitySavePath() + fdm.capitalUpperTableEntityName() + ".java";
-		GeneratorFileUtil.generateFile(GeneratorTemplate.MB_MODEL, generateFilePath, rootMap);
+//		PackageData pData = context.getGlobalConfiguration().getPackageData();
+//		Map<String, Object> rootMap = new HashMap<String, Object>();
+//		rootMap.put("rootData", fdm);
+//		String generateFilePath = pData.getEntitySavePath() + fdm.capitalUpperTableEntityName() + ".java";
+//		GeneratorFileUtil.generateFile(GeneratorTemplate.MB_MODEL, generateFilePath, rootMap);
 	}
 
 	public static void main(String[] args) {

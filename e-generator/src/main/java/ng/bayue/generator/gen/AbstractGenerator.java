@@ -4,28 +4,43 @@ import java.util.List;
 import java.util.Map;
 
 import ng.bayue.generator.config.Context;
+import ng.bayue.generator.config.GlobalConfiguration;
 import ng.bayue.generator.constants.JavaVisibility;
 import ng.bayue.generator.constants.SymbolConstant;
 import ng.bayue.generator.information.Column;
 import ng.bayue.generator.information.TableInfo;
+import ng.bayue.generator.template.model.PackageData;
+import ng.bayue.generator.template.model.TemplateDataModelMapper.TemplateMapperEnum;
 import ng.bayue.generator.utils.GeneratorFileUtil;
 import ng.bayue.generator.utils.StringUtils;
 
 public abstract class AbstractGenerator {
 
 	protected TableInfo tableInfo;
-	protected Context context;
+	private static transient Context context;
 
 	protected AbstractGenerator(TableInfo tableInfo) {
 		if (null == tableInfo) {
 			throw new NullPointerException();
 		}
 		this.tableInfo = tableInfo;
-		this.context = tableInfo.getContext();
+		context = tableInfo.getContext();
 	}
 
 	public static void generateFile(String templateName, String fileName, Map<?, ?> dataMap) {
 		GeneratorFileUtil.generateFile(templateName, fileName, dataMap);
+	}
+
+	public static void generateFile(TemplateMapperEnum e, String fileName, Map<?, ?> dataMap) {
+		GeneratorFileUtil.generateFile(e, fileName, dataMap);
+	}
+
+	public static GlobalConfiguration getGlobalConfig() {
+		return context.getGlobalConfiguration();
+	}
+
+	public static PackageData getPackageData() {
+		return getGlobalConfig().getPackageData();
 	}
 
 	protected String generateProperty(String javaPropertyName, String javaPropertyType, String comment) {

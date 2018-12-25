@@ -16,6 +16,7 @@ import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.Version;
+import ng.bayue.generator.template.model.TemplateDataModelMapper.TemplateMapperEnum;
 
 public class GeneratorFileUtil {
 
@@ -73,6 +74,25 @@ public class GeneratorFileUtil {
 			config.setTemplateLoader(templateLoader);
 
 			generateFileByTemplate(config, templateName, fileName, dataMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void generateFile(TemplateMapperEnum tme, String fileName, Map<?, ?> dataMap) {
+		try {
+			Configuration config = new Configuration(INCOMPATIBLE_IMPROVEMENTS);
+			config.setObjectWrapper(new DefaultObjectWrapper(INCOMPATIBLE_IMPROVEMENTS));
+
+			// 加载egenerator.jar中的ftl模板文件
+			// TemplateLoader templateLoader = new
+			// ClassTemplateLoader(GeneratorTemplate.class, "/template");
+			TemplateLoader templateLoader = new ClassTemplateLoader(Template.class, "/template");
+			config.setTemplateLoader(templateLoader);
+
+			String templateName = tme.getTemplateName();
+			String fileNameFull = tme.handleFileName(fileName);
+			generateFileByTemplate(config, templateName, fileNameFull, dataMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

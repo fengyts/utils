@@ -6,11 +6,11 @@ public class TableConfiguration extends GlobalConfiguration {
 
 	private String tableNamePrefix;
 
-	// private boolean uniqueEnable;
-	// private boolean isAbstractInterface;
-	// private boolean pageQueryEnable;
-	// private boolean batchEnable;
-	// private boolean extendSqlMapEnable;
+//	private boolean uniqueEnable;
+//	private boolean isAbstractInterface;
+//	private boolean pageQueryEnable;
+//	private boolean batchEnable;
+//	private boolean extendSqlMapEnable;
 
 	private SpecialColumnConfiguration specialColumnConfiguration;
 

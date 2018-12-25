@@ -5,6 +5,11 @@ import java.util.List;
 
 import ng.bayue.generator.utils.StringUtils;
 
+/**
+ * 此类数据全局唯一
+ * @author lenovopc
+ *
+ */
 public class PackageData {
 
 	private static final String separator = File.separator;
@@ -58,6 +63,8 @@ public class PackageData {
 
 	public void createPackageDir() {
 		setDefaultValue();
+		initTemplateDataModelMapper();
+
 		createDir(basePackageSavePath);
 		createDir(utilsSavePath);
 		createDir(commonSavePath);
@@ -71,6 +78,10 @@ public class PackageData {
 		createDir(serviceImplSavePath);
 		createDir(controllerSavePath);
 		createDir(exceptionSavePath);
+	}
+
+	private void initTemplateDataModelMapper() {
+		TemplateDataModelMapper.init(this);
 	}
 
 	private void createDir(File packageDir) {

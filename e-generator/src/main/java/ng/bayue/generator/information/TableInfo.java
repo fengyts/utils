@@ -31,7 +31,7 @@ public class TableInfo extends AbstractInfo {
 
 	private Context context;
 
-	private ColumnsInfoExtract extractInfo;
+	private transient ColumnsInfoExtract extractInfo;
 
 	public TableInfo(Context context) {
 		this.context = context;
@@ -57,7 +57,7 @@ public class TableInfo extends AbstractInfo {
 		return extractInfo.extractTableProperties();
 	}
 
-	public KeyInfoData getKeyInfo() {
+	public KeyInfoData getKeyInfo(boolean uniqueEnable) {
 		KeyInfoData keyInfoData = new KeyInfoData();
 		boolean unionPK = constraintsInfo.isUnionPK();
 		keyInfoData.setUnionPK(unionPK);
@@ -72,30 +72,33 @@ public class TableInfo extends AbstractInfo {
 
 			keyInfoData.setPrimaryKey(pk);
 		}
+		if (uniqueEnable) {
+			Map<String, UniqueKeyInfo> uniqueInfosMap = constraintsInfo.getUniqueInfosMap();
+			if (null != uniqueInfosMap && uniqueInfosMap.size() > 0) {
+				keyInfoData.setHasUniqueKey(true);
+				List<KeyInfoData.KeyInfo> uks = new ArrayList<KeyInfoData.KeyInfo>();
+				final String uniqueSuffix = "Unique";
+				for (Map.Entry<String, UniqueKeyInfo> entry : uniqueInfosMap.entrySet()) {
+					KeyInfoData.KeyInfo uk = new KeyInfoData.KeyInfo();
+					String key = entry.getKey();
+					UniqueKeyInfo ukInfo = entry.getValue();
+					List<Column> columns = ukInfo.getColumns();
+					ColumnsInfoExtract cie = new ColumnsInfoExtract(columns);
+					if (ukInfo.isUnionKey()) {
+						key = StringUtils.toHumpFormat(key);
+					} else {
+						key = columns.get(0).getHumpFormat();
+					}
+					uk.setProperties(cie.extractTableProperties());
+					uk.setImports(cie.extractTableColumnsImports());
+					uk.setKeyEntityName(key + uniqueSuffix);
 
-		Map<String, UniqueKeyInfo> uniqueInfosMap = constraintsInfo.getUniqueInfosMap();
-		if (null != uniqueInfosMap && uniqueInfosMap.size() > 0) {
-			keyInfoData.setHasUniqueKey(true);
-			List<KeyInfoData.KeyInfo> uks = new ArrayList<KeyInfoData.KeyInfo>();
-			final String uniqueSuffix = "Unique";
-			for (Map.Entry<String, UniqueKeyInfo> entry : uniqueInfosMap.entrySet()) {
-				KeyInfoData.KeyInfo uk = new KeyInfoData.KeyInfo();
-				String key = entry.getKey();
-				UniqueKeyInfo ukInfo = entry.getValue();
-				List<Column> columns = ukInfo.getColumns();
-				ColumnsInfoExtract cie = new ColumnsInfoExtract(columns);
-				if (ukInfo.isUnionKey()) {
-					key = StringUtils.toHumpFormat(key);
-				} else {
-					key = columns.get(0).getHumpFormat();
+					uks.add(uk);
 				}
-				uk.setProperties(cie.extractTableProperties());
-				uk.setImports(cie.extractTableColumnsImports());
-				uk.setKeyEntityName(key + uniqueSuffix);
-
-				uks.add(uk);
+				keyInfoData.setUniqueKey(uks);
 			}
-			keyInfoData.setUniqueKey(uks);
+		} else {
+			keyInfoData.setHasUniqueKey(false);
 		}
 		return keyInfoData;
 	}

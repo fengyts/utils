@@ -1,13 +1,14 @@
 package ng.bayue.generator.template.model;
 
+import ng.bayue.generator.config.ExtendSwitchConfiguration;
+
 public class FreemarkerDataModel {
 
 	private PackageData packageData;
 
 	private TableEntityData tableEngityData;
 
-	private boolean generateUniqueEnable;
-	private boolean generateBatchEnable;
+	private ExtendSwitchConfiguration extendSwitch;
 
 	public String capitalUpperTableEntityName() {
 		return tableEngityData.capitalUpperTableEntityName();
@@ -32,20 +33,12 @@ public class FreemarkerDataModel {
 		this.tableEngityData = tableEngityData;
 	}
 
-	public boolean isGenerateUniqueEnable() {
-		return generateUniqueEnable;
+	public ExtendSwitchConfiguration getExtendSwitch() {
+		return extendSwitch;
 	}
 
-	public void setGenerateUniqueEnable(boolean generateUniqueEnable) {
-		this.generateUniqueEnable = generateUniqueEnable;
-	}
-
-	public boolean isGenerateBatchEnable() {
-		return generateBatchEnable;
-	}
-
-	public void setGenerateBatchEnable(boolean generateBatchEnable) {
-		this.generateBatchEnable = generateBatchEnable;
+	public void setExtendSwitch(ExtendSwitchConfiguration extendSwitch) {
+		this.extendSwitch = extendSwitch;
 	}
 
 }
