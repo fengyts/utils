@@ -1,6 +1,7 @@
 package ng.bayue.generator.gen;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ng.bayue.generator.constants.GeneratorTemplate;
@@ -66,6 +67,13 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		}
 		boolean unionUniqueModelEnable = tableInfo.getTableConfiguration().isUnionUniqueModelEnable();
 		if (unionUniqueModelEnable && keyInfoData.isHasUniqueKey()) {
+			List<KeyInfo> ukInfos = keyInfoData.getUniqueKey();
+			for(KeyInfo keyInfo : ukInfos){
+				if(keyInfo.isUnion()){
+					rootMap.put(mapper.getModelRootMapKey(), keyInfo);
+					generateFile(mapper, keyInfo.getKeyEntityName(), rootMap);
+				}
+			}
 		}
 	}
 

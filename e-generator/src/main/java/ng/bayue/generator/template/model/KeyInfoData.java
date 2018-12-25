@@ -14,6 +14,7 @@ public class KeyInfoData {
 		private String keyEntityName;
 		private List<String> imports;
 		private List<EntityProperty> properties;
+		private boolean isUnion = false;
 
 		public String getKeyEntityName() {
 			return keyEntityName;
@@ -37,6 +38,14 @@ public class KeyInfoData {
 
 		public void setProperties(List<EntityProperty> properties) {
 			this.properties = properties;
+		}
+
+		public boolean isUnion() {
+			return isUnion;
+		}
+
+		public void setUnion(boolean isUnion) {
+			this.isUnion = isUnion;
 		}
 
 	}

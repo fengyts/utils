@@ -92,6 +92,7 @@ public class TableInfo extends AbstractInfo {
 					uk.setProperties(cie.extractTableProperties());
 					uk.setImports(cie.extractTableColumnsImports());
 					uk.setKeyEntityName(key + uniqueSuffix);
+					uk.setUnion(ukInfo.isUnionKey());
 
 					uks.add(uk);
 				}
