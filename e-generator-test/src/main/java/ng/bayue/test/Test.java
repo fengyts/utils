@@ -29,6 +29,7 @@ import ng.bayue.generator.template.model.KeyInfoData;
 import ng.bayue.generator.template.model.PackageData;
 import ng.bayue.generator.template.model.TableEntityData;
 import ng.bayue.generator.utils.GeneratorFileUtil;
+import ng.bayue.generator.utils.ThreadPoolUtil;
 
 public class Test {
 
@@ -117,6 +118,8 @@ public class Test {
 		FreemarkerGenerator eg = factory.create(tis.get(0));
 		FreemarkerDataModel fdm = eg.generate();
 		System.out.println(fdm);
+		
+		ThreadPoolUtil.shutDown();
 
 //		PackageData pData = context.getGlobalConfiguration().getPackageData();
 //		Map<String, Object> rootMap = new HashMap<String, Object>();

@@ -13,7 +13,7 @@ public abstract class AbstractInfo {
 		if (StringUtils.isBlank(dashFormat)) {
 			return null;
 		}
-		humpFormat = StringUtils.toHumpFormat(dashFormat);
+		this.humpFormat = StringUtils.toHumpFormat(dashFormat);
 		return humpFormat;
 	}
 

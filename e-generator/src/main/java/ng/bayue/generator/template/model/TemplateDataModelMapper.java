@@ -21,12 +21,14 @@ public class TemplateDataModelMapper {
 
 	public static enum TemplateMapperEnum {
 		// templateName | rootMap-key | savePath | fileName | fileSuffix
-		COMMON(GeneratorTemplate.COMMON, "commonData", packageData.getCommonSavePath(), "", SUFFIX_JAVA),
-		BASIC_MODEL(GeneratorTemplate.BASIC_MODEL, "baseModelData", packageData.getBasePackageSavePath(), "", SUFFIX_JAVA),
-		GENERIC_PAGE(GeneratorTemplate.GENERIC_PAGE, "commonData", packageData.getCommonSavePath(), "", SUFFIX_JAVA),
-		GENERIC_DAO_EXCEPTION(GeneratorTemplate.GENERIC_DAO_EXCEPTION, "commonData", packageData.getCommonSavePath(), "", SUFFIX_JAVA),
-		GENERIC_SERVICE_EXCEPTION(GeneratorTemplate.GENERIC_SERVICE_EXCEPTION, "commonData", packageData.getCommonSavePath(), "", SUFFIX_JAVA),
-		GENERIC_SERVICE(GeneratorTemplate.GENERIC_SERVICE, "commonData", packageData.getCommonSavePath(), "", SUFFIX_JAVA),
+		COMMON(GeneratorTemplate.COMMON_G, "commonData", packageData.getCommonSavePath(), "", SUFFIX_JAVA),
+		GENERIC_BASIC_MODEL(GeneratorTemplate.GENERIC_BASIC_MODEL, "baseModelData", packageData.getEntitySavePath(), "BaseModel", SUFFIX_JAVA),
+		GENERIC_PAGE(GeneratorTemplate.GENERIC_PAGE, "commonData", packageData.getCommonSavePath(), "Page", SUFFIX_JAVA),
+		GENERIC_DAO(GeneratorTemplate.GENERIC_DAO, "commonData", packageData.getCommonSavePath(), "GenericDAO", SUFFIX_JAVA),
+		GENERIC_SERVICE(GeneratorTemplate.GENERIC_SERVICE, "commonData", packageData.getCommonSavePath(), "GenericService", SUFFIX_JAVA),
+		
+		GENERIC_DAO_EXCEPTION(GeneratorTemplate.GENERIC_DAO_EXCEPTION, "commonData", packageData.getExceptionSavePath(), "DAOException", SUFFIX_JAVA),
+		GENERIC_SERVICE_EXCEPTION(GeneratorTemplate.GENERIC_SERVICE_EXCEPTION, "commonData", packageData.getExceptionSavePath(), "ServiceException", SUFFIX_JAVA),
 		
 		MB_CONSTANT(GeneratorTemplate.MB_CONSTANT, "commonData", packageData.getConstantSavePath(), "", SUFFIX_JAVA),
 		
@@ -71,9 +73,14 @@ public class TemplateDataModelMapper {
 		}
 		
 		public String handleFileName(String fileName) {
-			String file = savePath + StringUtils.capitalLetterToUpperCase(fileName) + fileSuffix;
-			this.fileName = file;
-			return file;
+			String fileFullName = "";
+			if (StringUtils.isNotBlank(fileName)) {
+				fileFullName = savePath + StringUtils.capitalLetterToUpperCase(fileName) + fileSuffix;
+				this.fileName = fileFullName;
+			} else {
+				fileFullName = savePath + this.fileName + fileSuffix;
+			}
+			return fileFullName;
 		}
 
 		public String getTemplateName() {

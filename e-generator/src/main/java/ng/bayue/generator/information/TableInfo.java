@@ -33,6 +33,8 @@ public class TableInfo extends AbstractInfo {
 
 	private transient ColumnsInfoExtract extractInfo;
 
+	private transient KeyInfoData keyInfoData;
+
 	public TableInfo(Context context) {
 		this.context = context;
 	}
@@ -43,6 +45,7 @@ public class TableInfo extends AbstractInfo {
 
 	public void initExtractInfo(List<Column> columns) {
 		this.extractInfo = new ColumnsInfoExtract(columns);
+		// initKeyInfo(getTableConfiguration().isUniqueEnable());
 	}
 
 	public String getColumnStr() {
@@ -57,7 +60,11 @@ public class TableInfo extends AbstractInfo {
 		return extractInfo.extractTableProperties();
 	}
 
-	public KeyInfoData getKeyInfo(boolean uniqueEnable) {
+	public KeyInfoData getKeyInfo() {
+		return keyInfoData;
+	}
+
+	public void initKeyInfo(boolean uniqueEnable) {
 		KeyInfoData keyInfoData = new KeyInfoData();
 		boolean unionPK = constraintsInfo.isUnionPK();
 		keyInfoData.setUnionPK(unionPK);
@@ -78,21 +85,28 @@ public class TableInfo extends AbstractInfo {
 				keyInfoData.setHasUniqueKey(true);
 				List<KeyInfoData.KeyInfo> uks = new ArrayList<KeyInfoData.KeyInfo>();
 				final String uniqueSuffix = "Unique";
+				int i = 0;
 				for (Map.Entry<String, UniqueKeyInfo> entry : uniqueInfosMap.entrySet()) {
 					KeyInfoData.KeyInfo uk = new KeyInfoData.KeyInfo();
-					String key = entry.getKey();
+					String key = "";
 					UniqueKeyInfo ukInfo = entry.getValue();
 					List<Column> columns = ukInfo.getColumns();
 					ColumnsInfoExtract cie = new ColumnsInfoExtract(columns);
-					if (ukInfo.isUnionKey()) {
-						key = StringUtils.toHumpFormat(key);
+					boolean unionKey = ukInfo.isUnionKey();
+					if (unionKey) {
+						key = humpFormat + uniqueSuffix;
+						if (0 < i) {
+							key += i;
+						}
+						i++;
 					} else {
-						key = columns.get(0).getHumpFormat();
+						// 非联合键直接使用列名
+						key = columns.get(0).getHumpFormat() + uniqueSuffix;
 					}
 					uk.setProperties(cie.extractTableProperties());
 					uk.setImports(cie.extractTableColumnsImports());
-					uk.setKeyEntityName(key + uniqueSuffix);
-					uk.setUnion(ukInfo.isUnionKey());
+					uk.setKeyEntityName(key);
+					uk.setUnion(unionKey);
 
 					uks.add(uk);
 				}
@@ -101,7 +115,8 @@ public class TableInfo extends AbstractInfo {
 		} else {
 			keyInfoData.setHasUniqueKey(false);
 		}
-		return keyInfoData;
+		this.keyInfoData = keyInfoData;
+		// return keyInfoData;
 	}
 
 	public Column getColumnByName(String columnName) {
@@ -134,8 +149,7 @@ public class TableInfo extends AbstractInfo {
 
 	@Override
 	public String getHumpFormat() {
-		super.toHumpFormat(tableName);
-		return humpFormat;
+		return super.toHumpFormat(tableName);
 	}
 
 	// ===================================

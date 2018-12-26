@@ -149,6 +149,7 @@ public class TableInfoHandler {
 			String tableName = tbRs.getString("TABLE_NAME");
 			tableInfo.setTableName(tableName);
 			tableInfo.setComment(tableComment);
+			tableInfo.getHumpFormat();
 			results.add(tableInfo);
 		}
 		closeResultSet(tbRs);
@@ -198,15 +199,16 @@ public class TableInfoHandler {
 	}
 
 	private void getConstraintInfo(DatabaseMetaData metaData, Param param, TableInfo tableInfo) throws SQLException {
-		getPKInfo(metaData, param, tableInfo);
+		getPrimaryKeyInfo(metaData, param, tableInfo);
 		TableConfiguration tc = context.getTableConfiguration(param.getTableNamePattern());
 		boolean uniqueEnable = null == tc ? false : tc.isUniqueEnable();
 		if (uniqueEnable) {
 			getUniqueInfo(metaData, param, true, tableInfo);
 		}
+		tableInfo.initKeyInfo(uniqueEnable);
 	}
 
-	private void getPKInfo(DatabaseMetaData metaData, Param param, TableInfo tableInfo) throws SQLException {
+	private void getPrimaryKeyInfo(DatabaseMetaData metaData, Param param, TableInfo tableInfo) throws SQLException {
 		ResultSet primaryKeys = metaData.getPrimaryKeys(param.getCatalog(), param.getSchemaPattern(),
 				param.getTableNamePattern());
 		List<Column> columns = new ArrayList<Column>();

@@ -1,23 +1,22 @@
 package ng.bayue.generator.constants;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 
 import ng.bayue.generator.utils.StringUtils;
 
 public final class GeneratorTemplate {
 
-	private static final String TEMPLATE_PATH = "src/main/template/";
+	// private static final String TEMPLATE_PATH = "src/main/template/";
 
-	public static final String COMMON = "common_g.ftl";
-	public static final String BASIC_MODEL = "basic_model.ftl";
+	public static final String COMMON_G = "common_g.ftl";
+	public static final String GENERIC_BASIC_MODEL = "generic_basic_model.ftl";
 
 	public static final String GENERIC_PAGE = "generic_page.ftl";
 	public static final String GENERIC_DAO_EXCEPTION = "generic_dao_exception.ftl";
 	public static final String GENERIC_SERVICE_EXCEPTION = "generic_service_exception.ftl";
+	public static final String GENERIC_DAO = "generic_dao.ftl";
 	public static final String GENERIC_SERVICE = "generic_service.ftl";
 
 	public static final String MB_CONSTANT = "mb_constant.ftl";

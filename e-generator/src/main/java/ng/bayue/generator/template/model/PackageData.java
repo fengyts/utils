@@ -3,6 +3,7 @@ package ng.bayue.generator.template.model;
 import java.io.File;
 import java.util.List;
 
+import ng.bayue.generator.utils.GeneratorFileUtil;
 import ng.bayue.generator.utils.StringUtils;
 
 /**
@@ -84,10 +85,12 @@ public class PackageData {
 		TemplateDataModelMapper.init(this);
 	}
 
-	private void createDir(File packageDir) {
-		if ((!packageDir.exists()) && !packageDir.isDirectory()) {
-			packageDir.mkdirs();
-		}
+	private static void createDir(File packageDir) {
+		GeneratorFileUtil.deleteDirectory(packageDir);
+		packageDir.mkdirs();
+		// if ((!packageDir.exists()) && !packageDir.isDirectory()) {
+		// packageDir.mkdirs();
+		// }
 	}
 
 	private void createDir(String filePath) {

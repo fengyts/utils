@@ -2,6 +2,7 @@ package ng.bayue.generator.utils;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -109,6 +110,58 @@ public class GeneratorFileUtil {
 			out.close();
 		} catch (IOException | TemplateException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static void deleteDirectory(final File directory) {
+		try {
+			if (!directory.exists()) {
+				return;
+			}
+			cleanDirectory(directory);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void cleanDirectory(File directory) throws IOException {
+		if (!directory.exists()) {
+			String message = directory + " does not exist";
+			throw new IllegalArgumentException(message);
+		}
+		if (!directory.isDirectory()) {
+			String message = directory + " is not a directory";
+			throw new IllegalArgumentException(message);
+		}
+		File[] files = directory.listFiles();
+		if (files == null) { // null if security restricted
+			throw new IOException("Failed to list contents of " + directory);
+		}
+		IOException exception = null;
+		for (File file : files) {
+			try {
+				forceDelete(file);
+			} catch (IOException ioe) {
+				exception = ioe;
+			}
+		}
+		if (null != exception) {
+			throw exception;
+		}
+	}
+
+	private static void forceDelete(File file) throws IOException {
+		if (file.isDirectory()) {
+			deleteDirectory(file);
+		} else {
+			boolean filePresent = file.exists();
+			if (!file.delete()) {
+				if (!filePresent) {
+					throw new FileNotFoundException("File does not exist: " + file);
+				}
+				String message = "Unable to delete file: " + file;
+				throw new IOException(message);
+			}
 		}
 	}
 

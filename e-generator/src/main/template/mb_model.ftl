@@ -1,8 +1,12 @@
+<#--
 <#assign packageData=rootData.packageData />
 <#assign tableData=rootData.tableEngityData />
 <#assign tableEntityName=tableData.tableEntityName />
+-->
+<#include "./common_t.ftl" />
 package ${packageData.entityPackageName};
 
+import ${baseModelPackageName}.${baseModelName};
 <#assign properties=tableData.properties />
 <#assign imports=tableData.imports />
 <#if imports?default([])?size!=0>
@@ -11,8 +15,10 @@ import ${imp};
 </#list>
 </#if>
 
-public class ${tableEntityName?cap_first} {
-	
+public class ${tableEntityName?cap_first} extends ${baseModelName} {
+
+	private static final long serialVersionUID = 1L;
+
 	<#if properties?default([])?size!=0>
 	<#list properties as prop>
 	/** ${prop.comment!""} */

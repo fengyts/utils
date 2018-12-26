@@ -30,12 +30,26 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		Map<String, Object> rootMap = new HashMap<String, Object>();
 		rootMap.put("rootData", fData);
 
-		// String entitySavePath = pData.getEntitySavePath();
-		// String entityFile = entitySavePath +
-		// fData.capitalUpperTableEntityName() + ".java";
-		// generateFile(GeneratorTemplate.MB_MODEL, entityFile, rootMap);
+		TemplateMapperEnum basicModelMapper = TemplateMapperEnum.GENERIC_BASIC_MODEL;
+
+		final String commonPackageName = pData.getCommonPackageName();
+		final String baseModelPackageName = pData.getEntityPackageName();
+		final String baseModelName = basicModelMapper.getFileName();
+		rootMap.put("commonPackageName", commonPackageName);
+		rootMap.put("baseModelPackageName", baseModelPackageName);
+		rootMap.put("baseModelName", baseModelName);
+
+		// 生成通用工具类
+		generateFile(basicModelMapper, null, rootMap);
+		generateFile(TemplateMapperEnum.GENERIC_PAGE, null, rootMap);
+		generateFile(TemplateMapperEnum.GENERIC_DAO_EXCEPTION, null, rootMap);
+		generateFile(TemplateMapperEnum.GENERIC_SERVICE_EXCEPTION, null, rootMap);
+		generateFile(TemplateMapperEnum.GENERIC_DAO, null, rootMap);
+		generateFile(TemplateMapperEnum.GENERIC_SERVICE, null, rootMap);
+
 		// 生成实体类
 		generateFile(TemplateMapperEnum.MB_MODEL, tableInfo.getHumpFormat(), rootMap);
+
 		// 生成主键和唯一键
 		generateKeyEntity(tableInfo, TemplateMapperEnum.MB_KEY, rootMap);
 
@@ -58,8 +72,7 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 	}
 
 	private static void generateKeyEntity(TableInfo tableInfo, TemplateMapperEnum mapper, Map<String, Object> rootMap) {
-		boolean uniqueEnable = tableInfo.getTableConfiguration().isUniqueEnable();
-		KeyInfoData keyInfoData = tableInfo.getKeyInfo(uniqueEnable);
+		KeyInfoData keyInfoData = tableInfo.getKeyInfo();
 		if (keyInfoData.isUnionPK()) {
 			KeyInfo primaryKey = keyInfoData.getPrimaryKey();
 			rootMap.put(mapper.getModelRootMapKey(), primaryKey);
@@ -68,8 +81,8 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		boolean unionUniqueModelEnable = tableInfo.getTableConfiguration().isUnionUniqueModelEnable();
 		if (unionUniqueModelEnable && keyInfoData.isHasUniqueKey()) {
 			List<KeyInfo> ukInfos = keyInfoData.getUniqueKey();
-			for(KeyInfo keyInfo : ukInfos){
-				if(keyInfo.isUnion()){
+			for (KeyInfo keyInfo : ukInfos) {
+				if (keyInfo.isUnion()) {
 					rootMap.put(mapper.getModelRootMapKey(), keyInfo);
 					generateFile(mapper, keyInfo.getKeyEntityName(), rootMap);
 				}

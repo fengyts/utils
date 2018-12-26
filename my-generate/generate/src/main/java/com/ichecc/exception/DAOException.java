@@ -1,9 +1,8 @@
-<#include "./common_t.ftl" />
-package ${packageData.exceptionPackageName};
+package com.ichecc.exception;
 
-public class DAOException extends Exception {
-
-	private static final long serialVersionUID = 1L;
+public class DAOException extends Exception{
+	
+	private static final long serialVersionUID = 5122280185969230388L;
 
 	public DAOException() {
 		super();
@@ -20,5 +19,5 @@ public class DAOException extends Exception {
 	public DAOException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
-
+	
 }
