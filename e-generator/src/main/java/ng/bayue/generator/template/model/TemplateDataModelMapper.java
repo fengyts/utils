@@ -25,7 +25,10 @@ public class TemplateDataModelMapper {
 		GENERIC_BASIC_MODEL(GeneratorTemplate.GENERIC_BASIC_MODEL, "baseModelData", packageData.getEntitySavePath(), "BaseModel", SUFFIX_JAVA),
 		GENERIC_PAGE(GeneratorTemplate.GENERIC_PAGE, "commonData", packageData.getCommonSavePath(), "Page", SUFFIX_JAVA),
 		GENERIC_DAO(GeneratorTemplate.GENERIC_DAO, "commonData", packageData.getCommonSavePath(), "GenericDAO", SUFFIX_JAVA),
+		GENERIC_DAO_IMPL(GeneratorTemplate.GENERIC_DAO_IMPL, "commonData", packageData.getCommonSavePath(), "GenericMybatisDAO", SUFFIX_JAVA),
+		GENERIC_DAO_IMPL_BASIC(GeneratorTemplate.GENERIC_DAO_IMPL_BASIC, "commonData", packageData.getDaoImplSavePath(), "MybatisBaseDAO", SUFFIX_JAVA),
 		GENERIC_SERVICE(GeneratorTemplate.GENERIC_SERVICE, "commonData", packageData.getCommonSavePath(), "GenericService", SUFFIX_JAVA),
+		GENERIC_SERVICE_IMPL(GeneratorTemplate.GENERIC_SERVICE_IMPL, "commonData", packageData.getCommonSavePath(), "GenericService", SUFFIX_JAVA),
 		
 		GENERIC_DAO_EXCEPTION(GeneratorTemplate.GENERIC_DAO_EXCEPTION, "commonData", packageData.getExceptionSavePath(), "DAOException", SUFFIX_JAVA),
 		GENERIC_SERVICE_EXCEPTION(GeneratorTemplate.GENERIC_SERVICE_EXCEPTION, "commonData", packageData.getExceptionSavePath(), "ServiceException", SUFFIX_JAVA),

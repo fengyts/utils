@@ -52,59 +52,7 @@ public class Test {
 		return context;
 	}
 
-	public static void test() {
-		FreemarkerDataModel fdm = new FreemarkerDataModel();
-		TableEntityData table = new TableEntityData();
-		table.setTableName("test_key");
-		table.setTableEntityName("TestKey");
-		KeyInfoData keyInfo = new KeyInfoData();
-		table.setKeyInfo(keyInfo);
 
-		fdm.setTableEngityData(table);
-
-		PackageData packageData = new PackageData();
-		String basePackage = "ng.bayue.generator";
-		packageData.setBasePackageName(basePackage);
-		packageData.setEntityPackageName(basePackage + ".entity");
-		packageData.setServicePackageName(basePackage + ".service");
-
-		packageData.setBasePackageSavePath("abc\\bayue\\base");
-		fdm.setPackageData(packageData);
-
-		Map<String, Object> rootMap = new HashMap<String, Object>();
-		rootMap.put("rootData", fdm);
-
-		// String rootPath = Test.class.getResource("/").getPath();
-		// String templatesPath = rootPath + "/template";
-		String templatesPath = "";
-		// String generateFilePath =
-		// "E:\\grepo\\utils\\e-generator\\src\\test\\java\\";
-		// generateFilePath += basePackage + "\\service\\TestKey.java";
-		// System.out.println(generateFilePath);
-
-		packageData.createPackageDir();
-		String generateFilePath = packageData.getServiceSavePath() + "TestKey.java";
-		GeneratorFileUtil.generateFile(GeneratorTemplate.MB_SERVICE, generateFilePath, rootMap);
-	}
-
-	public static void getTemplateFile() throws Exception {
-		Version incompatibleImprovements = new Version("2.3.28"); // freemarker
-																	// 版本
-		Configuration config = new Configuration(incompatibleImprovements);
-		// config.setDirectoryForTemplateLoading(dir);
-		config.setObjectWrapper(new DefaultObjectWrapper(incompatibleImprovements));
-		TemplateLoader templateLoader = new ClassTemplateLoader(GeneratorTemplate.class, "/template");
-		config.setTemplateLoader(templateLoader);
-		Object o = templateLoader.findTemplateSource("mb_service.ftl");
-		System.out.println(o);
-		File f = new File(o.toString());
-		System.out.println(f.exists());
-		// Reader reader = templateLoader.getReader(o, "utf-8");
-		// char[] charbuf = new char[1024];
-		// while(-1 != reader.read(charbuf)){
-		// System.out.println(new String(charbuf));
-		// }
-	}
 
 	public static void testg() {
 		Context context = initContext();
@@ -117,15 +65,8 @@ public class Test {
 		FreemarkerGeneratorFactory factory = FactoryProducer.getFactory(FreemarkerGeneratorFactory.class);
 		FreemarkerGenerator eg = factory.create(tis.get(0));
 		FreemarkerDataModel fdm = eg.generate();
-		System.out.println(fdm);
 		
 		ThreadPoolUtil.shutDown();
-
-//		PackageData pData = context.getGlobalConfiguration().getPackageData();
-//		Map<String, Object> rootMap = new HashMap<String, Object>();
-//		rootMap.put("rootData", fdm);
-//		String generateFilePath = pData.getEntitySavePath() + fdm.capitalUpperTableEntityName() + ".java";
-//		GeneratorFileUtil.generateFile(GeneratorTemplate.MB_MODEL, generateFilePath, rootMap);
 	}
 
 	public static void main(String[] args) {

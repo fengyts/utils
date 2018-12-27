@@ -46,12 +46,17 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		generateFile(TemplateMapperEnum.GENERIC_SERVICE_EXCEPTION, null, rootMap);
 		generateFile(TemplateMapperEnum.GENERIC_DAO, null, rootMap);
 		generateFile(TemplateMapperEnum.GENERIC_SERVICE, null, rootMap);
+		generateFile(TemplateMapperEnum.GENERIC_DAO_IMPL_BASIC, null, rootMap);
 
 		// 生成实体类
-		generateFile(TemplateMapperEnum.MB_MODEL, tableInfo.getHumpFormat(), rootMap);
-
+		String tableNameHumpFormat = tableInfo.getHumpFormat();
+		generateFile(TemplateMapperEnum.MB_MODEL, tableNameHumpFormat, rootMap);
 		// 生成主键和唯一键
 		generateKeyEntity(tableInfo, TemplateMapperEnum.MB_KEY, rootMap);
+		// 生成dao
+		generateFile(TemplateMapperEnum.MB_DAO, tableNameHumpFormat + "DAO", rootMap);
+		// 生成dao接口实现类
+		generateFile(TemplateMapperEnum.MB_DAO_IMPL, tableNameHumpFormat + "MybatisDAO", rootMap);
 
 		System.out.println("generate success!!!");
 		return fData;
@@ -76,6 +81,7 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		if (keyInfoData.isUnionPK()) {
 			KeyInfo primaryKey = keyInfoData.getPrimaryKey();
 			rootMap.put(mapper.getModelRootMapKey(), primaryKey);
+			rootMap.put("primaryKeyInfoData", primaryKey);
 			generateFile(mapper, primaryKey.getKeyEntityName(), rootMap);
 		}
 		boolean unionUniqueModelEnable = tableInfo.getTableConfiguration().isUnionUniqueModelEnable();

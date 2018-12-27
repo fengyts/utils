@@ -1,7 +1,7 @@
-<#assign packageData=rootData.packageData />
+<#include "./common_t.ftl" />
 <#assign keyEntityName=keyInfoData.keyEntityName />
-<#assign classSimpleName="${keyEntityName?cap_first}" />
-package ${packageData.entityPackageName};
+<#assign keyModelClassSimpleName="${keyEntityName?cap_first}" />
+package ${entityPackageName};
 
 <#assign properties=keyInfoData.properties />
 <#assign imports=keyInfoData.imports />
@@ -10,9 +10,9 @@ package ${packageData.entityPackageName};
 import ${imp};
 </#list>
 </#if>
-public class ${classSimpleName} {
+public class ${keyModelClassSimpleName} {
 
-	public ${classSimpleName}() {
+	public ${keyModelClassSimpleName}() {
 		super();
 	}
 	
@@ -23,7 +23,7 @@ ${prop.propertyType!"Object"} ${prop.propertyName}${","}
 </#list>
 </#if>
 </#assign>
-	public ${classSimpleName}(${constructorParam?replace("\r\n"," ")?remove_ending(", ")}) {
+	public ${keyModelClassSimpleName}(${constructorParam?replace("\r\n"," ")?remove_ending(", ")}) {
 		<#if properties?default([])?size!=0>
 		<#list properties as prop>
 		this.${prop.propertyName} = ${prop.propertyName};

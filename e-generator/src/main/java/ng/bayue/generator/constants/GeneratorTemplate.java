@@ -17,7 +17,10 @@ public final class GeneratorTemplate {
 	public static final String GENERIC_DAO_EXCEPTION = "generic_dao_exception.ftl";
 	public static final String GENERIC_SERVICE_EXCEPTION = "generic_service_exception.ftl";
 	public static final String GENERIC_DAO = "generic_dao.ftl";
+	public static final String GENERIC_DAO_IMPL = "generic_dao_impl.ftl";
+	public static final String GENERIC_DAO_IMPL_BASIC = "generic_dao_impl_basic.ftl";
 	public static final String GENERIC_SERVICE = "generic_service.ftl";
+	public static final String GENERIC_SERVICE_IMPL = "generic_service_impl.ftl";
 
 	public static final String MB_CONSTANT = "mb_constant.ftl";
 
