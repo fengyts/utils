@@ -1,6 +1,7 @@
 package ng.bayue.generator.template.model;
 
 import java.util.List;
+import java.util.Set;
 
 import ng.bayue.generator.utils.StringUtils;
 
@@ -14,7 +15,7 @@ public class TableEntityData {
 
 	private String allColumns;
 
-	private List<String> imports;
+	private Set<String> imports;
 	private List<EntityProperty> properties;
 	
 	public String capitalUpperTableEntityName(){
@@ -72,11 +73,11 @@ public class TableEntityData {
 		this.properties = properties;
 	}
 
-	public List<String> getImports() {
+	public Set<String> getImports() {
 		return imports;
 	}
 
-	public void setImports(List<String> imports) {
+	public void setImports(Set<String> imports) {
 		this.imports = imports;
 	}
 

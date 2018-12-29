@@ -4,8 +4,10 @@
 <#assign packageData=rootData.packageData>
 <#assign tableData=rootData.tableEngityData>
 <#if primaryKeyInfoData??>
+	<#-- 是否联合主键，即是否生成联合主键模型对象-->
+	<#assign isUnionPK=primaryKeyInfoData.isUnion?c />
 	<#-- keyEntityName: 键对象名称驼峰形式,首字母小写的 -->
-	<#assign primaryKeyEntityName=primaryKeyInfoData.keyEntityName />
+	<#assign primaryKeyEntityName=primaryKeyInfoData.keyClassName />
 	<#assign primaryKeyModelClassSimpleName="${primaryKeyEntityName?cap_first}" />
 </#if>
 <#if packageData??>

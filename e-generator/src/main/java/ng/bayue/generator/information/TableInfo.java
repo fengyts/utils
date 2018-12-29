@@ -3,6 +3,7 @@ package ng.bayue.generator.information;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ng.bayue.generator.config.Context;
 import ng.bayue.generator.config.TableConfiguration;
@@ -52,7 +53,7 @@ public class TableInfo extends AbstractInfo {
 		return extractInfo.extractTableColumnsName();
 	}
 
-	public List<String> getImports() {
+	public Set<String> getImports() {
 		return extractInfo.extractTableColumnsImports();
 	}
 
@@ -66,19 +67,24 @@ public class TableInfo extends AbstractInfo {
 
 	public void initKeyInfo(boolean uniqueEnable) {
 		KeyInfoData keyInfoData = new KeyInfoData();
+		
 		boolean unionPK = constraintsInfo.isUnionPK();
 		keyInfoData.setUnionPK(unionPK);
-		if (unionPK) {
-			KeyInfoData.KeyInfo pk = new KeyInfoData.KeyInfo();
-			List<Column> pkColumns = constraintsInfo.getPkInfo().getColumns();
-			ColumnsInfoExtract cie = new ColumnsInfoExtract(pkColumns);
-
-			pk.setProperties(cie.extractTableProperties());
-			pk.setImports(cie.extractTableColumnsImports());
-			pk.setKeyEntityName(humpFormat + "PrimaryKey");
-
-			keyInfoData.setPrimaryKey(pk);
+		KeyInfoData.KeyInfo pk = new KeyInfoData.KeyInfo();
+		pk.setIsUnion(unionPK);
+		
+		List<Column> pkColumns = constraintsInfo.getPkInfo().getColumns();
+		ColumnsInfoExtract ciePK = new ColumnsInfoExtract(pkColumns);
+		pk.setImports(ciePK.extractTableColumnsImports());
+		pk.setProperties(ciePK.extractTableProperties());
+		if (unionPK) { // 联合列主键
+			pk.setKeyClassName(humpFormat + "PrimaryKey");
+		} else { // 单一列主键
+			Column pkColumn = pkColumns.get(0);
+			pk.setKeyClassName(pkColumn.getJavaTypeInfo().getJavaTypeShort());
 		}
+		keyInfoData.setPrimaryKey(pk);
+		
 		if (uniqueEnable) {
 			Map<String, UniqueKeyInfo> uniqueInfosMap = constraintsInfo.getUniqueInfosMap();
 			if (null != uniqueInfosMap && uniqueInfosMap.size() > 0) {
@@ -91,7 +97,7 @@ public class TableInfo extends AbstractInfo {
 					String key = "";
 					UniqueKeyInfo ukInfo = entry.getValue();
 					List<Column> columns = ukInfo.getColumns();
-					ColumnsInfoExtract cie = new ColumnsInfoExtract(columns);
+					ColumnsInfoExtract cieUK = new ColumnsInfoExtract(columns);
 					boolean unionKey = ukInfo.isUnionKey();
 					if (unionKey) {
 						key = humpFormat + uniqueSuffix;
@@ -103,10 +109,10 @@ public class TableInfo extends AbstractInfo {
 						// 非联合键直接使用列名
 						key = columns.get(0).getHumpFormat() + uniqueSuffix;
 					}
-					uk.setProperties(cie.extractTableProperties());
-					uk.setImports(cie.extractTableColumnsImports());
-					uk.setKeyEntityName(key);
-					uk.setUnion(unionKey);
+					uk.setProperties(cieUK.extractTableProperties());
+					uk.setImports(cieUK.extractTableColumnsImports());
+					uk.setKeyClassName(key);
+					uk.setIsUnion(unionKey);
 
 					uks.add(uk);
 				}
@@ -116,7 +122,6 @@ public class TableInfo extends AbstractInfo {
 			keyInfoData.setHasUniqueKey(false);
 		}
 		this.keyInfoData = keyInfoData;
-		// return keyInfoData;
 	}
 
 	public Column getColumnByName(String columnName) {

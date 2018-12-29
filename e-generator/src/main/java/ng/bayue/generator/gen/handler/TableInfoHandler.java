@@ -29,7 +29,7 @@ public class TableInfoHandler {
 		this.context = context;
 	}
 
-	public List<TableInfo> introspectTable(String tableNamePattern) {
+	public List<TableInfo> introspectTable(String... tables) {
 		try {
 			Connection conn = JdbcUtil.getConnection();
 			DatabaseMetaData metaData = conn.getMetaData();
@@ -38,19 +38,30 @@ public class TableInfoHandler {
 			if (StringUtils.isBlank(catalog)) {
 				throw new NullPointerException();
 			}
-			if (StringUtils.isBlank(tableNamePattern)) {
-				tableNamePattern = "%";
-			}
-
+			// if (StringUtils.isBlank(tableNamePattern)) {
+			// tableNamePattern = "%";
+			// }
 			final Param param = new Param();
 			param.setCatalog(catalog);
 			param.setSchemaPattern(schema);
-			param.setTableNamePattern(tableNamePattern);
 			param.setColumnNamePattern("%");
 
-			List<TableInfo> results = getTableInfo(metaData, param);
-			// executeOrigain(results, metaData, param);
-			results = executeTask(results, metaData, param);
+			List<TableInfo> results = new ArrayList<TableInfo>();
+			if (null == tables || tables.length == 0) {
+				String tableNamePattern = "%";
+				param.setTableNamePattern(tableNamePattern);
+
+				results = getTableInfo(metaData, param);
+				// executeOrigain(results, metaData, param);
+				results = executeTask(results, metaData, param);
+			} else {
+				for (String t : tables) {
+					param.setTableNamePattern(t);
+					List<TableInfo> tis = getTableInfo(metaData, param);
+					executeOrigain(tis, metaData, param);
+					results.addAll(tis);
+				}
+			}
 
 			JdbcUtil.closeConnection(conn);
 			return results;

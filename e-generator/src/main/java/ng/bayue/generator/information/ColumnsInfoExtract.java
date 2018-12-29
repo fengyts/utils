@@ -2,6 +2,8 @@ package ng.bayue.generator.information;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import ng.bayue.generator.template.model.EntityProperty;
 import ng.bayue.generator.types.JavaTypeInformation;
@@ -22,7 +24,7 @@ public class ColumnsInfoExtract {
 		if (null == columns) {
 			throw new NullPointerException();
 		}
-		List<String> imports = new ArrayList<String>();
+		Set<String> imports = new TreeSet<String>();
 		List<EntityProperty> properties = new ArrayList<EntityProperty>();
 		EntityProperty ep = null;
 		for (Column c : columns) {
@@ -35,6 +37,7 @@ public class ColumnsInfoExtract {
 			ep.setPropertyType(javaTypeInfo.getJavaTypeShort());
 			ep.setPropertyName(c.getJavaPropertyName());
 			ep.setComment(c.getComment());
+
 			properties.add(ep);
 		}
 		final String res = columnStr.substring(0, columnStr.length() - 1);
@@ -43,7 +46,7 @@ public class ColumnsInfoExtract {
 		info.setAllColumns(res);
 		info.setImports(imports);
 		info.setProperties(properties);
-		
+
 		return info;
 	}
 
@@ -51,7 +54,7 @@ public class ColumnsInfoExtract {
 		return info.getAllColumns();
 	}
 
-	public List<String> extractTableColumnsImports() {
+	public Set<String> extractTableColumnsImports() {
 		return info.getImports();
 	}
 
@@ -70,7 +73,8 @@ public class ColumnsInfoExtract {
 
 	private static class ExtractInfo {
 		private String allColumns;
-		private List<String> imports;
+		// private List<String> imports;
+		private Set<String> imports;
 		private List<EntityProperty> properties;
 
 		public String getAllColumns() {
@@ -89,11 +93,11 @@ public class ColumnsInfoExtract {
 			this.properties = properties;
 		}
 
-		public List<String> getImports() {
+		public Set<String> getImports() {
 			return imports;
 		}
 
-		public void setImports(List<String> imports) {
+		public void setImports(Set<String> imports) {
 			this.imports = imports;
 		}
 

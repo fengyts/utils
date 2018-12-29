@@ -1,6 +1,7 @@
 package ng.bayue.generator.template.model;
 
 import java.util.List;
+import java.util.Set;
 
 public class KeyInfoData {
 
@@ -10,25 +11,25 @@ public class KeyInfoData {
 	private boolean hasUniqueKey = false;
 
 	public static class KeyInfo {
-		/** 键的实体类全名称, 不含包名 */
-		private String keyEntityName;
-		private List<String> imports;
+		/** 键的实体类名称, 不含包名 */
+		private String keyClassName;
+		private Set<String> imports;
 		private List<EntityProperty> properties;
 		private boolean isUnion = false;
 
-		public String getKeyEntityName() {
-			return keyEntityName;
+		public String getKeyClassName() {
+			return keyClassName;
 		}
 
-		public void setKeyEntityName(String keyEntityName) {
-			this.keyEntityName = keyEntityName;
+		public void setKeyClassName(String keyClassName) {
+			this.keyClassName = keyClassName;
 		}
 
-		public List<String> getImports() {
+		public Set<String> getImports() {
 			return imports;
 		}
 
-		public void setImports(List<String> imports) {
+		public void setImports(Set<String> imports) {
 			this.imports = imports;
 		}
 
@@ -40,13 +41,14 @@ public class KeyInfoData {
 			this.properties = properties;
 		}
 
-		public boolean isUnion() {
+		public boolean getIsUnion() {
 			return isUnion;
 		}
 
-		public void setUnion(boolean isUnion) {
+		public void setIsUnion(boolean isUnion) {
 			this.isUnion = isUnion;
 		}
+
 
 	}
 

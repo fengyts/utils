@@ -84,6 +84,7 @@ public class GeneratorFileUtil {
 		try {
 			Configuration config = new Configuration(INCOMPATIBLE_IMPROVEMENTS);
 			config.setObjectWrapper(new DefaultObjectWrapper(INCOMPATIBLE_IMPROVEMENTS));
+			// config.setBooleanFormat("true,false");
 
 			// 加载egenerator.jar中的ftl模板文件
 			// TemplateLoader templateLoader = new

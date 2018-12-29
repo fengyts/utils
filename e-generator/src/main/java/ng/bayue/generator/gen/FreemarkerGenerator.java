@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ng.bayue.generator.constants.GeneratorTemplate;
 import ng.bayue.generator.information.TableInfo;
 import ng.bayue.generator.template.model.FreemarkerDataModel;
 import ng.bayue.generator.template.model.KeyInfoData;
@@ -57,8 +56,9 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		generateFile(TemplateMapperEnum.MB_DAO, tableNameHumpFormat + "DAO", rootMap);
 		// 生成dao接口实现类
 		generateFile(TemplateMapperEnum.MB_DAO_IMPL, tableNameHumpFormat + "MybatisDAO", rootMap);
+		// 生成sql mapper xml
+		generateFile(TemplateMapperEnum.MB_SQLMAP, tableNameHumpFormat , rootMap);
 
-		System.out.println("generate success!!!");
 		return fData;
 	}
 
@@ -78,19 +78,19 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 
 	private static void generateKeyEntity(TableInfo tableInfo, TemplateMapperEnum mapper, Map<String, Object> rootMap) {
 		KeyInfoData keyInfoData = tableInfo.getKeyInfo();
+		KeyInfo primaryKey = keyInfoData.getPrimaryKey();
+		rootMap.put("primaryKeyInfoData", primaryKey);
 		if (keyInfoData.isUnionPK()) {
-			KeyInfo primaryKey = keyInfoData.getPrimaryKey();
 			rootMap.put(mapper.getModelRootMapKey(), primaryKey);
-			rootMap.put("primaryKeyInfoData", primaryKey);
-			generateFile(mapper, primaryKey.getKeyEntityName(), rootMap);
+			generateFile(mapper, primaryKey.getKeyClassName(), rootMap);
 		}
 		boolean unionUniqueModelEnable = tableInfo.getTableConfiguration().isUnionUniqueModelEnable();
 		if (unionUniqueModelEnable && keyInfoData.isHasUniqueKey()) {
 			List<KeyInfo> ukInfos = keyInfoData.getUniqueKey();
 			for (KeyInfo keyInfo : ukInfos) {
-				if (keyInfo.isUnion()) {
+				if (keyInfo.getIsUnion()) {
 					rootMap.put(mapper.getModelRootMapKey(), keyInfo);
-					generateFile(mapper, keyInfo.getKeyEntityName(), rootMap);
+					generateFile(mapper, keyInfo.getKeyClassName(), rootMap);
 				}
 			}
 		}

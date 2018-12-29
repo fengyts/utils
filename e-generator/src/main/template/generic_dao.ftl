@@ -28,19 +28,19 @@ public interface GenericDAO<T, P> {
 	 * 根据ID更新 ,全字段更新
 	 * </pre>
 	 *
-	 * @param obj
+	 * @param primaryKey
 	 * @return  更新行数
 	 * @throws DAOException
 	 */
-	int updateByPrimaryKey(T obj) throws DAOException;
+	int updateByPrimaryKey(T primaryKey) throws DAOException;
 
 	/**
 	 * 动态更新 <T>部分或全部字段
-	 * @param obj
+	 * @param primaryKey
 	 * @return 更新行数
 	 * @throws DAOException
 	 */
-	int updateDynamicByPrimaryKey(T obj) throws DAOException;
+	int updateDynamicByPrimaryKey(T primaryKey) throws DAOException;
 
 	/**
 	 * <pre>

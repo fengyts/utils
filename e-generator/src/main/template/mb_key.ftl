@@ -1,6 +1,6 @@
 <#include "./common_t.ftl" />
-<#assign keyEntityName=keyInfoData.keyEntityName />
-<#assign keyModelClassSimpleName="${keyEntityName?cap_first}" />
+<#assign keyClassName=keyInfoData.keyClassName />
+<#assign keyModelClassSimpleName="${keyClassName?cap_first}" />
 package ${entityPackageName};
 
 <#assign properties=keyInfoData.properties />
