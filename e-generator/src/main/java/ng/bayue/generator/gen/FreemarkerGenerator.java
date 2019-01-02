@@ -1,9 +1,12 @@
 package ng.bayue.generator.gen;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ng.bayue.generator.information.Column;
+import ng.bayue.generator.information.ConstraintsInfo;
 import ng.bayue.generator.information.TableInfo;
 import ng.bayue.generator.template.model.FreemarkerDataModel;
 import ng.bayue.generator.template.model.KeyInfoData;
@@ -57,7 +60,8 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		// 生成dao接口实现类
 		generateFile(TemplateMapperEnum.MB_DAO_IMPL, tableNameHumpFormat + "MybatisDAO", rootMap);
 		// 生成sql mapper xml
-		generateFile(TemplateMapperEnum.MB_SQLMAP, tableNameHumpFormat , rootMap);
+		// generateFile(TemplateMapperEnum.MB_SQLMAP,tableNameHumpFormat,rootMap);
+		generateSqlMap(tableInfo, rootMap);
 
 		return fData;
 	}
@@ -76,7 +80,8 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		return fData;
 	}
 
-	private static void generateKeyEntity(TableInfo tableInfo, TemplateMapperEnum mapper, Map<String, Object> rootMap) {
+	private static void generateKeyEntity(final TableInfo tableInfo, TemplateMapperEnum mapper,
+			Map<String, Object> rootMap) {
 		KeyInfoData keyInfoData = tableInfo.getKeyInfo();
 		KeyInfo primaryKey = keyInfoData.getPrimaryKey();
 		rootMap.put("primaryKeyInfoData", primaryKey);
@@ -94,6 +99,19 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 				}
 			}
 		}
+	}
+
+	private static void generateSqlMap(final TableInfo tableInfo, Map<String, Object> rootMap) {
+		List<Column> allColumns = tableInfo.getColumns();
+		ConstraintsInfo constraintsInfo = tableInfo.getConstraintsInfo();
+		List<Column> pks = constraintsInfo.getPkInfo().getColumns();
+		// List<Column> unique = new ArrayList<Column>();
+
+		rootMap.put("allColumns", allColumns);
+		rootMap.put("pkColumns", pks);
+		rootMap.put("pkColumnSize", pks == null ? 0 : pks.size());
+
+		generateFile(TemplateMapperEnum.MB_SQLMAP, tableInfo.getHumpFormat(), rootMap);
 	}
 
 }

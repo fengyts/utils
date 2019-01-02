@@ -4,9 +4,44 @@
 
 <mapper namespace="${daoImplPackageName}.${tableEntityClassName}MybatisDAO">
 	<resultMap type="${entityPackageName}.${tableEntityClassName}" id="BaseResultMap">
-		<id column="" property="" />
-		<result column="" property="" />
+		<#if pkColumns?default([])?size!=0>
+			<#list pkColumns as pk>
+		<id column="${pk.columnName}" property="${pk.getHumpFormat()}" javaType="${pk.javaTypeInfo.javaTypeShort}" />
+			</#list>
+		</#if>
+		<#assign pkSize=0>
+		<#if allColumns?default([])?size!=0>
+			<#list allColumns as column>
+			<#assign pkSize++>
+			<#if pkSize &gt; pkColumnSize >
+		<result column="${column.columnName}" property="${column.getHumpFormat()}" javaType="${column.javaTypeInfo.javaTypeShort}" />
+			</#if>
+			</#list>
+		</#if>
 	</resultMap>
+	
+	<#--
+	<resultMap type="${entityPackageName}.${tableEntityClassName}" id="BaseResultMap">
+		<#if allColumns?default([])?size!=0>
+			<#list allColumns as column>
+				<#assign ispk='false'>
+				<#if pkColumns?default([])?size!=0>
+					<#list pkColumns as pk>
+						<#if column.columnName == pk.columnName>
+							<#assign ispk='true'>
+							<#break>
+						</#if>
+					</#list>
+				</#if>
+				<#if ispk='true'>
+		<id column="${column.columnName}" property="${column.getHumpFormat()}" />
+				<#else>
+		<result column="${column.columnName}" property="${column.getHumpFormat()}" />
+				</#if>
+			</#list>
+		</#if>
+	</resultMap>
+	-->
 	
 	<sql id="Base_Columns">
 		${tableData.allColumns}

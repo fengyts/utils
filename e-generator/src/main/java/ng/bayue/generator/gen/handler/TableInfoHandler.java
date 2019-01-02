@@ -201,7 +201,7 @@ public class TableInfoHandler {
 			column.setJdbcTypeName(jdbcTypeName);
 			// column.setJavaPropertyType(javaTypeName);
 			column.setJavaPropertyName(StringUtils.toHumpFormat(columnName));
-
+			column.getHumpFormat();
 			columns.add(column);
 		}
 		tableInfo.setColumns(columns);
