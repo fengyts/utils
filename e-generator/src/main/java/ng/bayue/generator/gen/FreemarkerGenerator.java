@@ -87,7 +87,7 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		rootMap.put("primaryKeyInfoData", primaryKey);
 		if (keyInfoData.isUnionPK()) {
 			rootMap.put(mapper.getModelRootMapKey(), primaryKey);
-			generateFile(mapper, primaryKey.getKeyClassName(), rootMap);
+			generateFile(mapper, primaryKey.getKeyClassSimpleName(), rootMap);
 		}
 		boolean unionUniqueModelEnable = tableInfo.getTableConfiguration().isUnionUniqueModelEnable();
 		if (unionUniqueModelEnable && keyInfoData.isHasUniqueKey()) {
@@ -95,7 +95,7 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 			for (KeyInfo keyInfo : ukInfos) {
 				if (keyInfo.getIsUnion()) {
 					rootMap.put(mapper.getModelRootMapKey(), keyInfo);
-					generateFile(mapper, keyInfo.getKeyClassName(), rootMap);
+					generateFile(mapper, keyInfo.getKeyClassSimpleName(), rootMap);
 				}
 			}
 		}

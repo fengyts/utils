@@ -44,6 +44,10 @@ public class TableInfo extends AbstractInfo {
 		return context.getTableConfiguration(tableName);
 	}
 
+	private String getEntityPackageName() {
+		return context.getGlobalConfiguration().getPackageData().getEntityPackageName();
+	}
+
 	public void initExtractInfo(List<Column> columns) {
 		this.extractInfo = new ColumnsInfoExtract(columns);
 		// initKeyInfo(getTableConfiguration().isUniqueEnable());
@@ -67,24 +71,28 @@ public class TableInfo extends AbstractInfo {
 
 	public void initKeyInfo(boolean uniqueEnable) {
 		KeyInfoData keyInfoData = new KeyInfoData();
-		
+
 		boolean unionPK = constraintsInfo.isUnionPK();
 		keyInfoData.setUnionPK(unionPK);
 		KeyInfoData.KeyInfo pk = new KeyInfoData.KeyInfo();
 		pk.setIsUnion(unionPK);
-		
+
 		List<Column> pkColumns = constraintsInfo.getPkInfo().getColumns();
 		ColumnsInfoExtract ciePK = new ColumnsInfoExtract(pkColumns);
 		pk.setImports(ciePK.extractTableColumnsImports());
 		pk.setProperties(ciePK.extractTableProperties());
 		if (unionPK) { // 联合列主键
-			pk.setKeyClassName(humpFormat + "PrimaryKey");
+			String keyClassSimpleName = humpFormat + "PrimaryKey";
+			pk.setKeyClassSimpleName(keyClassSimpleName);
+			pk.setKeyClassFullyName(
+					getEntityPackageName() + "." + StringUtils.upperCaseCapitalLetter(keyClassSimpleName));
 		} else { // 单一列主键
 			Column pkColumn = pkColumns.get(0);
-			pk.setKeyClassName(pkColumn.getJavaTypeInfo().getJavaTypeShort());
+			pk.setKeyClassSimpleName(pkColumn.getJavaTypeInfo().getJavaTypeShort());
+			pk.setKeyClassFullyName(pkColumn.getJavaTypeInfo().getJavaTypeFully());
 		}
 		keyInfoData.setPrimaryKey(pk);
-		
+
 		if (uniqueEnable) {
 			Map<String, UniqueKeyInfo> uniqueInfosMap = constraintsInfo.getUniqueInfosMap();
 			if (null != uniqueInfosMap && uniqueInfosMap.size() > 0) {
@@ -99,19 +107,24 @@ public class TableInfo extends AbstractInfo {
 					List<Column> columns = ukInfo.getColumns();
 					ColumnsInfoExtract cieUK = new ColumnsInfoExtract(columns);
 					boolean unionKey = ukInfo.isUnionKey();
+					String keyClassFullyName = "";
 					if (unionKey) {
 						key = humpFormat + uniqueSuffix;
 						if (0 < i) {
 							key += i;
 						}
 						i++;
+						keyClassFullyName = getEntityPackageName() + "." + StringUtils.upperCaseCapitalLetter(key);
 					} else {
 						// 非联合键直接使用列名
-						key = columns.get(0).getHumpFormat() + uniqueSuffix;
+						Column column = columns.get(0);
+						key = column.getHumpFormat() + uniqueSuffix;
+						keyClassFullyName = column.getJavaTypeInfo().getJavaTypeFully();
 					}
 					uk.setProperties(cieUK.extractTableProperties());
 					uk.setImports(cieUK.extractTableColumnsImports());
-					uk.setKeyClassName(key);
+					uk.setKeyClassSimpleName(key);
+					uk.setKeyClassFullyName(keyClassFullyName);
 					uk.setIsUnion(unionKey);
 
 					uks.add(uk);

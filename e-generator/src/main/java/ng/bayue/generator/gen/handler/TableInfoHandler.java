@@ -71,7 +71,6 @@ public class TableInfoHandler {
 		return null;
 	}
 
-	@SuppressWarnings("unused")
 	private void executeOrigain(final List<TableInfo> tis, final DatabaseMetaData metaData, final Param paramO)
 			throws SQLException {
 		for (TableInfo ti : tis) {

@@ -36,6 +36,16 @@ public final class JavaTypeInformation {
 		return jti;
 	}
 
+	public boolean isBasicJavaType() {
+		final String[] basicJavaPackagingType = BasicTypePackaging.BASIC_JAVATYPE_PACKAGING_ARRAY;
+		for (int i = 0; i < 8; i++) {
+			if (basicJavaPackagingType[i].equals(javaTypeShort)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public String getJavaTypeShort() {
 		return javaTypeShort;
 	}
@@ -83,8 +93,8 @@ public final class JavaTypeInformation {
 		public static final String PACKAGE_SQL = "java.sql";
 
 		public static final String OBJECT = "java.lang.Object";
-
 		public static final String STRING = "java.lang.String";
+		
 		public static final String BIGDECIMAL = "java.math.BigDecimal";
 
 		/** java.util.Date */
@@ -129,6 +139,9 @@ public final class JavaTypeInformation {
 		public static final String DOUBLE = "double";
 		public static final String CHAR = "char";
 		public static final String BOOLEAN = "boolean";
+
+		public static final String[] BASIC_JAVATYPE_ARRAY = { "byte", "short", "int", "long", "float", "double", "char",
+				"boolean" };
 	}
 
 	/**
@@ -146,6 +159,9 @@ public final class JavaTypeInformation {
 		public static final String DOUBLE = "Double";
 		public static final String CHARACTER = "Character";
 		public static final String BOOLEAN = "Boolean";
+
+		public static final String[] BASIC_JAVATYPE_PACKAGING_ARRAY = { BYTE, SHORT, INTEGER, LONG, FLOAT, DOUBLE,
+				CHARACTER, BOOLEAN };
 	}
-	
+
 }

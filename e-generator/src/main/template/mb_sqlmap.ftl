@@ -2,11 +2,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${daoImplPackageName}.${tableEntityClassName}MybatisDAO">
-	<resultMap type="${entityPackageName}.${tableEntityClassName}" id="BaseResultMap">
+<#assign namespace = daoImplPackageName + "." + tableEntityClassName + "MybatisDAO" />
+<#assign resultMapId = "BaseResultMap" />
+<#assign parameterTypeEntity = entityPackageName + "." + tableEntityClassName />
+<#assign pkEntity = primaryKeyInfoData.keyClassFullyName />
+<#-- formatColStr(int indent, int perLineSizeTemp):格式化列输出列, indent-缩进量,默认2个tab键量, perLineSize-每8个换一行  -->
+<#function formatColStr indent perLineSizeTemp>
+	<#assign perLineSize=perLineSizeTemp />
+	<#if allColumns?size lt 12>
+		<#assign perLineSize=allColumns?size />
+	</#if>
+	<#assign colStrO>
+	<#list tableData.allColumns?split(', ')?chunk(perLineSize) as seq>
+		<#if indent == 2>
+		${seq?join(", ")},
+		<#elseif indent == 3>
+			${seq?join(", ")},
+		</#if>
+	</#list>
+	</#assign>
+	<#assign colStr="${colStrO?trim?remove_ending(',')}" />
+	<#return colStr />
+</#function>
+<mapper namespace="${namespace}">
+
+	<resultMap type="${parameterTypeEntity}" id="${resultMapId}">
 		<#if pkColumns?default([])?size!=0>
 			<#list pkColumns as pk>
-		<id column="${pk.columnName}" property="${pk.getHumpFormat()}" javaType="${pk.javaTypeInfo.javaTypeShort}" />
+		<id column="${pk.columnName}" property="${pk.getHumpFormat()}" <#--javaType="${pk.javaTypeInfo.javaTypeShort}"--> />
 			</#list>
 		</#if>
 		<#assign pkSize=0>
@@ -14,12 +37,11 @@
 			<#list allColumns as column>
 			<#assign pkSize++>
 			<#if pkSize &gt; pkColumnSize >
-		<result column="${column.columnName}" property="${column.getHumpFormat()}" javaType="${column.javaTypeInfo.javaTypeShort}" />
+		<result column="${column.columnName}" property="${column.getHumpFormat()}" <#--javaType="${column.javaTypeInfo.javaTypeShort}"--> />
 			</#if>
 			</#list>
 		</#if>
 	</resultMap>
-	
 	<#--
 	<resultMap type="${entityPackageName}.${tableEntityClassName}" id="BaseResultMap">
 		<#if allColumns?default([])?size!=0>
@@ -44,20 +66,71 @@
 	-->
 	
 	<sql id="Base_Columns">
-		${tableData.allColumns}
+		${formatColStr(2, 8)}
 	</sql>
 	
-
-	<sql id="Dynamic_Where_Clause"><!-- xml转义字符需要 <![CDATA[   ]]> 标签-->
+	<!-- 只有varchar char text类型 做 !='' 判断，生成代码时,其他类型时只做!=null 决断 0或fasle与空''是相同的，在mybatis中的动态语句中 -->
+	<!-- xml转义字符需要 <![CDATA[   ]]> 标签-->
+	<sql id="Dynamic_Where_Clause">
 		<where>
-		<#--
-			<if test="itemId != null  and itemId != '' "> AND item_id=#{itemId} </if>
-			<if test="skuId != null  and skuId != '' "> AND sku_id=#{skuId} </if>
-			<if test="memberId != null  and memberId != '' "> AND member_id=#{memberId} </if>
-			<if test="quantity != null  and quantity != '' "> AND quantity=#{quantity} </if>
-			<if test="selected != null  and selected != '' "> AND selected=#{selected} </if>
-			-->
+		<#if allColumns?default([])?size!=0>
+			<#list allColumns as column>
+				<#assign propertyName=column.getHumpFormat()>
+				<#assign brace_left="{">
+				<#assign brace_right="}">
+				<#if column.javaTypeInfo.isBasicJavaType()>
+			<if test="${propertyName} != null"> AND ${column.columnName} = #${"{" + propertyName + "}"} </if>
+				<#else>
+			<if test="${propertyName} != null and ${propertyName} != '' "> AND ${column.columnName} = #${"{"}${propertyName}} </if>
+				</#if>
+			</#list>
+		</#if>
 		</where>
  	</sql>
+ 	
+ 	<insert id="insert" parameterType="${parameterTypeEntity}" useGeneratedKeys="true">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO test_generator (
+			<#--${tableData.allColumns}-->
+			${formatColStr(3, 8)}
+		) VALUES (
+			<#assign len=0 columnsSize=allColumns?size />
+			<#list allColumns as column>
+			#${"{" + column.getHumpFormat() + "}"}<#if len!=(columnsSize-1)>,</#if>
+			<#assign len++ />
+			</#list>
+		)
+    </insert>
+    
+    <update id="updateByPrimaryKey" parameterType="${pkEntity}">
+		UPDATE test_generator
+		SET
+			<#assign len=0 columnsSize=allColumns?size />
+			<#list allColumns as column>
+			${column.columnName} = #${"{" + column.getHumpFormat() + "}"}<#if len!=(columnsSize-1)>,</#if>
+			<#assign len++ />
+			</#list>
+		WHERE
+		<#assign len=0 pkColumnsSize=pkColumns?size />
+		<#list pkColumns as pk>
+			${pk.columnName} = #${"{"}${pk.getHumpFormat()}}<#if len!=(pkColumnsSize-1)>,</#if>
+			<#assign len++ />
+		</#list>
+	</update>
+ 	
+ 	<select id="selectByPrimaryKey" parameterType="${pkEntity}" resultMap="${resultMapId}">
+		SELECT
+			<include refid="Base_Columns" />
+		FROM
+			test_generator
+		WHERE
+		<#assign len=0 pkColumnsSize=pkColumns?size />
+		<#list pkColumns as pk>
+			${pk.columnName} = #${"{"}${pk.getHumpFormat()}}<#if len!=(pkColumnsSize-1)>,</#if>
+			<#assign len++ />
+		</#list>
+	</select>
 	
 </mapper>

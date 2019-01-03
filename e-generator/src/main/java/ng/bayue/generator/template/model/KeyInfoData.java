@@ -12,17 +12,27 @@ public class KeyInfoData {
 
 	public static class KeyInfo {
 		/** 键的实体类名称, 不含包名 */
-		private String keyClassName;
+		private String keyClassSimpleName;
+		/** 键的实体类全名称, 含包名  */
+		private String keyClassFullyName;
 		private Set<String> imports;
 		private List<EntityProperty> properties;
 		private boolean isUnion = false;
 
-		public String getKeyClassName() {
-			return keyClassName;
+		public String getKeyClassSimpleName() {
+			return keyClassSimpleName;
 		}
 
-		public void setKeyClassName(String keyClassName) {
-			this.keyClassName = keyClassName;
+		public void setKeyClassSimpleName(String keyClassSimpleName) {
+			this.keyClassSimpleName = keyClassSimpleName;
+		}
+
+		public String getKeyClassFullyName() {
+			return keyClassFullyName;
+		}
+
+		public void setKeyClassFullyName(String keyClassFullyName) {
+			this.keyClassFullyName = keyClassFullyName;
 		}
 
 		public Set<String> getImports() {
@@ -48,7 +58,6 @@ public class KeyInfoData {
 		public void setIsUnion(boolean isUnion) {
 			this.isUnion = isUnion;
 		}
-
 
 	}
 

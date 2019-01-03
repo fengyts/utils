@@ -11,8 +11,8 @@ import ng.bayue.generator.utils.StringUtils;
 
 public class ColumnsInfoExtract {
 
-	private transient ExtractInfo info;
 	private List<Column> columns;
+	private transient ExtractInfo info;
 
 	public ColumnsInfoExtract(List<Column> columns) {
 		this.columns = columns;
@@ -28,7 +28,7 @@ public class ColumnsInfoExtract {
 		List<EntityProperty> properties = new ArrayList<EntityProperty>();
 		EntityProperty ep = null;
 		for (Column c : columns) {
-			columnStr.append(c.getColumnName()).append(",");
+			columnStr.append(c.getColumnName()).append(", ");
 			JavaTypeInformation javaTypeInfo = c.getJavaTypeInfo();
 			if (!javaTypeInfo.isJavaLangPackage()) {
 				imports.add(javaTypeInfo.getJavaTypeFully());
@@ -40,7 +40,7 @@ public class ColumnsInfoExtract {
 
 			properties.add(ep);
 		}
-		final String res = columnStr.substring(0, columnStr.length() - 1);
+		final String res = columnStr.substring(0, columnStr.lastIndexOf(","));
 
 		final ExtractInfo info = new ExtractInfo();
 		info.setAllColumns(res);
