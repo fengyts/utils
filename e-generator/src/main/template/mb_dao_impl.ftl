@@ -38,15 +38,21 @@ public class ${tableEntityClassName}MybatisDAO extends MybatisBaseDAO implements
 	}
 
 	@Override
-	public int updateByPrimaryKey(${tableEntityClassName} primaryKey) throws DAOException {
-		checkNullOrEmptyParam(primaryKey);
-		return getSqlSession().update("updateByPrimaryKey", primaryKey);
+	public int updateByPrimaryKeyAllFields(${tableEntityClassName} obj) throws DAOException {
+		checkNullOrEmptyParam(obj);
+		return getSqlSession().update("updateByPrimaryKey", obj);
 	}
 
 	@Override
-	public int updateDynamicByPrimaryKey(${tableEntityClassName} primaryKey) throws DAOException {
-		checkNullOrEmptyParam(primaryKey);
-		return getSqlSession().update("updateDynamicByPrimaryKey", primaryKey);
+	public int updateByPrimaryKeyDynamic(${tableEntityClassName} obj) throws DAOException {
+		checkNullOrEmptyParam(obj);
+		return getSqlSession().update("updateDynamicByPrimaryKey", obj);
+	}
+	
+	@Override
+	public int updateDynamic(${tableEntityClassName} obj, ${tableEntityClassName} condition) throws DAOException {
+		checkNullOrEmptyParam(obj);
+		return getSqlSession().update("updateDynamicByPrimaryKey", obj);
 	}
 
 	@Override

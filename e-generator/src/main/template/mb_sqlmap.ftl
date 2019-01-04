@@ -6,13 +6,14 @@
 <#assign resultMapId = "BaseResultMap" />
 <#assign parameterTypeEntity = entityPackageName + "." + tableEntityClassName />
 <#assign pkEntity = primaryKeyInfoData.keyClassFullyName />
+<#assign tableName = tableData.tableName>
 <#-- formatColStr(int indent, int perLineSizeTemp):格式化列输出列, indent-缩进量,默认2个tab键量, perLineSize-每8个换一行  -->
 <#function formatColStr indent perLineSizeTemp>
 	<#assign perLineSize=perLineSizeTemp />
 	<#if allColumns?size lt 12>
 		<#assign perLineSize=allColumns?size />
 	</#if>
-	<#assign colStrO>
+	<#assign colStrTemp>
 	<#list tableData.allColumns?split(', ')?chunk(perLineSize) as seq>
 		<#if indent == 2>
 		${seq?join(", ")},
@@ -21,11 +22,50 @@
 		</#if>
 	</#list>
 	</#assign>
-	<#assign colStr="${colStrO?trim?remove_ending(',')}" />
-	<#return colStr />
+	<#return "${colStrTemp?trim?remove_ending(',')}" />
+</#function>
+<#function getPKWhere>
+	<#assign len=0 pkColumnsSize=pkColumns?size />
+	<#--
+	<#assign pkWhereSql>
+		<#list pkColumns as pk>
+		<#if len==0>
+${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
+		<#else>
+		AND ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
+		</#if>
+		<#assign len++ />
+		</#list>
+	</#assign>
+	-->
+	<#assign pkWhereSql>
+		<#t><#list pkColumns as pk>
+		<#if len == 0>
+			${pk.columnName} = #${"{"}${pk.getHumpFormat()}} <#t>
+		 <#else>
+ 			AND ${pk.columnName} = #${"{"}${pk.getHumpFormat()}} <#t>
+		</#if>
+		<#assign len++ />
+		</#list>
+	</#assign>
+	<#return pkWhereSql />
+</#function>
+<#function getIfWhere>
+	<#assign ifWhereSql>
+	<#if allColumns?default([])?size!=0>
+	<#list allColumns as column>
+		<#assign propertyName=column.getHumpFormat()>
+		<#if column.javaTypeInfo.isBasicJavaType()>
+			<if test="${propertyName} != null"> AND ${column.columnName} = #${"{" + propertyName + "}"} </if>
+		<#else>
+			<if test="${propertyName} != null and ${propertyName} != '' "> AND ${column.columnName} = #${"{"}${propertyName}} </if>
+		</#if>
+	</#list>
+	</#if>
+	</#assign>
+	<#return ifWhereSql />
 </#function>
 <mapper namespace="${namespace}">
-
 	<resultMap type="${parameterTypeEntity}" id="${resultMapId}">
 		<#if pkColumns?default([])?size!=0>
 			<#list pkColumns as pk>
@@ -71,20 +111,9 @@
 	
 	<!-- 只有varchar char text类型 做 !='' 判断，生成代码时,其他类型时只做!=null 决断 0或fasle与空''是相同的，在mybatis中的动态语句中 -->
 	<!-- xml转义字符需要 <![CDATA[   ]]> 标签-->
-	<sql id="Dynamic_Where_Clause">
+ 	<sql id="Dynamic_Where_Clause">
 		<where>
-		<#if allColumns?default([])?size!=0>
-			<#list allColumns as column>
-				<#assign propertyName=column.getHumpFormat()>
-				<#assign brace_left="{">
-				<#assign brace_right="}">
-				<#if column.javaTypeInfo.isBasicJavaType()>
-			<if test="${propertyName} != null"> AND ${column.columnName} = #${"{" + propertyName + "}"} </if>
-				<#else>
-			<if test="${propertyName} != null and ${propertyName} != '' "> AND ${column.columnName} = #${"{"}${propertyName}} </if>
-				</#if>
-			</#list>
-		</#if>
+			<#t>${getIfWhere()}
 		</where>
  	</sql>
  	
@@ -92,7 +121,7 @@
         <selectKey resultType="long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID() AS id
         </selectKey>
-        INSERT INTO test_generator (
+        INSERT INTO ${tableName} (
 			<#--${tableData.allColumns}-->
 			${formatColStr(3, 8)}
 		) VALUES (
@@ -104,8 +133,8 @@
 		)
     </insert>
     
-    <update id="updateByPrimaryKey" parameterType="${pkEntity}">
-		UPDATE test_generator
+    <update id="updateByPrimaryKey" parameterType="${parameterTypeEntity}">
+		UPDATE ${tableName}
 		SET
 			<#assign len=0 columnsSize=allColumns?size />
 			<#list allColumns as column>
@@ -113,24 +142,25 @@
 			<#assign len++ />
 			</#list>
 		WHERE
-		<#assign len=0 pkColumnsSize=pkColumns?size />
-		<#list pkColumns as pk>
-			${pk.columnName} = #${"{"}${pk.getHumpFormat()}}<#if len!=(pkColumnsSize-1)>,</#if>
-			<#assign len++ />
-		</#list>
+			${getPKWhere()}
+	</update>
+	
+	<update id="updateDynamicByPrimaryKey" parameterType="${parameterTypeEntity}">
+		UPDATE ${tableName}
+		<set>
+			<#t>${getIfWhere()}
+		</set>
+		WHERE 
+			${getPKWhere()}
 	</update>
  	
  	<select id="selectByPrimaryKey" parameterType="${pkEntity}" resultMap="${resultMapId}">
 		SELECT
 			<include refid="Base_Columns" />
 		FROM
-			test_generator
+			${tableName}
 		WHERE
-		<#assign len=0 pkColumnsSize=pkColumns?size />
-		<#list pkColumns as pk>
-			${pk.columnName} = #${"{"}${pk.getHumpFormat()}}<#if len!=(pkColumnsSize-1)>,</#if>
-			<#assign len++ />
-		</#list>
+			${getPKWhere()}
 	</select>
 	
 </mapper>
