@@ -7,8 +7,11 @@
 	<#-- 是否联合主键，即是否生成联合主键模型对象-->
 	<#assign isUnionPK=primaryKeyInfoData.isUnion?c />
 	<#-- keyEntityName: 键对象名称驼峰形式,首字母小写的 -->
+	<#--
 	<#assign primaryKeyEntityName=primaryKeyInfoData.keyClassSimpleName />
 	<#assign primaryKeyModelClassSimpleName="${primaryKeyEntityName?cap_first}" />
+	-->
+	<#assign primaryKeyModelClassSimpleName=primaryKeyInfoData.keyClassSimpleName />
 </#if>
 <#if packageData??>
 	<#assign basePackageName=packageData.basePackageName />

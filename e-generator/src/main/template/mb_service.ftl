@@ -1,14 +1,12 @@
-<#assign packageData=rootData.packageData>
-<#assign tableData=rootData.tableEngityData>
-<#assign tableEntityName=tableData.tableEntityName />
-package ${packageData.servicePackageName};
+<#include "./common_t.ftl" />
+package ${servicePackageName};
 
-import ${packageData.entityPackageName}.${tableEntityName};
+import ${commonPackageName}.GenericService;
+import ${entityPackageName}.${tableEntityClassName};
+<#if isUnionPK=='true'>
+import ${entityPackageName}.${primaryKeyModelClassSimpleName};
+</#if>
 
-<#-- 
--->
-
-public interface ${tableEntityName}Service extends GenericService<${tableEntityName}>{
+public interface ${tableEntityClassName}Service extends GenericService<${tableEntityClassName}, ${primaryKeyModelClassSimpleName}>{
 	
 }
-

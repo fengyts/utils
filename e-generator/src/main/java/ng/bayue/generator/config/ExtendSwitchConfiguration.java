@@ -11,13 +11,21 @@ public class ExtendSwitchConfiguration extends AbstractConfiguration {
 
 	protected boolean unionUniqueModelEnable = uniqueEnable ? DEFAULT_ENABLE : DEFAULT_UNABLE;
 
-	protected boolean isAbstractInterface = DEFAULT_ENABLE;
+	protected boolean serviceEnable = DEFAULT_ENABLE;
+
+	protected boolean abstractInterfaceEnable = DEFAULT_ENABLE;
+
+	/** dao interface generated implement class switch */
+	protected boolean daoImplementEnable = DEFAULT_ENABLE;
 
 	protected boolean pageQueryEnable = DEFAULT_ENABLE;
 
 	protected boolean batchEnable = DEFAULT_ENABLE;
 
-	protected boolean extendSqlMapEnable = DEFAULT_ENABLE;
+	protected boolean extendSqlMapingEnable = DEFAULT_ENABLE;
+
+	/** sql mapping file name first capital letter switch, default false, mean that file name first letter is lowercase */
+	protected boolean sqlMappingFileNameCapital = DEFAULT_UNABLE;
 
 	public ExtendSwitchConfiguration() {
 		super();
@@ -42,12 +50,28 @@ public class ExtendSwitchConfiguration extends AbstractConfiguration {
 		// this.unionUniqueModelEnable = unionUniqueModelEnable;
 	}
 
-	public boolean isAbstractInterface() {
-		return isAbstractInterface;
+	public boolean isServiceEnable() {
+		return serviceEnable;
 	}
 
-	public void setAbstractInterface(boolean isAbstractInterface) {
-		this.isAbstractInterface = isAbstractInterface;
+	public void setServiceEnable(boolean serviceEnable) {
+		this.serviceEnable = serviceEnable;
+	}
+
+	public boolean isAbstractInterfaceEnable() {
+		return abstractInterfaceEnable;
+	}
+
+	public void setAbstractInterfaceEnable(boolean abstractInterfaceEnable) {
+		this.abstractInterfaceEnable = abstractInterfaceEnable;
+	}
+
+	public boolean isDaoImplementEnable() {
+		return daoImplementEnable;
+	}
+
+	public void setDaoImplementEnable(boolean daoImplementEnable) {
+		this.daoImplementEnable = daoImplementEnable;
 	}
 
 	public boolean isPageQueryEnable() {
@@ -66,12 +90,20 @@ public class ExtendSwitchConfiguration extends AbstractConfiguration {
 		this.batchEnable = batchEnable;
 	}
 
-	public boolean isExtendSqlMapEnable() {
-		return extendSqlMapEnable;
+	public boolean isExtendSqlMapingEnable() {
+		return extendSqlMapingEnable;
 	}
 
-	public void setExtendSqlMapEnable(boolean extendSqlMapEnable) {
-		this.extendSqlMapEnable = extendSqlMapEnable;
+	public void setExtendSqlMapingEnable(boolean extendSqlMapingEnable) {
+		this.extendSqlMapingEnable = extendSqlMapingEnable;
+	}
+
+	public boolean isSqlMappingFileNameCapital() {
+		return sqlMappingFileNameCapital;
+	}
+
+	public void setSqlMappingFileNameCapital(boolean sqlMappingFileNameCapital) {
+		this.sqlMappingFileNameCapital = sqlMappingFileNameCapital;
 	}
 
 }

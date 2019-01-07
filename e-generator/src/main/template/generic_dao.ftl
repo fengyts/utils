@@ -2,6 +2,7 @@
 package ${packageData.commonPackageName};
 
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 import ${packageData.exceptionPackageName}.DAOException;
 
 /**
@@ -49,7 +50,7 @@ public interface GenericDAO<T, P> {
 	 * @return 更新行数
 	 * @throws DAOException
 	 */
-	int updateDynamic(T obj, T condition) throws DAOException;
+	int updateDynamic(@Param("record") T obj, @Param("example") T condition) throws DAOException;
 
 	/**
 	 * <pre>

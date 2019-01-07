@@ -78,7 +78,12 @@ public class TemplateDataModelMapper {
 		public String handleFileName(String fileName) {
 			String fileFullName = "";
 			if (StringUtils.isNotBlank(fileName)) {
-				fileFullName = savePath + StringUtils.capitalLetterToUpperCase(fileName) + fileSuffix;
+				if (this == MB_SQLMAP) {
+					fileFullName = savePath + fileName + fileSuffix;
+				} else {
+					fileFullName = savePath + StringUtils.capitalLetterToUpperCase(fileName) + fileSuffix;
+				}
+
 				this.fileName = fileFullName;
 			} else {
 				fileFullName = savePath + this.fileName + fileSuffix;

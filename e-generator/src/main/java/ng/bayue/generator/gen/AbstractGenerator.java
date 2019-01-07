@@ -28,11 +28,26 @@ public abstract class AbstractGenerator {
 	}
 
 	public static void generateFile(String templateName, String fileName, Map<?, ?> dataMap) {
-		GeneratorFileUtil.generateFile(templateName, fileName, dataMap);
+		GeneratorFileUtil.generateFile(templateName, handleFileName(fileName), dataMap);
 	}
 
 	public static void generateFile(TemplateMapperEnum e, String fileName, Map<?, ?> dataMap) {
-		GeneratorFileUtil.generateFile(e, fileName, dataMap);
+		GeneratorFileUtil.generateFile(e, handleFileName(fileName), dataMap);
+	}
+
+	private static String handleFileName(String fileName) {
+		if (StringUtils.isBlank(fileName)) {
+			return null;
+		}
+		String f = fileName;
+		boolean capitalEnable = getGlobalConfig().isSqlMappingFileNameCapital();
+		if (capitalEnable) {
+			f = StringUtils.capitalLetterToUpperCase(fileName);
+		}
+		// else {
+		// f = StringUtils.capitalLetterToLowerCase(fileName);
+		// }
+		return f;
 	}
 
 	public static GlobalConfiguration getGlobalConfig() {

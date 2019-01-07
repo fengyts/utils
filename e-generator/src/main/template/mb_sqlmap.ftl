@@ -7,7 +7,7 @@
 <#assign parameterTypeEntity = entityPackageName + "." + tableEntityClassName />
 <#assign pkEntity = primaryKeyInfoData.keyClassFullyName />
 <#assign tableName = tableData.tableName>
-<#-- formatColStr(int indent, int perLineSizeTemp):格式化列输出列, indent-缩进量,默认2个tab键量, perLineSize-每8个换一行  -->
+<#-- formatColStr(int indent, int perLineSizeTemp): 格式化列输出列, indent-缩进量,默认2个tab键量, perLineSize-每8个换一行  -->
 <#function formatColStr indent perLineSizeTemp>
 	<#assign perLineSize=perLineSizeTemp />
 	<#if allColumns?size lt 12>
@@ -24,6 +24,7 @@
 	</#assign>
 	<#return "${colStrTemp?trim?remove_ending(',')}" />
 </#function>
+<#-- getPKWhere(): 格式化输出主键where 条件sql -->
 <#function getPKWhere>
 	<#assign len=0 pkColumnsSize=pkColumns?size />
 	<#--
@@ -50,17 +51,22 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 	</#assign>
 	<#return pkWhereSql />
 </#function>
-<#function getIfWhere>
+<#-- getIfWhere(boolean isExampleWhere): 格式化输出动态where 条件sql,isExampleWhere: 是否包含example条件 -->
+<#function getIfWhere conditionPrefix...>
 	<#assign ifWhereSql>
 	<#if allColumns?default([])?size!=0>
-	<#list allColumns as column>
-		<#assign propertyName=column.getHumpFormat()>
-		<#if column.javaTypeInfo.isBasicJavaType()>
-			<if test="${propertyName} != null"> AND ${column.columnName} = #${"{" + propertyName + "}"} </if>
-		<#else>
-			<if test="${propertyName} != null and ${propertyName} != '' "> AND ${column.columnName} = #${"{"}${propertyName}} </if>
+		<#assign conditionPrefixTem = '' />
+		<#if conditionPrefix??&&(conditionPrefix?size &gt; 0)>
+			<#assign conditionPrefixTem = conditionPrefix?first + "." />
 		</#if>
-	</#list>
+		<#list allColumns as column>
+			<#assign propertyName=conditionPrefixTem+column.getHumpFormat()>
+			<#if column.javaTypeInfo.isBasicJavaType()>
+			<if test="${propertyName} != null"> AND ${column.columnName} = #${"{" + propertyName + "}"} </if>
+			<#else>
+			<if test="${propertyName} != null and ${propertyName} != '' "> AND ${column.columnName} = #${"{"}${propertyName}} </if>
+			</#if>
+		</#list>
 	</#if>
 	</#assign>
 	<#return ifWhereSql />
@@ -116,11 +122,20 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 			<#t>${getIfWhere()}
 		</where>
  	</sql>
+ 	<!-- example 动态条件 -->
+ 	<sql id="Dynamic_Where_Clause_Example">
+		<where>
+			<#t>${getIfWhere('example')}
+		</where>
+ 	</sql>
  	
  	<insert id="insert" parameterType="${parameterTypeEntity}" useGeneratedKeys="true">
-        <selectKey resultType="long" keyProperty="id" order="AFTER">
+ 		<#if isUnionPK != 'true' && pkColumns??>
+ 		<#assign pkCol = pkColumns?first />
+        <selectKey resultType="${pkEntity}" keyProperty="${pkCol.javaPropertyName}" order="AFTER">
             SELECT LAST_INSERT_ID() AS id
         </selectKey>
+ 		</#if>
         INSERT INTO ${tableName} (
 			<#--${tableData.allColumns}-->
 			${formatColStr(3, 8)}
@@ -133,7 +148,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 		)
     </insert>
     
-    <update id="updateByPrimaryKey" parameterType="${parameterTypeEntity}">
+    <update id="updateByPrimaryKeyAllFields" parameterType="${parameterTypeEntity}">
 		UPDATE ${tableName}
 		SET
 			<#assign len=0 columnsSize=allColumns?size />
@@ -145,7 +160,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 			${getPKWhere()}
 	</update>
 	
-	<update id="updateDynamicByPrimaryKey" parameterType="${parameterTypeEntity}">
+	<update id="updateByPrimaryKeyDynamic" parameterType="${parameterTypeEntity}">
 		UPDATE ${tableName}
 		<set>
 			<#t>${getIfWhere()}
@@ -153,6 +168,19 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 		WHERE 
 			${getPKWhere()}
 	</update>
+	
+	<update id="updateDynamic" parameterType="java.util.Map">
+		UPDATE ${tableName}
+		<set>
+			<#t>${getIfWhere('record')}
+		</set>
+		WHERE 
+			<include refid="Dynamic_Where_Clause_Example" />
+	</update>
+	
+	<delete id="deleteByPrimaryKey" parameterType="${pkEntity}">
+		DELETE FROM test_generator WHERE ${getPKWhere()}
+	</delete>
  	
  	<select id="selectByPrimaryKey" parameterType="${pkEntity}" resultMap="${resultMapId}">
 		SELECT
@@ -161,6 +189,35 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 			${tableName}
 		WHERE
 			${getPKWhere()}
+	</select>
+	
+ 	<select id="selectDynamic" parameterType="${parameterTypeEntity}" resultMap="${resultMapId}">
+		SELECT
+			<include refid="Base_Columns" />
+		FROM
+			${tableName}
+		WHERE
+			<include refid="Dynamic_Where_Clause" />
+	</select>
+	
+ 	<select id="selectCountDynamic" parameterType="${parameterTypeEntity}" resultType="java.lang.Long">
+		SELECT
+			COUNT(1)
+		FROM
+			${tableName}
+		WHERE
+			<include refid="Dynamic_Where_Clause" />
+	</select>
+	
+ 	<select id="selectDynamicPageQuery" parameterType="${parameterTypeEntity}" resultType="java.lang.Long">
+		SELECT
+			<include refid="Base_Columns" />
+		FROM
+			${tableName}
+		WHERE
+			<include refid="Dynamic_Where_Clause" />
+		ORDER BY <#list pkColumns as pkCol>${pkCol.getHumpFormat()}<#sep> DESC, </#list> DESC 
+	 	Limit <#noparse>#{start}, #{pageSize}</#noparse>
 	</select>
 	
 </mapper>

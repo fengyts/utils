@@ -82,10 +82,9 @@ public class TableInfo extends AbstractInfo {
 		pk.setImports(ciePK.extractTableColumnsImports());
 		pk.setProperties(ciePK.extractTableProperties());
 		if (unionPK) { // 联合列主键
-			String keyClassSimpleName = humpFormat + "PrimaryKey";
+			String keyClassSimpleName = StringUtils.upperCaseCapitalLetter(humpFormat + "PrimaryKey");
 			pk.setKeyClassSimpleName(keyClassSimpleName);
-			pk.setKeyClassFullyName(
-					getEntityPackageName() + "." + StringUtils.upperCaseCapitalLetter(keyClassSimpleName));
+			pk.setKeyClassFullyName(getEntityPackageName() + "." + keyClassSimpleName);
 		} else { // 单一列主键
 			Column pkColumn = pkColumns.get(0);
 			pk.setKeyClassSimpleName(pkColumn.getJavaTypeInfo().getJavaTypeShort());

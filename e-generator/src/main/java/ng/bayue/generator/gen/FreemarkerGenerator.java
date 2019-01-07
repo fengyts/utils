@@ -1,6 +1,5 @@
 package ng.bayue.generator.gen;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,7 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		generateFile(TemplateMapperEnum.GENERIC_DAO_EXCEPTION, null, rootMap);
 		generateFile(TemplateMapperEnum.GENERIC_SERVICE_EXCEPTION, null, rootMap);
 		generateFile(TemplateMapperEnum.GENERIC_DAO, null, rootMap);
-		generateFile(TemplateMapperEnum.GENERIC_SERVICE, null, rootMap);
+		// generateFile(TemplateMapperEnum.GENERIC_SERVICE, null, rootMap);
 		generateFile(TemplateMapperEnum.GENERIC_DAO_IMPL_BASIC, null, rootMap);
 
 		// 生成实体类
@@ -62,6 +61,13 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		// 生成sql mapper xml
 		// generateFile(TemplateMapperEnum.MB_SQLMAP,tableNameHumpFormat,rootMap);
 		generateSqlMap(tableInfo, rootMap);
+
+		boolean generateServiceEnable = getGlobalConfig().isServiceEnable();
+		if (generateServiceEnable) {
+			generateFile(TemplateMapperEnum.GENERIC_SERVICE, null, rootMap);
+			generateFile(TemplateMapperEnum.MB_SERVICE, tableNameHumpFormat + "Service", rootMap);
+			generateFile(TemplateMapperEnum.MB_SERVICE_IMPL, tableNameHumpFormat + "ServiceImpl", rootMap);
+		}
 
 		return fData;
 	}

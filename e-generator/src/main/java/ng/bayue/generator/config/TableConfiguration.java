@@ -38,44 +38,5 @@ public class TableConfiguration extends GlobalConfiguration {
 		this.tableNamePrefix = tableNamePrefix;
 	}
 
-	public boolean isUniqueEnable() {
-		return uniqueEnable;
-	}
-
-	public void setUniqueEnable(boolean uniqueEnable) {
-		this.uniqueEnable = uniqueEnable;
-	}
-
-	public boolean isAbstractInterface() {
-		return isAbstractInterface;
-	}
-
-	public void setAbstractInterface(boolean isAbstractInterface) {
-		this.isAbstractInterface = isAbstractInterface;
-	}
-
-	public boolean isPageQueryEnable() {
-		return pageQueryEnable;
-	}
-
-	public void setPageQueryEnable(boolean pageQueryEnable) {
-		this.pageQueryEnable = pageQueryEnable;
-	}
-
-	public boolean isBatchEnable() {
-		return batchEnable;
-	}
-
-	public void setBatchEnable(boolean batchEnable) {
-		this.batchEnable = batchEnable;
-	}
-
-	public boolean isExtendSqlMapEnable() {
-		return extendSqlMapEnable;
-	}
-
-	public void setExtendSqlMapEnable(boolean extendSqlMapEnable) {
-		this.extendSqlMapEnable = extendSqlMapEnable;
-	}
 
 }

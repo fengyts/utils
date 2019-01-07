@@ -1,7 +1,9 @@
 <#include "./common_t.ftl" />
 package ${daoImplPackageName};
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ${exceptionPackageName}.DAOException;
 import ${entityPackageName}.${tableEntityClassName};
@@ -40,19 +42,22 @@ public class ${tableEntityClassName}MybatisDAO extends MybatisBaseDAO implements
 	@Override
 	public int updateByPrimaryKeyAllFields(${tableEntityClassName} obj) throws DAOException {
 		checkNullOrEmptyParam(obj);
-		return getSqlSession().update("updateByPrimaryKey", obj);
+		return getSqlSession().update("updateByPrimaryKeyAllFields", obj);
 	}
 
 	@Override
 	public int updateByPrimaryKeyDynamic(${tableEntityClassName} obj) throws DAOException {
 		checkNullOrEmptyParam(obj);
-		return getSqlSession().update("updateDynamicByPrimaryKey", obj);
+		return getSqlSession().update("updateByPrimaryKeyDynamic", obj);
 	}
 	
 	@Override
 	public int updateDynamic(${tableEntityClassName} obj, ${tableEntityClassName} condition) throws DAOException {
 		checkNullOrEmptyParam(obj);
-		return getSqlSession().update("updateDynamicByPrimaryKey", obj);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("record", obj);
+		param.put("example", condition);
+		return getSqlSession().update("updateDynamic", param);
 	}
 
 	@Override
@@ -84,5 +89,5 @@ public class ${tableEntityClassName}MybatisDAO extends MybatisBaseDAO implements
 		checkNullOrEmptyParam(obj);
 		return getSqlSession().selectList("selectDynamicPageQuery", obj);
 	}
-
+	
 }
