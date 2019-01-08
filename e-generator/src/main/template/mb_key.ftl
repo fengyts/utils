@@ -12,10 +12,17 @@ import ${imp};
 </#if>
 public class ${keyModelClassSimpleName} {
 
+	<#if properties?default([])?size!=0>
+	<#list properties as prop>
+	/** ${prop.comment!""} */
+	private ${prop.propertyType!"Object"} ${prop.propertyName};
+
+	</#list>
+	</#if>
 	public ${keyModelClassSimpleName}() {
 		super();
 	}
-	
+
 <#assign constructorParam>
 <#if properties?default([])?size!=0>
 <#list properties as prop>
@@ -30,20 +37,13 @@ ${prop.propertyType!"Object"} ${prop.propertyName}${","}
 		</#list>
 		</#if>
 	}
-	
-	<#if properties?default([])?size!=0>
-	<#list properties as prop>
-	/** ${prop.comment!""} */
-	private ${prop.propertyType!"Object"} ${prop.propertyName};
-		
-	</#list>
-	</#if>
+
 	<#if properties??>
 	<#list properties as prop>
 	public void set${prop.propertyName?cap_first}(${prop.propertyType!"Object"} ${prop.propertyName}) {
 		this.${prop.propertyName} = ${prop.propertyName};
 	}
-	
+
 	public ${prop.propertyType!"Object"} get${prop.propertyName?cap_first}() {
 		return ${prop.propertyName};
 	}

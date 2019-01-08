@@ -7,6 +7,6 @@ import ${entityPackageName}.${tableEntityClassName};
 import ${entityPackageName}.${primaryKeyModelClassSimpleName};
 </#if>
 
-public interface ${tableEntityClassName}Service extends GenericService<${tableEntityClassName}, ${primaryKeyModelClassSimpleName}>{
+public interface ${tableEntityClassName}Service extends GenericService<${tableEntityClassName}, ${primaryKeyModelClassSimpleName}> {
 	
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import ${commonPackageName}.Page;
 import ${packageData.exceptionPackageName}.ServiceException;
 
-
 /**
  * @author lenovopc
  *

@@ -60,7 +60,7 @@ public class Test {
 	public static void testEG() {
 		Context context = new Context();
 		TableInfoHandler handler = new TableInfoHandler(context);
-		String tableNamePattern = "test_key";
+		String[] tableNamePattern = {"test_key"};
 		// String tableNamePattern = "exchange_order_status";
 		// String tableNamePattern = null;
 		long timeStart = System.currentTimeMillis();
@@ -93,7 +93,7 @@ public class Test {
 	public static void testEGeneratorMethod() {
 		Context context = new Context();
 		TableInfoHandler handler = new TableInfoHandler(context);
-		String tableNamePattern = "test_key";
+		String[] tableNamePattern = {"test_key"};
 		// String tableNamePattern = "exchange_order_status";
 		long timeStart = System.currentTimeMillis();
 		List<TableInfo> tis = handler.introspectTable(tableNamePattern);

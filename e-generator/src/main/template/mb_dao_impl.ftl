@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import ${exceptionPackageName}.DAOException;
 import ${entityPackageName}.${tableEntityClassName};
 <#if isUnionPK=='true'>
@@ -12,12 +14,19 @@ import ${entityPackageName}.${primaryKeyModelClassSimpleName};
 </#if>
 import ${daoPackageName}.${tableEntityClassName}DAO;
 
+@Component("${tableEntityName}DAO")
 public class ${tableEntityClassName}MybatisDAO extends MybatisBaseDAO implements ${tableEntityClassName}DAO {
+	
+	private static final String NAMESPACE = "${daoPackageName+'.'+tableEntityClassName}Mapper.";
+	
+	private static String getStatement(String sqlCommandId) {
+		return NAMESPACE + sqlCommandId;
+	}
 
 	@Override
 	public ${primaryKeyModelClassSimpleName} insert(${tableEntityClassName} obj) throws DAOException {
 		checkNullOrEmptyParam(obj);
-		getSqlSession().insert("insert", obj);
+		getSqlSession().insert(getStatement("insert"), obj);
 	<#assign properties=primaryKeyInfoData.properties />
 	<#if isUnionPK=='true'>
 		${primaryKeyModelClassSimpleName} primaryKey = new ${primaryKeyModelClassSimpleName}();
@@ -42,13 +51,13 @@ public class ${tableEntityClassName}MybatisDAO extends MybatisBaseDAO implements
 	@Override
 	public int updateByPrimaryKeyAllFields(${tableEntityClassName} obj) throws DAOException {
 		checkNullOrEmptyParam(obj);
-		return getSqlSession().update("updateByPrimaryKeyAllFields", obj);
+		return getSqlSession().update(getStatement("updateByPrimaryKeyAllFields"), obj);
 	}
 
 	@Override
 	public int updateByPrimaryKeyDynamic(${tableEntityClassName} obj) throws DAOException {
 		checkNullOrEmptyParam(obj);
-		return getSqlSession().update("updateByPrimaryKeyDynamic", obj);
+		return getSqlSession().update(getStatement("updateByPrimaryKeyDynamic"), obj);
 	}
 	
 	@Override
@@ -57,37 +66,37 @@ public class ${tableEntityClassName}MybatisDAO extends MybatisBaseDAO implements
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("record", obj);
 		param.put("example", condition);
-		return getSqlSession().update("updateDynamic", param);
+		return getSqlSession().update(getStatement("updateDynamic"), param);
 	}
 
 	@Override
 	public int deleteByPrimaryKey(${primaryKeyModelClassSimpleName} primaryKey) throws DAOException {
 		checkNullOrEmptyParam(primaryKey);
-		return getSqlSession().delete("deleteByPrimaryKey", primaryKey);
+		return getSqlSession().delete(getStatement("deleteByPrimaryKey"), primaryKey);
 	}
 
 	@Override
 	public ${tableEntityClassName} selectByPrimaryKey(${primaryKeyModelClassSimpleName} primaryKey) throws DAOException {
 		checkNullOrEmptyParam(primaryKey);
-		return getSqlSession().selectOne("selectByPrimaryKey", primaryKey);
+		return getSqlSession().selectOne(getStatement("selectByPrimaryKey"), primaryKey);
 	}
 
 	@Override
 	public List<${tableEntityClassName}> selectDynamic(${tableEntityClassName} obj) throws DAOException {
 		checkNullOrEmptyParam(obj);
-		return getSqlSession().selectList("selectDynamic", obj);
+		return getSqlSession().selectList(getStatement("selectDynamic"), obj);
 	}
 
 	@Override
 	public Long selectCountDynamic(${tableEntityClassName} obj) throws DAOException {
 		checkNullOrEmptyParam(obj);
-		return getSqlSession().selectOne("selectCountDynamic", obj);
+		return getSqlSession().selectOne(getStatement("selectCountDynamic"), obj);
 	}
 
 	@Override
 	public List<${tableEntityClassName}> selectDynamicPageQuery(${tableEntityClassName} obj) throws DAOException {
 		checkNullOrEmptyParam(obj);
-		return getSqlSession().selectList("selectDynamicPageQuery", obj);
+		return getSqlSession().selectList(getStatement("selectDynamicPageQuery"), obj);
 	}
 	
 }
