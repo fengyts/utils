@@ -46,7 +46,7 @@ public class TemplateDataModelMapper {
 		
 		//MB_DAO_UNIQUE(GeneratorTemplate.MB_DAO_UNIQUE, "daoData", packageData.getDaoSavePath(), "", SUFFIX_JAVA),
 		//MB_DAO_UNIQUE_IMPL(GeneratorTemplate.MB_DAO_UNIQUE_IMPL, "daoImplData", packageData.getDaoImplSavePath(), "", SUFFIX_JAVA),
-		//MB_SERVICE_UNIQUE(GeneratorTemplate.MB_SERVICE_UNIQUE, "serviceData", packageData.getServiceSavePath(), "", SUFFIX_JAVA),
+		MB_SERVICE_UNIQUE(GeneratorTemplate.MB_SERVICE_UNIQUE, "serviceData", packageData.getServiceSavePath(), "", SUFFIX_JAVA),
 		//MB_SERVICE_UNIQUE_IMPL(GeneratorTemplate.MB_SERVICE_UNIQUE_IMPL, "serviceImplData", packageData.getServiceImplSavePath(), "", SUFFIX_JAVA),
 		
 		//MB_DAO_BATCH(GeneratorTemplate.MB_DAO_BATCH, "daoData", packageData.getDaoSavePath(), "", SUFFIX_JAVA),

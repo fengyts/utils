@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import ${packageData.exceptionPackageName}.DAOException;
 
 /**
+ * 通用dao接口
  * @author lenovopc
  *
  * @param <T> - 实体类模型

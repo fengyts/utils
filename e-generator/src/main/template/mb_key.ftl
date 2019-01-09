@@ -3,6 +3,7 @@
 <#assign keyModelClassSimpleName="${keyClassSimpleName?cap_first}" />
 package ${entityPackageName};
 
+import ${baseModelPackageName}.${baseModelName};
 <#assign properties=keyInfoData.properties />
 <#assign imports=keyInfoData.imports />
 <#if imports?default([])?size!=0>
@@ -10,7 +11,10 @@ package ${entityPackageName};
 import ${imp};
 </#list>
 </#if>
-public class ${keyModelClassSimpleName} {
+
+public class ${keyModelClassSimpleName} extends ${baseModelName} {
+
+	private static final long serialVersionUID = 1L;
 
 	<#if properties?default([])?size!=0>
 	<#list properties as prop>

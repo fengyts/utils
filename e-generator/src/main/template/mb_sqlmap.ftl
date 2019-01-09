@@ -75,7 +75,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 	<resultMap type="${parameterTypeEntity}" id="${resultMapId}">
 		<#if pkColumns?default([])?size!=0>
 			<#list pkColumns as pk>
-		<id column="${pk.columnName}" property="${pk.getHumpFormat()}" <#--javaType="${pk.javaTypeInfo.javaTypeShort}"--> />
+		<id column="${pk.columnName}" property="${pk.getHumpFormat()}"<#--javaType="${pk.javaTypeInfo.javaTypeShort}"--> />
 			</#list>
 		</#if>
 		<#assign pkSize=0>
@@ -83,7 +83,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 			<#list allColumns as column>
 			<#assign pkSize++>
 			<#if pkSize &gt; pkColumnSize >
-		<result column="${column.columnName}" property="${column.getHumpFormat()}" <#--javaType="${column.javaTypeInfo.javaTypeShort}"--> />
+		<result column="${column.columnName}" property="${column.getHumpFormat()}"<#--javaType="${column.javaTypeInfo.javaTypeShort}"--> />
 			</#if>
 			</#list>
 		</#if>

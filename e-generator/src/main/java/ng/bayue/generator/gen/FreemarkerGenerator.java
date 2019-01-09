@@ -39,6 +39,14 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		rootMap.put("commonPackageName", commonPackageName);
 		rootMap.put("baseModelPackageName", baseModelPackageName);
 		rootMap.put("baseModelName", baseModelName);
+		
+		List<Column> allColumns = tableInfo.getColumns();
+		ConstraintsInfo constraintsInfo = tableInfo.getConstraintsInfo();
+		List<Column> pks = constraintsInfo.getPkInfo().getColumns();
+
+		rootMap.put("allColumns", allColumns);
+		rootMap.put("pkColumns", pks);
+		rootMap.put("pkColumnSize", pks == null ? 0 : pks.size());
 
 		// 生成通用工具类
 		generateFile(basicModelMapper, null, rootMap);
@@ -48,12 +56,12 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		generateFile(TemplateMapperEnum.GENERIC_DAO, null, rootMap);
 		// generateFile(TemplateMapperEnum.GENERIC_SERVICE, null, rootMap);
 		generateFile(TemplateMapperEnum.GENERIC_DAO_IMPL_BASIC, null, rootMap);
-
+		
+		// 生成主键和唯一键
+		generateKeyEntity(tableInfo, TemplateMapperEnum.MB_KEY, rootMap);
 		// 生成实体类
 		String tableNameHumpFormat = tableInfo.getHumpFormat();
 		generateFile(TemplateMapperEnum.MB_MODEL, tableNameHumpFormat, rootMap);
-		// 生成主键和唯一键
-		generateKeyEntity(tableInfo, TemplateMapperEnum.MB_KEY, rootMap);
 		// 生成dao
 		generateFile(TemplateMapperEnum.MB_DAO, tableNameHumpFormat + "DAO", rootMap);
 		// 生成dao接口实现类
@@ -68,6 +76,8 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 			generateFile(TemplateMapperEnum.MB_SERVICE, tableNameHumpFormat + "Service", rootMap);
 			generateFile(TemplateMapperEnum.MB_SERVICE_IMPL, tableNameHumpFormat + "ServiceImpl", rootMap);
 		}
+		
+//		generateFile(TemplateMapperEnum.MB_SERVICE_UNIQUE, "testGenerateFileUtil", "extends", rootMap);
 
 		return fData;
 	}
@@ -108,14 +118,13 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 	}
 
 	private static void generateSqlMap(final TableInfo tableInfo, Map<String, Object> rootMap) {
-		List<Column> allColumns = tableInfo.getColumns();
-		ConstraintsInfo constraintsInfo = tableInfo.getConstraintsInfo();
-		List<Column> pks = constraintsInfo.getPkInfo().getColumns();
-		// List<Column> unique = new ArrayList<Column>();
-
-		rootMap.put("allColumns", allColumns);
-		rootMap.put("pkColumns", pks);
-		rootMap.put("pkColumnSize", pks == null ? 0 : pks.size());
+//		List<Column> allColumns = tableInfo.getColumns();
+//		ConstraintsInfo constraintsInfo = tableInfo.getConstraintsInfo();
+//		List<Column> pks = constraintsInfo.getPkInfo().getColumns();
+//
+//		rootMap.put("allColumns", allColumns);
+//		rootMap.put("pkColumns", pks);
+//		rootMap.put("pkColumnSize", pks == null ? 0 : pks.size());
 
 		generateFile(TemplateMapperEnum.MB_SQLMAP, tableInfo.getHumpFormat(), rootMap);
 	}

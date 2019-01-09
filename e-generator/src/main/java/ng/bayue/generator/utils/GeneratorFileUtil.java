@@ -24,9 +24,16 @@ public class GeneratorFileUtil {
 	private static final String CHARACTER_UTF8 = "UTF-8";
 	// freemarker版本: new Version("2.3.28")
 	private static final Version INCOMPATIBLE_IMPROVEMENTS = Configuration.VERSION_2_3_28;
+	private static final Configuration config;
 
-	public static void createJaveSourceFile(String path, String fileName, String writeString) throws IOException {
-		String allPath = path + File.separator + fileName;
+	static {
+		config = new Configuration(INCOMPATIBLE_IMPROVEMENTS);
+		config.setObjectWrapper(new DefaultObjectWrapper(INCOMPATIBLE_IMPROVEMENTS));
+		// config.setBooleanFormat("true,false");
+	}
+
+	public static void createJaveSourceFile(String savePath, String fileName, String writeString) throws IOException {
+		String allPath = savePath + File.separator + fileName;
 		File file = new File(allPath);
 		if (!file.exists()) {
 			file.createNewFile();
@@ -35,6 +42,17 @@ public class GeneratorFileUtil {
 		out.write(writeString.getBytes());
 		out.flush();
 		out.close();
+	}
+	
+	/**
+	 * 加载ftl 模板文件, 模板根路径规定为： /template
+	 */
+	private static void initTemplateLoader() {
+		// 加载egenerator.jar中的ftl模板文件
+		// TemplateLoader templateLoader = new
+		// ClassTemplateLoader(GeneratorTemplate.class, "/template");
+		TemplateLoader templateLoader = new ClassTemplateLoader(Template.class, "/template");
+		config.setTemplateLoader(templateLoader);
 	}
 
 	/**
@@ -51,9 +69,6 @@ public class GeneratorFileUtil {
 	 */
 	public static void generateFile(String templatePath, String templateName, String fileName, Map<?, ?> dataMap) {
 		try {
-			Configuration config = new Configuration(INCOMPATIBLE_IMPROVEMENTS);
-			config.setObjectWrapper(new DefaultObjectWrapper(INCOMPATIBLE_IMPROVEMENTS));
-
 			// 加载egenerator.jar中的ftl模板文件
 			config.setDirectoryForTemplateLoading(new File(templatePath));
 
@@ -65,14 +80,7 @@ public class GeneratorFileUtil {
 
 	public static void generateFile(String templateName, String fileName, Map<?, ?> dataMap) {
 		try {
-			Configuration config = new Configuration(INCOMPATIBLE_IMPROVEMENTS);
-			config.setObjectWrapper(new DefaultObjectWrapper(INCOMPATIBLE_IMPROVEMENTS));
-
-			// 加载egenerator.jar中的ftl模板文件
-			// TemplateLoader templateLoader = new
-			// ClassTemplateLoader(GeneratorTemplate.class, "/template");
-			TemplateLoader templateLoader = new ClassTemplateLoader(Template.class, "/template");
-			config.setTemplateLoader(templateLoader);
+			initTemplateLoader();
 
 			generateFileByTemplate(config, templateName, fileName, dataMap);
 		} catch (Exception e) {
@@ -82,17 +90,25 @@ public class GeneratorFileUtil {
 
 	public static void generateFile(TemplateMapperEnum tme, String fileName, Map<?, ?> dataMap) {
 		try {
-			Configuration config = new Configuration(INCOMPATIBLE_IMPROVEMENTS);
-			config.setObjectWrapper(new DefaultObjectWrapper(INCOMPATIBLE_IMPROVEMENTS));
-			// config.setBooleanFormat("true,false");
-
-			// 加载egenerator.jar中的ftl模板文件
-			// TemplateLoader templateLoader = new
-			// ClassTemplateLoader(GeneratorTemplate.class, "/template");
-			TemplateLoader templateLoader = new ClassTemplateLoader(Template.class, "/template");
-			config.setTemplateLoader(templateLoader);
+			initTemplateLoader();
 
 			String templateName = tme.getTemplateName();
+			String fileNameFull = tme.handleFileName(fileName);
+			generateFileByTemplate(config, templateName, fileNameFull, dataMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void generateFile(TemplateMapperEnum tme, String fileName, String fileRelativePath,
+			Map<?, ?> dataMap) {
+		try {
+			initTemplateLoader();
+			
+			if (StringUtils.isNotBlank(fileRelativePath) && !fileRelativePath.endsWith(File.separator)) {
+				fileRelativePath += File.separator;
+			}
+			String templateName = fileRelativePath + tme.getTemplateName();
 			String fileNameFull = tme.handleFileName(fileName);
 			generateFileByTemplate(config, templateName, fileNameFull, dataMap);
 		} catch (Exception e) {
