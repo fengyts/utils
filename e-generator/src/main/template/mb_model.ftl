@@ -25,43 +25,44 @@ public class ${tableEntityName?cap_first} extends ${extendsModel} {
 
 	<#if properties?default([])?size!=0>
 	<#list properties as prop>
-		<#assign isPK=false />
-		<#if pkColumns??>
+		<#assign isNotPK=true />
+		<#if isUnionPK=='true' && pkColumns??>
 			<#list pkColumns as pkCol>
 				<#if prop.propertyName==pkCol.getHumpFormat()>
-					<#assign isPK=true />
+					<#assign isNotPK=false />
 					<#break>
 				</#if>
 			</#list>
 		</#if>
-		<#if isPK==false>
+		<#if isNotPK>
 	/** ${prop.comment!""} */
-	private ${prop.propertyType!"Object"} ${prop.propertyName};
+	private ${prop.propertyType!"Object"} ${prop.propertyName};<#if (prop?is_last?c)=='false'>${"\n"}</#if>
+	<#--<#t><#if (prop?is_last?c)=='false'>${"\n"}</#if>-->
 		</#if>
 	</#list>
 	</#if>
 
 	<#if properties??>
 	<#list properties as prop>
-		<#assign isPK=false />
-		<#if pkColumns??>
+		<#assign isNotPK=true />
+		<#if isUnionPK=='true' && pkColumns??>
 			<#list pkColumns as pkCol>
 				<#if prop.propertyName==pkCol.getHumpFormat()>
-					<#assign isPK=true />
+					<#assign isNotPK=false />
 					<#break>
 				</#if>
 			</#list>
 		</#if>
-		<#if isPK==false>
+		<#if isNotPK>
 	public void set${prop.propertyName?cap_first}(${prop.propertyType!"Object"} ${prop.propertyName}) {
 		this.${prop.propertyName} = ${prop.propertyName};
 	}
-	
+
 	public ${prop.propertyType!"Object"} get${prop.propertyName?cap_first}() {
 		return ${prop.propertyName};
 	}
-	</#if>
 
+		</#if>
 	</#list>
 	</#if>
 }

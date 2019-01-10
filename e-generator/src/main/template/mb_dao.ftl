@@ -7,6 +7,11 @@ import ${entityPackageName}.${tableEntityClassName};
 import ${entityPackageName}.${primaryKeyModelClassSimpleName};
 </#if>
 
+/**
+ * 自定义DAO
+ * @author lenovopc
+ *
+ */
 public interface ${tableEntityClassName}DAO extends GenericDAO<${tableEntityClassName}, ${primaryKeyModelClassSimpleName}> {
 
 }

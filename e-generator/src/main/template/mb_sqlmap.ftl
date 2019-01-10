@@ -2,7 +2,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<#assign namespace = daoPackageName + "." + tableEntityClassName + "Mapper" />
+<#assign mapperNamespace = daoPackageName + "." + tableEntityClassName + "Mapper" />
 <#assign resultMapId = "BaseResultMap" />
 <#assign parameterTypeEntity = entityPackageName + "." + tableEntityClassName />
 <#assign pkEntity = primaryKeyInfoData.keyClassFullyName />
@@ -56,7 +56,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 	<#assign ifWhereSql>
 	<#if allColumns?default([])?size!=0>
 		<#assign conditionPrefixTem = '' />
-		<#if conditionPrefix??&&(conditionPrefix?size &gt; 0)>
+		<#if conditionPrefix??&&(conditionPrefix?size gt 0)>
 			<#assign conditionPrefixTem = conditionPrefix?first + "." />
 		</#if>
 		<#list allColumns as column>
@@ -71,7 +71,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 	</#assign>
 	<#return ifWhereSql />
 </#function>
-<mapper namespace="${namespace}">
+<mapper namespace="${mapperNamespace}">
 	<resultMap type="${parameterTypeEntity}" id="${resultMapId}">
 		<#if pkColumns?default([])?size!=0>
 			<#list pkColumns as pk>
@@ -82,7 +82,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 		<#if allColumns?default([])?size!=0>
 			<#list allColumns as column>
 			<#assign pkSize++>
-			<#if pkSize &gt; pkColumnSize >
+			<#if pkSize gt pkColumnSize >
 		<result column="${column.columnName}" property="${column.getHumpFormat()}"<#--javaType="${column.javaTypeInfo.javaTypeShort}"--> />
 			</#if>
 			</#list>
