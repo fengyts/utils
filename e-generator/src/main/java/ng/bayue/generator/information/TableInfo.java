@@ -166,6 +166,9 @@ public class TableInfo extends AbstractInfo {
 
 	@Override
 	public String getHumpFormat() {
+		if (StringUtils.isNotBlank(humpFormat)) {
+			return humpFormat;
+		}
 		return super.toHumpFormat(tableName);
 	}
 

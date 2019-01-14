@@ -98,5 +98,8 @@ public class ${tableEntityClassName}MybatisDAO extends MybatisBaseDAO implements
 		checkNullOrEmptyParam(obj);
 		return getSqlSession().selectList(getStatement("selectDynamicPageQuery"), obj);
 	}
-	
+
+	<#-- 扩展dao -->
+	<#include "./extends/mb_dao_batch_impl.ftl" />
+
 }

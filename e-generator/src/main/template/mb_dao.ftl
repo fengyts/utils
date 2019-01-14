@@ -1,7 +1,8 @@
 <#include "./common_t.ftl" />
 package ${daoPackageName};
 
-import ${commonPackageName}.GenericDAO;
+//import ${commonPackageName}.GenericDAO;
+import ${commonPackageName}.GenericExtendDAO;
 import ${entityPackageName}.${tableEntityClassName};
 <#if isUnionPK=='true'>
 import ${entityPackageName}.${primaryKeyModelClassSimpleName};
@@ -12,6 +13,6 @@ import ${entityPackageName}.${primaryKeyModelClassSimpleName};
  * @author lenovopc
  *
  */
-public interface ${tableEntityClassName}DAO extends GenericDAO<${tableEntityClassName}, ${primaryKeyModelClassSimpleName}> {
+public interface ${tableEntityClassName}DAO extends GenericExtendDAO<${tableEntityClassName}, ${primaryKeyModelClassSimpleName}> {
 
 }

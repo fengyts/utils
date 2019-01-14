@@ -44,12 +44,13 @@ public class TemplateDataModelMapper {
 		MB_SERVICE(GeneratorTemplate.MB_SERVICE, "serviceData", packageData.getServiceSavePath(), "", SUFFIX_JAVA),
 		MB_SERVICE_IMPL(GeneratorTemplate.MB_SERVICE_IMPL, "serviceImplData", packageData.getServiceImplSavePath(), "", SUFFIX_JAVA),
 		
+		// extends
 		//MB_DAO_UNIQUE(GeneratorTemplate.MB_DAO_UNIQUE, "daoData", packageData.getDaoSavePath(), "", SUFFIX_JAVA),
 		//MB_DAO_UNIQUE_IMPL(GeneratorTemplate.MB_DAO_UNIQUE_IMPL, "daoImplData", packageData.getDaoImplSavePath(), "", SUFFIX_JAVA),
 		MB_SERVICE_UNIQUE(GeneratorTemplate.MB_SERVICE_UNIQUE, "serviceData", packageData.getServiceSavePath(), "", SUFFIX_JAVA),
 		//MB_SERVICE_UNIQUE_IMPL(GeneratorTemplate.MB_SERVICE_UNIQUE_IMPL, "serviceImplData", packageData.getServiceImplSavePath(), "", SUFFIX_JAVA),
 		
-		//MB_DAO_BATCH(GeneratorTemplate.MB_DAO_BATCH, "daoData", packageData.getDaoSavePath(), "", SUFFIX_JAVA),
+		MB_DAO_BATCH(GeneratorTemplate.MB_DAO_BATCH, "daoData", packageData.getCommonSavePath(), "GenericExtendDAO", SUFFIX_JAVA),
 		//MB_DAO_BATCH_IMPL(GeneratorTemplate.MB_DAO_BATCH_IMPL, "daoImplData", packageData.getDaoImplSavePath(), "", SUFFIX_JAVA),
 		//MB_SERVICE_BATCH(GeneratorTemplate.MB_SERVICE_BATCH, "serviceData", packageData.getServiceSavePath(), "", SUFFIX_JAVA),
 		//MB_SERVICE_BATCH_IMPL(GeneratorTemplate.MB_SERVICE_BATCH_IMPL, "serviceImplData", packageData.getServiceImplSavePath(), "", SUFFIX_JAVA),

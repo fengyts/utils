@@ -100,15 +100,15 @@ public class GeneratorFileUtil {
 		}
 	}
 
-	public static void generateFile(TemplateMapperEnum tme, String fileName, String fileRelativePath,
+	public static void generateFile(TemplateMapperEnum tme, String fileName, String templateFileRelativePath,
 			Map<?, ?> dataMap) {
 		try {
 			initTemplateLoader();
 			
-			if (StringUtils.isNotBlank(fileRelativePath) && !fileRelativePath.endsWith(File.separator)) {
-				fileRelativePath += File.separator;
+			if (StringUtils.isNotBlank(templateFileRelativePath) && !templateFileRelativePath.endsWith(File.separator)) {
+				templateFileRelativePath += File.separator;
 			}
-			String templateName = fileRelativePath + tme.getTemplateName();
+			String templateName = templateFileRelativePath + tme.getTemplateName();
 			String fileNameFull = tme.handleFileName(fileName);
 			generateFileByTemplate(config, templateName, fileNameFull, dataMap);
 		} catch (Exception e) {

@@ -34,9 +34,10 @@ public abstract class AbstractGenerator {
 	public static void generateFile(TemplateMapperEnum e, String fileName, Map<?, ?> dataMap) {
 		GeneratorFileUtil.generateFile(e, handleFileName(fileName), dataMap);
 	}
-	
-	public static void generateFile(TemplateMapperEnum e, String fileName, String fileRelativePath, Map<?, ?> dataMap) {
-		GeneratorFileUtil.generateFile(e, fileName, fileRelativePath, dataMap);
+
+	public static void generateFile(TemplateMapperEnum e, String fileName, String templateFileRelativePath,
+			Map<?, ?> dataMap) {
+		GeneratorFileUtil.generateFile(e, fileName, templateFileRelativePath, dataMap);
 	}
 
 	private static String handleFileName(String fileName) {

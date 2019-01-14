@@ -1,6 +1,7 @@
 package ng.bayue.generator.information;
 
 import ng.bayue.generator.types.JavaTypeInformation;
+import ng.bayue.generator.utils.StringUtils;
 
 /**
  * 表列信息
@@ -26,8 +27,10 @@ public class Column extends AbstractInfo {
 
 	@Override
 	public String getHumpFormat() {
-		super.toHumpFormat(columnName);
-		return humpFormat;
+		if (StringUtils.isNotBlank(humpFormat)) {
+			return humpFormat;
+		}
+		return toHumpFormat(columnName);
 	}
 
 	// =================================

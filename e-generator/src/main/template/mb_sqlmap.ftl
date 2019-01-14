@@ -60,7 +60,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 			<#assign conditionPrefixTem = conditionPrefix?first + "." />
 		</#if>
 		<#list allColumns as column>
-			<#assign propertyName=conditionPrefixTem+column.getHumpFormat()>
+			<#assign propertyName=conditionPrefixTem + column.getHumpFormat() />
 			<#if column.javaTypeInfo.isBasicJavaType()>
 			<if test="${propertyName} != null"> AND ${column.columnName} = #${"{" + propertyName + "}"} </if>
 			<#else>
@@ -70,6 +70,26 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 	</#if>
 	</#assign>
 	<#return ifWhereSql />
+</#function>
+<#-- getSetWhere(boolean conditionPrefix): 更新sql set语句 -->
+<#function getSetWhere conditionPrefix...>
+	<#assign setWhereSql>
+	<#if allColumns?default([])?size!=0>
+		<#assign conditionPrefixTem = '' />
+		<#if conditionPrefix??&&(conditionPrefix?size gt 0)>
+			<#assign conditionPrefixTem = conditionPrefix?first + "." />
+		</#if>
+		<#list allColumns as column>
+			<#assign propertyName=conditionPrefixTem + column.getHumpFormat() />
+			<#if column.javaTypeInfo.isBasicJavaType()>
+			<if test="${propertyName} != null">${column.columnName} = #${"{" + propertyName + "}"},</if>
+			<#else>
+			<if test="${propertyName} != null and ${propertyName} != '' ">${column.columnName} = #${"{"}${propertyName}},</if>
+			</#if>
+		</#list>
+	</#if>
+	</#assign>
+	<#return setWhereSql />
 </#function>
 <mapper namespace="${mapperNamespace}">
 	<resultMap type="${parameterTypeEntity}" id="${resultMapId}">
@@ -110,11 +130,11 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 		</#if>
 	</resultMap>
 	-->
-	
+
 	<sql id="Base_Columns">
 		${formatColStr(2, 8)}
 	</sql>
-	
+
 	<!-- 只有varchar char text类型 做 !='' 判断，生成代码时,其他类型时只做!=null 决断 0或fasle与空''是相同的，在mybatis中的动态语句中 -->
 	<!-- xml转义字符需要 <![CDATA[   ]]> 标签-->
  	<sql id="Dynamic_Where_Clause">
@@ -128,7 +148,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 			<#t>${getIfWhere('example')}
 		</where>
  	</sql>
- 	
+
  	<insert id="insert" parameterType="${parameterTypeEntity}" useGeneratedKeys="true">
  		<#if isUnionPK != 'true' && pkColumns??>
  		<#assign pkCol = pkColumns?first />
@@ -147,7 +167,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 			</#list>
 		)
     </insert>
-    
+
     <update id="updateByPrimaryKeyAllFields" parameterType="${parameterTypeEntity}">
 		UPDATE ${tableName}
 		SET
@@ -159,29 +179,28 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 		WHERE
 			${getPKWhere()}
 	</update>
-	
+
 	<update id="updateByPrimaryKeyDynamic" parameterType="${parameterTypeEntity}">
 		UPDATE ${tableName}
 		<set>
-			<#t>${getIfWhere()}
+			<#t>${getSetWhere()}
 		</set>
 		WHERE 
 			${getPKWhere()}
 	</update>
-	
+
 	<update id="updateDynamic" parameterType="java.util.Map">
 		UPDATE ${tableName}
 		<set>
-			<#t>${getIfWhere('record')}
+			<#t>${getSetWhere('record')}
 		</set>
-		WHERE 
-			<include refid="Dynamic_Where_Clause_Example" />
+		<include refid="Dynamic_Where_Clause_Example" />
 	</update>
-	
+
 	<delete id="deleteByPrimaryKey" parameterType="${pkEntity}">
 		DELETE FROM test_generator WHERE ${getPKWhere()}
 	</delete>
- 	
+
  	<select id="selectByPrimaryKey" parameterType="${pkEntity}" resultMap="${resultMapId}">
 		SELECT
 			<include refid="Base_Columns" />
@@ -190,34 +209,43 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 		WHERE
 			${getPKWhere()}
 	</select>
-	
+
  	<select id="selectDynamic" parameterType="${parameterTypeEntity}" resultMap="${resultMapId}">
 		SELECT
 			<include refid="Base_Columns" />
 		FROM
 			${tableName}
-		WHERE
-			<include refid="Dynamic_Where_Clause" />
+		<include refid="Dynamic_Where_Clause" />
+		<if test="orderByClause != null and orderByClause != '' ">
+			ORDER BY <#noparse>${orderByClause}</#noparse>
+		</if>
 	</select>
-	
+
  	<select id="selectCountDynamic" parameterType="${parameterTypeEntity}" resultType="java.lang.Long">
 		SELECT
 			COUNT(1)
 		FROM
 			${tableName}
-		WHERE
-			<include refid="Dynamic_Where_Clause" />
+		<include refid="Dynamic_Where_Clause" />
 	</select>
-	
+
  	<select id="selectDynamicPageQuery" parameterType="${parameterTypeEntity}" resultType="java.lang.Long">
 		SELECT
 			<include refid="Base_Columns" />
 		FROM
 			${tableName}
-		WHERE
-			<include refid="Dynamic_Where_Clause" />
-		ORDER BY <#list pkColumns as pkCol>${pkCol.getHumpFormat()}<#sep> DESC, </#list> DESC 
+		<include refid="Dynamic_Where_Clause" />
+		<choose>
+			<when test="orderByClause != null and orderByClause != '' ">
+				ORDER BY <#noparse>${orderByClause}</#noparse>
+			</when>
+			<otherwise>
+				ORDER BY <#list pkColumns as pkCol>${pkCol.getHumpFormat()}<#sep> DESC, </#list> DESC 
+			</otherwise>
+		</choose>
 	 	Limit <#noparse>#{start}, #{pageSize}</#noparse>
 	</select>
-	
+
+	<#include "./extends/mb_sqlmap_extends.ftl" />
+
 </mapper>

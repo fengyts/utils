@@ -10,9 +10,6 @@ public abstract class AbstractInfo {
 	protected abstract String getHumpFormat();
 
 	protected String toHumpFormat(String dashFormat) {
-		if (StringUtils.isBlank(dashFormat)) {
-			return null;
-		}
 		this.humpFormat = StringUtils.toHumpFormat(dashFormat);
 		return humpFormat;
 	}

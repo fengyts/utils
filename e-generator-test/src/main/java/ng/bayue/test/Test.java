@@ -34,7 +34,7 @@ public class Test {
 
 		return context;
 	}
-
+	
 	public static void testg() {
 		Context context = initContext();
 
@@ -58,8 +58,6 @@ public class Test {
 	public static void main(String[] args) {
 		try {
 			initConfig();
-			// test();
-			// getTemplateFile();
 			testg();
 		} catch (Exception e) {
 			e.printStackTrace();

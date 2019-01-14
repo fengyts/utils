@@ -62,6 +62,8 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		// 生成实体类
 		String tableNameHumpFormat = tableInfo.getHumpFormat();
 		generateFile(TemplateMapperEnum.MB_MODEL, tableNameHumpFormat, rootMap);
+		// 生成扩展dao
+		generateFile(TemplateMapperEnum.MB_DAO_BATCH, null, rootMap);
 		// 生成dao
 		generateFile(TemplateMapperEnum.MB_DAO, tableNameHumpFormat + "DAO", rootMap);
 		// 生成dao接口实现类
