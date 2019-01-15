@@ -22,9 +22,9 @@ public class TemplateDataModelMapper {
 	public static enum TemplateMapperEnum {
 		// templateName | rootMap-key | savePath | fileName | fileSuffix
 		COMMON(GeneratorTemplate.COMMON_G, "commonData", packageData.getCommonSavePath(), "", SUFFIX_JAVA),
-		GENERIC_BASIC_MODEL(GeneratorTemplate.GENERIC_BASIC_MODEL, "baseModelData", packageData.getEntitySavePath(), "BaseModel", SUFFIX_JAVA),
+		GENERIC_MODEL_BASIC(GeneratorTemplate.GENERIC_MODEL_BASIC, "baseModelData", packageData.getEntitySavePath(), "BaseModel", SUFFIX_JAVA),
 		GENERIC_PAGE(GeneratorTemplate.GENERIC_PAGE, "commonData", packageData.getCommonSavePath(), "Page", SUFFIX_JAVA),
-		GENERIC_DAO(GeneratorTemplate.GENERIC_DAO, "commonData", packageData.getCommonSavePath(), "GenericDAO", SUFFIX_JAVA),
+		GENERIC_DAO_BASIC(GeneratorTemplate.GENERIC_DAO_BASIC, "commonData", packageData.getCommonSavePath(), "GenericBasicDAO", SUFFIX_JAVA),
 		GENERIC_DAO_IMPL(GeneratorTemplate.GENERIC_DAO_IMPL, "commonData", packageData.getCommonSavePath(), "GenericMybatisDAO", SUFFIX_JAVA),
 		GENERIC_DAO_IMPL_BASIC(GeneratorTemplate.GENERIC_DAO_IMPL_BASIC, "commonData", packageData.getDaoImplSavePath(), "MybatisBaseDAO", SUFFIX_JAVA),
 		GENERIC_SERVICE(GeneratorTemplate.GENERIC_SERVICE, "commonData", packageData.getCommonSavePath(), "GenericService", SUFFIX_JAVA),

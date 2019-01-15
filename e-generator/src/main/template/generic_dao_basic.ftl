@@ -12,7 +12,7 @@ import ${packageData.exceptionPackageName}.DAOException;
  * @param <T> - 实体类模型
  * @param <P> - PrimaryKeyType 主键类型
  */
-public interface GenericDAO<T, P> {
+public interface GenericBasicDAO<T, P> {
 
 	/**
 	 * <pre>

@@ -31,7 +31,7 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		Map<String, Object> rootMap = new HashMap<String, Object>();
 		rootMap.put("rootData", fData);
 
-		TemplateMapperEnum basicModelMapper = TemplateMapperEnum.GENERIC_BASIC_MODEL;
+		TemplateMapperEnum basicModelMapper = TemplateMapperEnum.GENERIC_MODEL_BASIC;
 
 		final String commonPackageName = pData.getCommonPackageName();
 		final String baseModelPackageName = pData.getEntityPackageName();
@@ -53,7 +53,7 @@ public class FreemarkerGenerator extends AbstractGenerator implements Generator 
 		generateFile(TemplateMapperEnum.GENERIC_PAGE, null, rootMap);
 		generateFile(TemplateMapperEnum.GENERIC_DAO_EXCEPTION, null, rootMap);
 		generateFile(TemplateMapperEnum.GENERIC_SERVICE_EXCEPTION, null, rootMap);
-		generateFile(TemplateMapperEnum.GENERIC_DAO, null, rootMap);
+		generateFile(TemplateMapperEnum.GENERIC_DAO_BASIC, null, rootMap);
 		// generateFile(TemplateMapperEnum.GENERIC_SERVICE, null, rootMap);
 		generateFile(TemplateMapperEnum.GENERIC_DAO_IMPL_BASIC, null, rootMap);
 		

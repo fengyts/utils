@@ -11,13 +11,13 @@ public final class GeneratorTemplate {
 	// private static final String TEMPLATE_PATH = "src/main/template/";
 
 	public static final String COMMON_G = "common_g.ftl";
-	public static final String GENERIC_BASIC_MODEL = "generic_basic_model.ftl";
+	public static final String GENERIC_MODEL_BASIC = "generic_model_basic.ftl";
 	
 	// base -> common
 	public static final String GENERIC_PAGE = "generic_page.ftl";
 	public static final String GENERIC_DAO_EXCEPTION = "generic_dao_exception.ftl";
 	public static final String GENERIC_SERVICE_EXCEPTION = "generic_service_exception.ftl";
-	public static final String GENERIC_DAO = "generic_dao.ftl";
+	public static final String GENERIC_DAO_BASIC = "generic_dao_basic.ftl";
 	public static final String GENERIC_DAO_IMPL = "generic_dao_impl.ftl";
 	public static final String GENERIC_DAO_IMPL_BASIC = "generic_dao_impl_basic.ftl";
 	public static final String GENERIC_SERVICE = "generic_service.ftl";

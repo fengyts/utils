@@ -13,7 +13,7 @@ import ${exceptionPackageName}.DAOException;
  * @param <T>
  * @param <P>
  */
-public interface GenericExtendDAO<T, P> extends GenericDAO<T, P> {
+public interface GenericExtendDAO<T, P> <#--extends GenericBasicDAO<T, P> -->{
 
 	List<T> selectBatchByPrimaryKey(List<P> pkLists) throws DAOException;
 
