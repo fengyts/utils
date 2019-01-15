@@ -73,7 +73,7 @@ public interface GenericBasicDAO<T, P> {
 	T selectByPrimaryKey(P primaryKey) throws DAOException;
 
 	/**
-	 * 根据  <T> 动态返回 <T> 列表
+	 * 根据  <T> 动态返回 <T> 列表, 该sql支持动态自定义排序
 	 * @param obj
 	 * @return List<T>
 	 * @throws DAOException
@@ -89,7 +89,7 @@ public interface GenericBasicDAO<T, P> {
 	Long selectCountDynamic(T obj) throws DAOException;
 
 	/**
-	 * 分页查询列表： 根据  <T> 动态返回 <T> Limit 列表
+	 * 分页查询列表： 根据  <T> 动态返回 <T> Limit 列表, 该sql支持动态自定义排序
 	 * @param obj start, pageSize - sql分页查询limit的属性, 必须指定
 	 * @return List<T>
 	 * @throws DAOException

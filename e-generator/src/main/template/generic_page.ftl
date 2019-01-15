@@ -22,7 +22,7 @@ public class Page<T> implements Serializable {
 
 	private int pageNo = DEFAULT_PAGENO;
 
-	private int pageSize = DEFAULT_PAGESIZE_TWO;
+	private int pageSize = DEFAULT_PAGESIZE_TEN;
 
 	private int totalCount = -1;
 
@@ -45,8 +45,8 @@ public class Page<T> implements Serializable {
 
 	/** 第一条记录在结果集中的位置,序号从0开始 */
 	public int getStart() {
-		if (pageNo < 0 || pageSize < 0) {
-			return -1;
+		if (pageNo <= 0 || pageSize <= 0) {
+			return 0;
 		} else {
 			return ((pageNo - 1) * pageSize);
 		}

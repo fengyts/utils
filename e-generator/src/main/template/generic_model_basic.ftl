@@ -18,6 +18,10 @@ public class BaseModel implements Serializable {
 
 	/** 排序 */
 	private String orderByClause;
+	
+	public Integer getStart() {
+		return startPage <= 0 || pageSize <= 0 ? 0 : (startPage - 1) * pageSize;
+	}
 
 	public int getStartPage() {
 		return startPage;
@@ -33,10 +37,6 @@ public class BaseModel implements Serializable {
 
 	public void setPageSize(Integer pageSize) {
 		this.pageSize = pageSize;
-	}
-
-	public Integer getStart() {
-		return startPage <= 0 || pageSize <= 0 ? 0 : (startPage - 1) * pageSize;
 	}
 
 	public String getOrderByClause() {
