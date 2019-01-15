@@ -81,11 +81,20 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 		</#if>
 		<#list allColumns as column>
 			<#assign propertyName=conditionPrefixTem + column.getHumpFormat() />
+			<#--更新时不更新主键-->
+			<#assign isNotPK=true />
+			<#list pkColumns as pkCol>
+				<#if pkCol.columnName == column.columnName>
+					<#assign isNotPK=false />
+				</#if>
+			</#list>
+		<#if isNotPK>
 			<#if column.javaTypeInfo.isBasicJavaType()>
 			<if test="${propertyName} != null">${column.columnName} = #${"{" + propertyName + "}"},</if>
 			<#else>
 			<if test="${propertyName} != null and ${propertyName} != '' ">${column.columnName} = #${"{"}${propertyName}},</if>
 			</#if>
+		</#if>
 		</#list>
 	</#if>
 	</#assign>
@@ -173,7 +182,16 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 		SET
 			<#assign len=0 columnsSize=allColumns?size />
 			<#list allColumns as column>
+				<#--更新时不更新主键-->
+				<#assign isNotPK=true />
+				<#list pkColumns as pkCol>
+					<#if pkCol.columnName == column.columnName>
+						<#assign isNotPK=false />
+					</#if>
+				</#list>
+			<#if isNotPK>
 			${column.columnName} = #${"{" + column.getHumpFormat() + "}"}<#if len!=(columnsSize-1)>,</#if>
+			</#if>
 			<#assign len++ />
 			</#list>
 		WHERE
@@ -229,7 +247,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 		<include refid="Dynamic_Where_Clause" />
 	</select>
 
- 	<select id="selectDynamicPageQuery" parameterType="${parameterTypeEntity}" resultType="java.lang.Long">
+ 	<select id="selectDynamicPageQuery" parameterType="${parameterTypeEntity}" resultMap="${resultMapId}">
 		SELECT
 			<include refid="Base_Columns" />
 		FROM
@@ -240,7 +258,7 @@ ${pk.columnName} = #${"{"}${pk.getHumpFormat()}}
 				ORDER BY <#noparse>${orderByClause}</#noparse>
 			</when>
 			<otherwise>
-				ORDER BY <#list pkColumns as pkCol>${pkCol.getHumpFormat()}<#sep> DESC, </#list> DESC 
+				ORDER BY <#list pkColumns as pkCol>${pkCol.columnName}<#sep> DESC, </#list> DESC 
 			</otherwise>
 		</choose>
 	 	Limit <#noparse>#{start}, #{pageSize}</#noparse>

@@ -37,10 +37,10 @@
 	</insert>
 
 	<update id="updateBatchByPrimaryKey" parameterType="java.util.List">
-		<foreach collection="list" item="item" separator="," open="(" close=")">
+		<foreach collection="list" item="item" separator=";">
 		UPDATE ${tableName}
 		<set>
-			${getSetWhere()}
+			<#t>${getSetWhere('item')}
 		</set>
 		WHERE 
 			<#list pkColumns as pkCol>${pkCol.columnName} = #${"{item." + pkCol.humpFormat + "}"}<#sep> AND </#list>
