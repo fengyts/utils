@@ -1,5 +1,8 @@
 package ng.bayue.generator.utils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public final class StringUtils {
 
 	public static final String WHITESPACE = " ";
@@ -83,6 +86,26 @@ public final class StringUtils {
 			}
 		}
 		return res.toString();
+	}
+
+	/**
+	 * 驼峰形式转下划线格式，例如：TradeRecorde转成trade_recorde
+	 * @param str
+	 * @return
+	 */
+	public static String humpToLine(String str) {
+		Pattern humpPattern = Pattern.compile("[A-Z]");
+		Matcher matcher = humpPattern.matcher(str);
+		StringBuffer sb = new StringBuffer();
+		while (matcher.find()) {
+			if (matcher.start(0) == 0) {
+				matcher.appendReplacement(sb, matcher.group(0).toLowerCase());
+			} else {
+				matcher.appendReplacement(sb, "_" + matcher.group(0).toLowerCase());
+			}
+		}
+		matcher.appendTail(sb);
+		return sb.toString();
 	}
 
 	/**
