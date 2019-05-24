@@ -182,15 +182,13 @@ public class TestService {
 			obj.setItemName("itemName");
 			obj.setCreateTime(new Date());
 			obj.setTestFk(1L);
-			// TestGeneratorPrimaryKey pk = generatorService.insert(obj);
-			//
-			// TestGeneratorPrimaryKey primaryKey = new
-			// TestGeneratorPrimaryKey(1L, 1);
-			// TestGenerator objR =
-			// generatorService.selectByPrimaryKey(primaryKey);
-			//
-			// printObj(objR);
-			// System.out.println();
+//			TestGeneratorPrimaryKey pk = generatorService.insert(obj);
+
+			TestGeneratorPrimaryKey primaryKey = new TestGeneratorPrimaryKey(1L, 1);
+			TestGenerator objR = generatorService.selectByPrimaryKey(primaryKey);
+
+			printObj(objR);
+			System.out.println();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

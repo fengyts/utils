@@ -40,9 +40,10 @@ public class Test {
 
 		TableInfoHandler handler = new TableInfoHandler(context);
 		String tableNamePattern = "test_generator";
-		String tableNamePattern1 = "checc_user";
+//		String tableNamePattern1 = "checc_user";
+		String[] tables  = {"test_generator"};
 		long timeStart = System.currentTimeMillis();
-		List<TableInfo> tis = handler.introspectTable(tableNamePattern, tableNamePattern1);
+		List<TableInfo> tis = handler.introspectTable(tables);
 
 		FreemarkerGeneratorFactory factory = FactoryProducer.getFactory(FreemarkerGeneratorFactory.class);
 		for (TableInfo ti : tis) {
